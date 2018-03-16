@@ -1,9 +1,30 @@
-//- 
-    To change this license header, choose License Headers in Project Properties.
-    To change this template file, choose Tools | Templates
-    and open the template in the editor.
-     
-
+doctype html
 html
-    title TODO supply a title
-    body
+  head
+    title Genoverse Instance
+    link(rel='stylesheet', type='text/css', href='css/bootstrap/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='css/style.css')
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  body
+    a.fork
+      img.img-responsive(src='images/cranfield-logo.jpg', alt='Cranfield University')
+    .containerCustom
+      .head
+        h1 Cranfield Genoverse - Welcome
+      .wrap
+      .panel-body
+        .row
+          .col-md-8
+            .panel.panel-default(style='margin:0px 0;')
+              // Default panel contents
+              .panel-heading
+                h2 Available Genoverse Instances
+              // List group
+              ul#plugins.list-group
+                li.list-group-item
+                  a(href='index') Test_config
+                  button.btn.btn-default(type='button', disabled='')
+                    span.glyphicon.glyphicon-edit
+                    | Modify
+          .col-md-4
