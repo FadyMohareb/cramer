@@ -1,0 +1,39 @@
+doctype html
+html
+  head
+    title Error Page
+    link(rel='stylesheet', type='text/css', href='css/bootstrap/css/bootstrap.min.css')
+    style(type='text/css').
+      .error-template {padding: 40px 15px;text-align: center;}
+      .error-actions {margin-top:15px;margin-bottom:15px;}
+      .error-actions .btn { margin-right:10px; }
+  body
+    | ​
+    .container
+      .row
+        .col-md-12
+          .error-template
+            h1= "Error " + error.status
+            .error-details
+              | Sorry, an error has occured, Requested page not found!
+            .container(style='padding-top: 30px; padding-bottom: 15px;')
+              img.img-rounded(src='images/error404.gif', alt='GIF Error', width='500', height='350')
+            .error-actions
+              a.btn.btn-primary.btn-lg(href='/')
+                span.glyphicon.glyphicon-home
+                |  Take Me Home
+              a.btn.btn-default.btn-lg(onclick='errorDetail()')
+                span.glyphicon.glyphicon-info-sign
+                |  More Details
+            #details(style='display:none')
+              pre #{error.stack}
+    
+    script.
+      function errorDetail() {
+      var x = document.getElementById("details");
+      if (x.style.display === "none") {
+      x.style.display = "block";
+      } else {
+      x.style.display = "none";
+      }
+      }

@@ -1,0 +1,34 @@
+doctype html
+html
+  head
+    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+    link(rel='stylesheet', type='text/css', href='css/bootstrap/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='css/style.css')
+  body
+    a.fork
+      img(src='images/cranfield-logo.jpg', alt='Cranfield University')
+    .containerCustom
+      .head
+        h1
+          | Genoverse 
+          a.btn.btn-default.pull-right(href='/', style='font-size: 17px;')
+            span.glyphicon.glyphicon-home
+            |  Home
+      .wrap
+        #genoverse
+      .info
+        p
+          | Genoverse is a portable, customizable, back-end independent JavaScript and HTML5 based genome browser which allows the user to explore data interactively.
+        p
+          | Data is visualized in the browser, meaning Genoverse can be installed on any website and show data from a wide range of online or local sources.
+        p
+          | Genoverse works with a variety of formats, such as XML, JSON, GFF, GFF3, BED (try drag-n-drop one), and can be customized to parse and display any data source as required.
+        p
+          | For more information on how to use Genoverse please refer to 
+          a(href='help.pdf') this tutorial
+          | .
+        p.help
+          | If you have any questions or need help, please contact us 
+          a(href='mailto:info@genoverse.org') info@genoverse.org
+    script(type='text/javascript', src='javascript/genoverse.min.js')
+    script(type='text/javascript', src='javascript/config/config-genoverse.js')

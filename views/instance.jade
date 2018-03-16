@@ -1,0 +1,127 @@
+doctype html
+html
+  head
+    title Genoverse Instance
+    link(rel='stylesheet', type='text/css', href='css/bootstrap/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='css/style.css')
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  body
+    a.fork
+      img(src='images/cranfield-logo.jpg', alt='Cranfield University')
+    .containerCustom
+      .head
+        h1 Genoverse Instance
+      .wrap
+        .panel.panel-default
+          .panel-heading(style='background: #5F8CB0;')
+            #header.row
+              .col-md-3
+                label(label-default='', for='genomic-species-select')
+                  | Species
+                  button#toggleButton.btn.btn-xs.btn-default(data-toggle='collapse', onclick='toggleSpecies()') Ensembl
+                #ensembl
+                  select#genomic-species-select.form-control(name='species')
+                #upload.input-group(style='display:none')
+                  span.input-group-btn
+                    button#file-button-browse.btn.btn-default(type='button')
+                      span.glyphicon.glyphicon-file
+                  input#files-upload(type='file', style='display:none')
+                  input#file-upload-name.form-control(type='text', disabled='disabled', placeholder='File not selected')
+                  span.input-group-btn
+                    button#file-button-upload.btn.btn-default(type='button', disabled='disabled')
+                      span.glyphicon.glyphicon-upload
+              #inputs
+                .col-md-3
+                  label(label-default='', for='chromosome-input') Chromosome
+                  input#chromosome-input.form-control(name='chromosome', placeholder='Enter chromosome', type='text')
+                .col-md-3
+                  label(label-default='', for='genomic-start-input') Start
+                  input#genomic-start-input.form-control(name='start', placeholder='Enter start', type='number', min='1')
+                .col-md-3
+                  label(label-default='', for='genomic-end-input') End
+                  input#genomic-end-input.form-control(name='end', placeholder='Enter end', type='number', min='1')
+          .panel-body
+            .row
+              .col-md-6
+                .panel.panel-default
+                  // Default panel contents
+                  .panel-heading
+                    h2 Plugins
+                  // List group
+                  ul#plugins.list-group
+                    li.list-group-item
+                      | Control Panel
+                      .material-switch.pull-right
+                        input#controlPanel_id(name='controlPanel', type='checkbox', checked='')
+                        label.label-primary(label-default='', for='controlPanel_id')
+                    li.list-group-item
+                      | Karyotype
+                      .material-switch.pull-right
+                        input#karyotype_id(name='karyotype', type='checkbox', checked='')
+                        label.label-primary(label-default='', for='karyotype_id')
+                    li.list-group-item
+                      | Track Controls
+                      .material-switch.pull-right
+                        input#trackControls_id(name='trackControls', type='checkbox', checked='')
+                        label.label-primary(label-default='', for='trackControls_id')
+                    li.list-group-item
+                      | Resizer
+                      .material-switch.pull-right
+                        input#resizer_id(name='resizer', type='checkbox', checked='')
+                        label.label-primary(label-default='', for='resizer_id')
+                    li.list-group-item
+                      | Focus Region
+                      .material-switch.pull-right
+                        input#focusRegion_id(name='focusRegion', type='checkbox', checked='')
+                        label.label-primary(label-default='', for='focusRegion_id')
+                    li.list-group-item
+                      | Full Screen
+                      .material-switch.pull-right
+                        input#fullScreen_id(name='fullscreen', type='checkbox', checked='')
+                        label.label-primary(label-default='', for='fullScreen_id')
+                    li.list-group-item
+                      | Tooltips
+                      .material-switch.pull-right
+                        input#tooltips_id(name='tooltips', type='checkbox', checked='')
+                        label.label-primary(label-default='', for='tooltips_id')
+                    li.list-group-item
+                      | Select Chromosome
+                      .material-switch.pull-right
+                        input#selectChromosome_id(name='selectChromosome', type='checkbox', checked='')
+                        label.label-primary(label-default='', for='selectChromosome_id')
+                    li.list-group-item
+                      | Search Position
+                      .material-switch.pull-right
+                        input#search_id(name='search', type='checkbox', checked='')
+                        label.label-primary(label-default='', for='search_id')
+                    li.list-group-item
+                      | File Drop
+                      .material-switch.pull-right
+                        input#fileDrop_id(name='fileDrop', type='checkbox', checked='')
+                        label.label-primary(label-default='', for='fileDrop_id')
+              .col-md-6
+                .panel.panel-default
+                  // Default panel contents
+                  .panel-heading
+                    h2
+                      | Tracks
+                      button.btn.btn-default.pull-right(type='button')
+                        span.glyphicon.glyphicon-plus
+                        |  Add Custom Track
+                  // List group
+                  ul.list-group
+                    li.list-group-item
+                      | Scalebar
+                      .material-switch.pull-right
+                        input#scalebar_id(name='scalebar', type='checkbox')
+                        label.label-primary(label-default='', for='scalebar_id')
+            .text-center
+              button.btn.btn-primary.btn-lg(type='button', style='background: #5F8CB0', onclick='validate()') Submit
+            script(type="text/javascript", src="javascript/lib/jquery.js")
+            script(type="text/javascript", src="javascript/lib/jquery-ui.js")
+            script(type="text/javascript", src="javascript/lib/jquery.mousewheel.js")
+            script(type="text/javascript", src="javascript/lib/jquery.mousehold.js")
+            script(type="text/javascript", src="javascript/lib/jquery.tipsy.js")
+            script(type='text/javascript', src='javascript/html/getDataForConfig.js')
+            script(type='text/javascript', src='javascript/html/addDOM.js')

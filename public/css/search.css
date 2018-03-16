@@ -1,0 +1,126 @@
+  .gv-search-plugin .gv-search-menu {
+  color: white;
+  background-color: #5F8CB0;
+  border-radius: 0px 12px 12px 12px;
+  min-width: 200px;
+  padding: 0;
+  position: absolute;
+  z-index: 1001;
+  box-shadow: 3px 3px 10px #666666;
+  margin-left: 5px;
+}
+
+.gv-search-plugin .gv-search-button button {
+  background: none;
+  border: none;
+  border-bottom: 1px solid #1C5380;
+  color: #E2E9EF;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.75);
+  width: 30px;
+  height: 50px;
+  font-size: 18px;
+  line-height: 20px;
+  padding: 2px;
+  margin: 0;
+}
+
+.gv-search-plugin .gv-search-menu {
+  left: 24%;
+  top: 70px;
+}
+
+.gv-search-plugin .gv-search-menu table {
+  margin: 0 0 10px;
+}
+
+.gv-search-plugin .gv-search-menu td {
+  padding: 5px 10px!important;
+  vertical-align: top;
+  width: 50%;
+}
+
+.gv-search-plugin .gv-search-menu tr:first-child td {
+  font-weight: bold;
+  white-space: nowrap;
+  padding: 5px 30px 5px 10px;
+  margin-bottom: 5px;
+  background: rgba(6, 54, 95, 0.35);
+  line-height: normal;
+}
+
+.gv-search-plugin .gv-search-menu tr:first-child td:last-child {
+  border-radius: 0 12px 0 0;
+  white-space: nowrap;
+}
+
+.gv-search-plugin .gv-search-menu tr td:first-child {
+  padding-right: 50px!important;
+  white-space: nowrap;
+}
+c
+.gv-search-plugin .gv-search-menu .gv-close {
+  font-size: 20px;
+}
+
+.gv-search-plugin .gv-search-menu .gv-gene-search-button {
+  font-size: 20px;
+  position: absolute;
+  left: 478px;
+}
+
+.gv-search-plugin .gv-search-menu .gv-menu-content {
+  font-size: 13px;
+}
+
+.gv-search-plugin .gv-search-menu input {
+  width: 200px;
+}
+
+.gv-search-plugin .gv-gene-menu {
+  left: 35%;
+  top: 70px;
+}
+
+.gv-search-plugin .gv-gene-menu table {
+  margin: 0 0 10px;
+}
+
+.gv-search-plugin .gv-gene-menu td {
+  padding: 5px 10px!important;
+  vertical-align: top;
+  width: 50%;
+  white-space: nowrap;
+}
+
+.gv-search-plugin .gv-gene-menu tr:first-child td {
+  font-weight: bold;
+  white-space: nowrap;
+  padding: 5px 30px 5px 10px;
+  margin-bottom: 5px;
+  background: rgba(6, 54, 95, 0.35);
+  line-height: normal;
+}
+
+.gv-search-plugin .gv-gene-menu tr:first-child td:last-child {
+  border-radius: 0 12px 0 0;
+}
+
+.gv-search-plugin .gv-gene-menu tr td:first-child {
+  padding-right: 50px!important;
+}
+
+.gv-search-plugin .gv-gene-menu .gv-close {
+  font-size: 20px;
+}
+
+.gv-search-plugin .gv-gene-menu .gv-menu-content {
+  font-size: 13px;
+}
+
+.jspDrag {
+    background-color: #F0F8FF;
+}
+
+.jspVerticalBar {
+    background-color: #5F8CB0;
+}

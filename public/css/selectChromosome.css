@@ -1,0 +1,49 @@
+  .gv-select-chromosome-plugin .gv-select-menu {
+  color: white;
+  background-color: #5F8CB0;
+  border-radius: 0px 12px 12px 12px;
+  min-width: 200px;
+  padding: 0;
+  position: absolute;
+  z-index: 1001;
+  box-shadow: 3px 3px 10px #666666;
+  margin-left: 5px;
+}
+
+.gv-select-chromosome-plugin .gv-select-menu table {
+  margin: 0 0 10px;
+}
+
+.gv-select-chromosome-plugin .gv-select-menu td {
+  padding: 5px 10px!important;
+  vertical-align: top;
+  width: 50%;
+}
+
+.gv-select-chromosome-plugin .gv-select-menu tr:first-child td {
+  font-weight: bold;
+  white-space: nowrap;
+  padding: 5px 30px 5px 10px;
+  margin-bottom: 5px;
+  background: rgba(6, 54, 95, 0.35);
+  line-height: normal;
+}
+
+.gv-select-chromosome-plugin .gv-select-menu tr:first-child td:last-child {
+  border-radius: 0 12px 0 0;
+  white-space: nowrap;
+}
+
+.gv-select-chromosome-plugin .gv-select-menu tr td:first-child {
+  padding-right: 50px!important;
+  white-space: nowrap;
+}
+
+.gv-select-chromosome-plugin .gv-select-menu .gv-close {
+  font-size: 20px;
+}
+
+
+.gv-select-chromosome-plugin .gv-select-menu .gv-menu-content {
+  font-size: 13px;
+}
