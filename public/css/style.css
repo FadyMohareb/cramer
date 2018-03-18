@@ -1,7 +1,7 @@
 body {
     background: #2A313A;
     font-family: Verdana; 
-    font-size: 14px; 
+    font-size: 15px; 
     margin: 0;
 }
 
@@ -145,4 +145,22 @@ body {
 .material-switch > input[type="checkbox"]:checked + label::after {
     background: inherit;
     left: 20px;
+}
+
+.glyphicon-ring {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 4px;
+  border-style: solid;
+  border-color: #5F8CB0;
+  color: #5F8CB0;
+  display: inline-table;
+  text-align: center;
+}
+
+.glyphicon-ring .glyphicon-bordered {
+  font-size: 20px;
+  vertical-align: middle;
+  display: table-cell;
 }

@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title Genoverse Instance
+    title Cranfield Genoverse
     link(rel='stylesheet', type='text/css', href='css/bootstrap/css/bootstrap.min.css')
     link(rel='stylesheet', type='text/css', href='css/style.css')
     meta(charset='UTF-8')
@@ -24,7 +24,30 @@ html
               ul#plugins.list-group
                 li.list-group-item
                   a(href='index') Test_config
-                  button.btn.btn-default(type='button', disabled='')
+                  font(size='2') Test instance of Genoverse.
+                  button.btn.btn-default.btn-xs.pull-right(type='button', disabled='')
                     span.glyphicon.glyphicon-edit
-                    | Modify
+                    |  Modify
+                  .clearfix
+                li.list-group-item
+                  a(href='index') Test_config
+                  font(size='2')  This is also a test instance of Genoverse. 
+                  button.btn.btn-default.btn-xs.pull-right(type='button', disabled='')
+                    span.glyphicon.glyphicon-edit
+                    |  Modify
+                  .clearfix
           .col-md-4
+            .container-fluid.text-center
+              .row
+                .col-md-6
+                  a(href='loginpage')
+                    .glyphicon-ring
+                      span.glyphicon.glyphicon-log-in.glyphicon-bordered
+                .col-md-6
+                  .glyphicon-ring
+                    span.glyphicon.glyphicon-plus.glyphicon-bordered
+              .row
+                .col-md-6
+                  a(href='loginpage') Sign in 
+                .col-md-6
+                  font(color='#5F8CB0')  New Instance 

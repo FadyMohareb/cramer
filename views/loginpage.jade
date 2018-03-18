@@ -1,0 +1,26 @@
+doctype html
+html
+  head
+    link(rel='stylesheet', type='text/css', href='css/bootstrap/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='css/loginpage.css')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+  body
+    .container
+      .card.card-container
+        img.profile-img-card(src='images/cranfield-logo-white.jpg', alt='')
+        p#profile-name.profile-name-card
+        form.form-signin
+          span#reauth-email.reauth-email
+          .input-group
+            span.input-group-addon
+              i.glyphicon.glyphicon-user
+            input#inputEmail.form-control(type='email', placeholder='Email address', required='', autofocus='')
+          .input-group
+            span.input-group-addon
+              i.glyphicon.glyphicon-lock
+            input#inputPassword.form-control(type='password', placeholder='Password', required='')
+          button.btn.btn-lg.btn-primary.btn-block.btn-signin(type='submit') Sign in
+        // /form
+        | Don't have an account?
+        a(href='welcomepage') Go back to the welcome page
