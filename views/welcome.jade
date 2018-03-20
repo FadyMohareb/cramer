@@ -12,6 +12,8 @@ html
     .containerCustom
       .head
         h1 Cranfield Genoverse - Welcome
+        if(user)
+          h6.pull-right #{user.email}
       .wrap
       .panel-body
         .row
@@ -31,23 +33,35 @@ html
                   .clearfix
                 li.list-group-item
                   a(href='index') Test_config
-                  font(size='2')  This is also a test instance of Genoverse. 
-                  button.btn.btn-default.btn-xs.pull-right(type='button', disabled='')
-                    span.glyphicon.glyphicon-edit
-                    |  Modify
-                  .clearfix
+                  font(size='2')  This is also a test instance of Genoverse.
+                  if(user)
+                    button.btn.btn-default.btn-xs.pull-right(type='button')
+                        span.glyphicon.glyphicon-edit
+                        |  Modify
+                  .clearfix  
           .col-md-4
-            .container-fluid.text-center
-              .row
-                .col-md-6
-                  a(href='login')
-                    .glyphicon-ring
-                      span.glyphicon.glyphicon-log-in.glyphicon-bordered
-                .col-md-6
-                  .glyphicon-ring
-                    span.glyphicon.glyphicon-plus.glyphicon-bordered
-              .row
-                .col-md-6
-                  a(href='login') Sign in 
-                .col-md-6
-                  font(color='#5F8CB0')  New Instance 
+            if(user)
+                .container-fluid.text-center
+                  .row
+                    .col-md-6
+                      .glyphicon-ring
+                        span.glyphicon.glyphicon-plus.glyphicon-bordered
+                    .col-md-6
+                      a(href='logout')
+                        .glyphicon-ring(style='border-color: tomato')
+                          span.glyphicon.glyphicon-log-out.glyphicon-bordered(style='color: tomato')
+                  .row
+                    .col-md-6
+                      font(color='#5F8CB0')  New Instance 
+                    .col-md-6
+                      a(href='logout' style='color: tomato') Sign out 
+            else
+                .container-fluid.text-center
+                  .row
+                    .col-md-12
+                      a(href='login')
+                        .glyphicon-ring
+                          span.glyphicon.glyphicon-log-in.glyphicon-bordered
+                  .row
+                    .col-md-12
+                      a(href='login') Sign in 

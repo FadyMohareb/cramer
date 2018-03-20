@@ -4,8 +4,8 @@ new Genoverse({
     // chromosomeSize : 249250621, // chromosome 1, human
     genome: 'grch38', // see javascript/genomes/
     chr: 12,
-    start: 150,
-    end: 250,
+    start: 15555555,
+    end: 15555556,
     plugins: ["controlPanel","karyotype","trackControls","resizer","focusRegion","fullscreen","tooltips","selectChromosome","search","fileDrop"],
     tracks: [
         Genoverse.Track.Scalebar,
