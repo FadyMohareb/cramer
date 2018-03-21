@@ -11,17 +11,67 @@ html
       img.img-responsive(src='images/cranfield-logo.jpg', alt='Cranfield University')
     .containerCustom
       .head
-        h1 Cranfield Genoverse - Welcome
-        if(user)
-          h6.pull-right #{user.name}
+        h1 Cranfield Genoverse 
+
       .wrap
       .panel-body
         .row
-          .col-md-8
+            if(user)
+                .container-fluid.text-center
+                    .col-md-1
+                    .col-md-5
+                        p(style='white-space:pre;') 
+                            b
+                                | Welcome, #{user.name}.
+                        .info
+                            p
+                                | This is your personal site. Here you can access or modify the current available instances of Genoverse, and 
+                                a(href='instance') create a new instance.
+                    .col-md-1
+                    .col-md-2
+                     a(href='instance')
+                        .row
+                            .glyphicon-ring
+                                span.glyphicon.glyphicon-plus.glyphicon-bordered
+                        .row
+                          .span6(style='float: none; margin: 2px auto;')                          
+                            font(color='#5F8CB0')  New Instance
+                    .col-md-2
+                      a(href='logout')
+                        .row
+                            .glyphicon-ring(style='border-color: tomato')
+                                span.glyphicon.glyphicon-log-out.glyphicon-bordered(style='color: tomato')
+                        .row
+                          .span6(style='float: none; margin: 2px auto;')                        
+                            a(href='logout' style='color: tomato') Sign out
+                      
+            else
+                .container-fluid.text-center            
+                    .col-md-1
+                    .col-md-7
+                        p(style='white-space:pre;') 
+                            b
+                                | Welcome to Genoverse.
+                        .info
+                            p
+                                | This is the welcome page. Here you can access the currently available Genoverse instances or, if you have an account, 
+                                a(href='login') sign in to access other functionalities.
+                    .col-md-1
+                    .col-md-2
+                     a(href='login')
+                        .row
+                            .glyphicon-ring
+                                span.glyphicon.glyphicon-log-in.glyphicon-bordered
+                        .row
+                            font(color='#5F8CB0', style='float: none; margin: 2px auto;') Sign in
+
+        .row
+          .col-md-1
+          .col-md-10
             .panel.panel-default(style='margin:0px 0;')
               // Default panel contents
-              .panel-heading
-                h2 Available Genoverse Instances
+              .panel-heading(style='height: 60px;')
+                h2(style='line-height: 1px;') Available Genoverse Instances
               // List group
               ul#plugins.list-group
                 each instance, i in listInstances
@@ -32,30 +82,5 @@ html
                         button.btn.btn-default.btn-xs.pull-right(type='button')
                             span.glyphicon.glyphicon-edit
                             |  Modify
-                      .clearfix  
-          .col-md-4
-            if(user)
-                .container-fluid.text-center
-                  .row
-                    .col-md-6
-                      .glyphicon-ring
-                        span.glyphicon.glyphicon-plus.glyphicon-bordered
-                    .col-md-6
-                      a(href='logout')
-                        .glyphicon-ring(style='border-color: tomato')
-                          span.glyphicon.glyphicon-log-out.glyphicon-bordered(style='color: tomato')
-                  .row
-                    .col-md-6
-                      font(color='#5F8CB0')  New Instance 
-                    .col-md-6
-                      a(href='logout' style='color: tomato') Sign out 
-            else
-                .container-fluid.text-center
-                  .row
-                    .col-md-12
-                      a(href='login')
-                        .glyphicon-ring
-                          span.glyphicon.glyphicon-log-in.glyphicon-bordered
-                  .row
-                    .col-md-12
-                      a(href='login') Sign in 
+                      .clearfix
+                      
