@@ -1,9 +1,86 @@
-//- 
-    To change this license header, choose License Headers in Project Properties.
-    To change this template file, choose Tools | Templates
-    and open the template in the editor.
-     
-
+doctype html
 html
-    title TODO supply a title
-    body
+  head
+    title Cranfield Genoverse
+    link(rel='stylesheet', type='text/css', href='css/bootstrap/css/bootstrap.min.css')
+    link(rel='stylesheet', type='text/css', href='css/style.css')
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  body
+    a.fork
+      img.img-responsive(src='images/cranfield-logo.jpg', alt='Cranfield University')
+    .containerCustom
+      .head
+        h1 Cranfield Genoverse 
+
+      .wrap
+      .panel-body
+        .row
+            if(user)
+                .container-fluid.text-center
+                    .col-md-1
+                    .col-md-5
+                        p(style='white-space:pre;') 
+                            b
+                                | Welcome, #{user.name}.
+                        .info
+                            p
+                                | This is your personal site. Here you can access or modify the current available instances of Genoverse, and 
+                                a(href='instance') create a new instance.
+                    .col-md-1
+                    .col-md-2
+                     a(href='instance')
+                        .row
+                            .glyphicon-ring
+                                span.glyphicon.glyphicon-plus.glyphicon-bordered
+                        .row
+                          .span6(style='float: none; margin: 2px auto;')                          
+                            font(color='#5F8CB0')  New Instance
+                    .col-md-2
+                      a(href='logout')
+                        .row
+                            .glyphicon-ring(style='border-color: tomato')
+                                span.glyphicon.glyphicon-log-out.glyphicon-bordered(style='color: tomato')
+                        .row
+                          .span6(style='float: none; margin: 2px auto;')                        
+                            a(href='logout' style='color: tomato') Sign out
+                      
+            else
+                .container-fluid.text-center            
+                    .col-md-1
+                    .col-md-7
+                        p(style='white-space:pre;') 
+                            b
+                                | Welcome to Genoverse.
+                        .info
+                            p
+                                | This is the welcome page. Here you can access the currently available Genoverse instances or, if you have an account, 
+                                a(href='login') sign in to access other functionalities.
+                    .col-md-1
+                    .col-md-2
+                     a(href='login')
+                        .row
+                            .glyphicon-ring
+                                span.glyphicon.glyphicon-log-in.glyphicon-bordered
+                        .row
+                            font(color='#5F8CB0', style='float: none; margin: 2px auto;') Sign in
+
+        .row
+          .col-md-1
+          .col-md-10
+            .panel.panel-default(style='margin:0px 0;')
+              // Default panel contents
+              .panel-heading(style='height: 60px;')
+                h2(style='line-height: 1px;') Available Genoverse Instances
+              // List group
+              ul#plugins.list-group
+                each instance, i in listInstances
+                    li.list-group-item
+                      a(href='index') #{instance.name}
+                      font(size='2')  #{instance.description}
+                      if(user)
+                        button.btn.btn-default.btn-xs.pull-right(type='button')
+                            span.glyphicon.glyphicon-edit
+                            |  Modify
+                      .clearfix
+                      

@@ -3,9 +3,9 @@ new Genoverse({
     // If no genome supplied, it must have at least chromosomeSize, e.g.:
     // chromosomeSize : 249250621, // chromosome 1, human
     genome: 'grch38', // see javascript/genomes/
-    chr: 11,
-    start: 1,
-    end: 30000000,
+    chr: 12,
+    start: 15555555,
+    end: 15555556,
     plugins: ["controlPanel","karyotype","trackControls","resizer","focusRegion","fullscreen","tooltips","selectChromosome","search","fileDrop"],
     tracks: [
         Genoverse.Track.Scalebar,

@@ -1,0 +1,11 @@
+if message
+  .container
+    if message.error
+        .alert.alert-danger(role='alert')= message.error
+    if message.warning
+        .alert.alert-danger(role='alert')= message.warning
+    if message.info
+        .alert.alert-danger(role='alert')= message.info
+    if message.success
+        .alert.alert-danger(role='alert')= message.success
+        

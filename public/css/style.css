@@ -1,7 +1,7 @@
 body {
     background: #2A313A;
     font-family: Verdana; 
-    font-size: 14px; 
+    font-size: 15px; 
     margin: 0;
 }
 
@@ -45,7 +45,11 @@ body {
 }
 
 .info p    { 
-    padding: 0 16px; 
+    padding: 0px;
+    font-family: calibri;
+    font-size: 12px;
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 .fork      { 
@@ -69,7 +73,7 @@ body {
 }
 
 .panel > .panel-heading{
-    background: #5F8CB0;
+    background: #5F8CB0;   
 }
 
 .panel-heading > h2 {
@@ -145,4 +149,28 @@ body {
 .material-switch > input[type="checkbox"]:checked + label::after {
     background: inherit;
     left: 20px;
+}
+
+.glyphicon-ring {
+  width: 40px;
+  height:40px;
+  border-radius: 50%;
+  border: 4px;
+  border-style: solid;
+  border-color: #5F8CB0;
+  color: #5F8CB0;
+  display: inline-table;
+  text-align: center;
+}
+
+.glyphicon-ring .glyphicon-bordered {
+  font-size: 20px;
+  vertical-align: middle;
+  display: table-cell;
+}
+
+
+
+li:nth-child(even){
+  background: #e1e4e8;
 }
