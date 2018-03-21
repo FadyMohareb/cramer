@@ -45,7 +45,11 @@ body {
 }
 
 .info p    { 
-    padding: 0 16px; 
+    padding: 0px;
+    font-family: calibri;
+    font-size: 12px;
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 .fork      { 
@@ -69,7 +73,7 @@ body {
 }
 
 .panel > .panel-heading{
-    background: #5F8CB0;
+    background: #5F8CB0;   
 }
 
 .panel-heading > h2 {
@@ -148,8 +152,8 @@ body {
 }
 
 .glyphicon-ring {
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height:40px;
   border-radius: 50%;
   border: 4px;
   border-style: solid;
@@ -163,4 +167,10 @@ body {
   font-size: 20px;
   vertical-align: middle;
   display: table-cell;
+}
+
+
+
+li:nth-child(even){
+  background: #e1e4e8;
 }
