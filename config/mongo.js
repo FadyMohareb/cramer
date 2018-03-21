@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var url = "mongodb://localhost:27017/todo";
+var url = "mongodb://localhost:27017/test";
 
 module.exports = {
     init: function () {

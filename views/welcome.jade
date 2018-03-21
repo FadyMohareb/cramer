@@ -13,7 +13,7 @@ html
       .head
         h1 Cranfield Genoverse - Welcome
         if(user)
-          h6.pull-right #{user.email}
+          h6.pull-right #{user.name}
       .wrap
       .panel-body
         .row
@@ -24,21 +24,15 @@ html
                 h2 Available Genoverse Instances
               // List group
               ul#plugins.list-group
-                li.list-group-item
-                  a(href='index') Test_config
-                  font(size='2') Test instance of Genoverse.
-                  button.btn.btn-default.btn-xs.pull-right(type='button', disabled='')
-                    span.glyphicon.glyphicon-edit
-                    |  Modify
-                  .clearfix
-                li.list-group-item
-                  a(href='index') Test_config
-                  font(size='2')  This is also a test instance of Genoverse.
-                  if(user)
-                    button.btn.btn-default.btn-xs.pull-right(type='button')
-                        span.glyphicon.glyphicon-edit
-                        |  Modify
-                  .clearfix  
+                each instance, i in listInstances
+                    li.list-group-item
+                      a(href='index') #{instance.name}
+                      font(size='2')  #{instance.description}
+                      if(user)
+                        button.btn.btn-default.btn-xs.pull-right(type='button')
+                            span.glyphicon.glyphicon-edit
+                            |  Modify
+                      .clearfix  
           .col-md-4
             if(user)
                 .container-fluid.text-center

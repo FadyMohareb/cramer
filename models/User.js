@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var UserSchema = new mongoose.Schema({
+    name: {type: String, required: true},
     email: {type: String, required: true, index: {unique: true}},
     password: {type: String, required: true}
 });
@@ -15,13 +16,15 @@ UserSchema.methods.comparePassword = function (candidatePassword, cb) {
 
 UserSchema.statics.getAuthenticated = function (email, password, cb) {
 
-    this.findOne({ email: email }, function(err, user) {
+    this.findOne({email: email}, function (err, user) {
+        if (err)
+            return cb(err);
 
         if (user == null) {
             console.log("Error value: " + err);
             return cb(err);
         } else {
-            
+
             // test for a matching password
             user.comparePassword(password, function (err, isMatch) {
                 if (err)
