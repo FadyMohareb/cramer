@@ -168,9 +168,3 @@ body {
   vertical-align: middle;
   display: table-cell;
 }
-
-
-
-li:nth-child(even){
-  background: #e1e4e8;
-}
