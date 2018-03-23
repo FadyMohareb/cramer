@@ -14,6 +14,7 @@ var index = require('./routes/index');
 var instance = require('./routes/instance');
 var welcome = require('./routes/welcome');
 var login = require('./routes/login');
+var modify = require('./routes/modify');
 
 // Creating the app with express
 var app = express();
@@ -52,6 +53,7 @@ app.use('/index', index);
 app.use('/instance', instance);
 app.use('/', welcome);
 app.use('/login', login);
+app.use('/modify', modify);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
