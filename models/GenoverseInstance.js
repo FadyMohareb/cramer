@@ -1,5 +1,12 @@
 var mongoose = require('mongoose');
 
+var trackSchema = new mongoose.Schema({
+    group: {type: String, required: true},
+    name: {type: String, required: true},
+    description: {type: String, required: true},
+    data: {type: String, required: true}
+});
+
 var GenoverseSchema = new mongoose.Schema({
     name: {type: String, required: true, index: {unique: true}},
     description: {type: String, required: true},
@@ -8,7 +15,7 @@ var GenoverseSchema = new mongoose.Schema({
     start: {type: String, required: true},
     end: {type: String, required: true},
     plugins: [{type: String, required: true}],
-    tracks: {type: String}
+    tracks: [trackSchema]
 });
 
 module.exports = mongoose.model('GenoverseInstance', GenoverseSchema);
