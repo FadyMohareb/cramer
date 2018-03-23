@@ -37,13 +37,13 @@ html
               #inputs
                 .col-md-3
                   label(label-default='', for='chromosome-input') Chromosome
-                  input#chromosome-input.form-control(name='chromosome', placeholder='Enter chromosome', type='text')
+                  input#chromosome-input.form-control(name='chromosome', value=object.chr, type='text')
                 .col-md-3
                   label(label-default='', for='genomic-start-input') Start
-                  input#genomic-start-input.form-control(name='start', placeholder='Enter start', type='number', min='1')
+                  input#genomic-start-input.form-control(name='start', value=object.start, type='number', min='1')
                 .col-md-3
                   label(label-default='', for='genomic-end-input') End
-                  input#genomic-end-input.form-control(name='end', placeholder='Enter end', type='number', min='1')
+                  input#genomic-end-input.form-control(name='end', value=object.end, type='number', min='1')
           .panel-body
             .row
               .col-md-6
