@@ -34,7 +34,7 @@ router.get('/', function (req, res, next) {
                 res.render('welcome', {user: req.user, listInstances: genoverseInstances});
             }
         } else {
-            res.send('No genoverse instances found');
+            res.render('welcome');
         }
 
     });
