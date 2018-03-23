@@ -8,6 +8,51 @@ function toggleSpecies() {
     $("#upload").toggle();
 }
 
+function removeTrack() {
+    console.log('track deleted');
+}
+
+function addCustomTrack() {
+    console.log('custom track added');
+    var trackString = $("#customText").val();
+    console.log(trackString);
+}
+
+function addBedTrack() {
+    console.log('bed track added');
+
+}
+
+function addBigbedTrack() {
+    console.log('bigbed track added');
+
+}
+
+function addBamTrack() {
+    console.log('bam track added');
+
+}
+
+function addGffTrack() {
+    console.log('gff track added');
+
+}
+
+function addVcfTrack() {
+    console.log('vcf track added');
+
+}
+
+function addWigTrack() {
+    console.log('wig track added');
+
+}
+
+function addBigwigTrack() {
+    console.log('bigwig track added');
+
+}
+
 // Check the form when click on the button submit
 function validate() {
 
@@ -42,37 +87,37 @@ function validate() {
     if (valide) {
         var data = {};
         data.plugins = pluginsSelected;
+        console.log(data.plugins);
         data.chromosome = inputs[0].value;
         data.start = inputs[1].value;
         data.end = inputs[2].value;
-        sendData(data);
+        sendData(data, 'http://localhost:4000/instance');
     } else {
         alert('Fill properly the form');
     }
-
-
 }
 
-function sendData(data) {
-    console.log("Try to send");
+function sendData(data, url) {
 
+    console.log("Try to send");
     $.ajax({
         type: 'POST',
         data: JSON.stringify(data),
         contentType: 'application/json',
-        url: 'http://localhost:4000/instance',
+        url: url,
         success: function (data) {
             console.log('success');
             console.log(JSON.stringify(data));
             if (data === 'done')
             {
+                console.log("Success sent data");
                 window.location.href = "/index";
             } else {
                 alert('Error In Loading Config');
             }
         },
         error: function () {
-            console.log('process error');
+            console.log('Process error');
         }
     });
 }
@@ -133,5 +178,3 @@ check['species'] = function () {
         return false;
     }
 };
-
-
