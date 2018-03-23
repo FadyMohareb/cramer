@@ -22,8 +22,6 @@ router.post('/', function (req, res, next) {
             console.log('Something is wrong -> Check the createGenome or writeConfig functions');
         }
     });
-
-
 });
 
 function setUpParameters(obj, callback) {
