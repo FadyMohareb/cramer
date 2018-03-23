@@ -5,22 +5,24 @@ var GenoverseInstance = require('../models/GenoverseInstance.js');
 /* GET genome page. */
 router.get('/', function (req, res, next) {
 //    var test = new GenoverseInstance({
-//        "name": "Test3",
-//        "description": "CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC",
+//        "name": "Test4",
+//        "description": "CCCCCCCCC",
 //        "genome": "grch38",
 //        "chr": "9",
-//        "start": "150",
-//        "end": "250",
+//        "start": "150000",
+//        "end": "150004",
 //        "plugins": ["controlPanel", "karyotype", "trackControls", "resizer", "focusRegion", "fullscreen", "tooltips", "selectChromosome", "search", "fileDrop"],
-//        "tracks": ""
-//
+//        "tracks": [
+//            {group: "basic", name: "Scalebar", description: "Display the scalebar", data: "Genoverse.Track.Scalebar"},
+//            {group: "basic", name: "Scaleline", description: "Display the scaleline", data: "Genoverse.Track.Scaleline"}
+//        ]
 //    });
-//    test.save(function (err) {
-//        if (err) {
-//            throw err;
-//        }
-//        console.log('Commentaire ajouté avec succès !');
-//    });
+    test.save(function (err) {
+        if (err) {
+            throw err;
+        }
+        console.log('Commentaire ajouté avec succès !');
+    });
     GenoverseInstance.find(null, function (err, genoverseInstances) {
         if (err) {
             res.send(err);

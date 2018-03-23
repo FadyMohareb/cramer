@@ -74,7 +74,7 @@ html
                 h2(style='line-height: 1px;') Available Genoverse Instances
               // List group
               ul#plugins.list-group
-                 if(listInstance)
+                 if(listInstances)
                     each instance, i in listInstances
                         li.list-group-item
                           a(id=instance.name, href='index?name='+ instance.name) #{instance.name}
