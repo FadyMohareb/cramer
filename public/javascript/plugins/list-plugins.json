@@ -1,0 +1,38 @@
+{  
+    "controlPanel": {
+        "name": "Control Panel",
+        "id": "controlPanel"
+    },
+    "karyotype": {
+        "name": "Karyotype",
+        "id": "karyotype"
+    },
+    "trackControls": {
+        "name": "Track Controls",
+        "id": "trackControls"
+    },
+    "resizer": {
+        "name": "Resizer",
+        "id": "resizer"
+    },
+    "focusRegion": {
+        "name": "Focus Region",
+        "id": "focusRegion"
+    },
+    "tooltips": {
+        "name": "Tooltips",
+        "id": "tooltips"
+    },
+    "selectChromosome": {
+        "name": "Select Chromosome",
+        "id": "selectChromosome"
+    },
+    "search": {
+        "name": "Search",
+        "id": "search"
+    },
+    "fileDrop": {
+        "name": "File Drop",
+        "id": "fileDrop"
+    }
+}
