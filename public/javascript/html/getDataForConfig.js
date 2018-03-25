@@ -11,7 +11,7 @@ function toggleSpecies() {
 
 function removeTrack() {
     console.log('track deleted');
-} 
+}
 
 function addCustomTrack() {
     console.log('custom track added');
@@ -23,9 +23,9 @@ function addCustomTrack() {
 function addBedTrack() {
     console.log('bed track added');
     var trackString = 'Genoverse.Track.File.BED.extend({\nname: \''
-         + $('#bedNameInput').val() + '\',\ninfo: \''
-         + $('#bedInfoInput').val() + '\',\nurl: \''
-         + $('#bedUrlInput').val() + '\'\n});';
+            + $('#bedNameInput').val() + '\',\ninfo: \''
+            + $('#bedInfoInput').val() + '\',\nurl: \''
+            + $('#bedUrlInput').val() + '\'\n});';
     var track = {name: $("#bedNameInput").val(), type: 'bed', string: trackString};
     tracks.push(track);
     console.log(tracks);
@@ -34,9 +34,9 @@ function addBedTrack() {
 function addBigbedTrack() {
     console.log('bigbed track added');
     var trackString = 'Genoverse.Track.File.BIGBED.extend({\nname: \''
-         + $('#bigbedNameInput').val() + '\',\ninfo: \''
-         + $('#bigbedInfoInput').val() + '\',\nurl: \''
-         + $('#bigbedUrlInput').val() + '\'\n});';
+            + $('#bigbedNameInput').val() + '\',\ninfo: \''
+            + $('#bigbedInfoInput').val() + '\',\nurl: \''
+            + $('#bigbedUrlInput').val() + '\'\n});';
     var track = {name: $("#bigbedNameInput").val(), type: 'bigbed', string: trackString};
     tracks.push(track);
     console.log(tracks);
@@ -50,11 +50,11 @@ function addBamTrack() {
 function addGffTrack() {
     console.log('gff track added');
     var trackString = 'Genoverse.Track.File.GFF.extend({\nname: \''
-         + $('#gffNameInput').val() + '\',\ninfo: \''
-         + $('#gffInfoInput').val() + '\',\nurl: \''
-         + $('#gffUrlInput').val() + '\'' ;
-     // Add other variable parameters
-    trackString = trackString + '\n});' ;
+            + $('#gffNameInput').val() + '\',\ninfo: \''
+            + $('#gffInfoInput').val() + '\',\nurl: \''
+            + $('#gffUrlInput').val() + '\'';
+    // Add other variable parameters
+    trackString = trackString + '\n});';
     var track = {name: $("#gffNameInput").val(), type: 'gff', string: trackString};
     tracks.push(track);
     console.log(trackString);
@@ -63,16 +63,16 @@ function addGffTrack() {
 function addVcfTrack() {
     console.log('vcf track added');
     var trackString = 'Genoverse.Track.File.VCF.extend({\nname: \''
-         + $('#vcfNameInput').val() + '\',\ninfo: \''
-         + $('#vcfInfoInput').val() + '\',\nurl: \''
-         + $('#vcfUrlInput').val() + '\'' ;
+            + $('#vcfNameInput').val() + '\',\ninfo: \''
+            + $('#vcfInfoInput').val() + '\',\nurl: \''
+            + $('#vcfUrlInput').val() + '\'';
     if ($('#vcfThresholdInput').val() != '') {
         trackString = trackString + ',\nthreshold: ' + $('#vcfThresholdInput').val();
     }
     if ($('#vcfMaxqualInput').val() != '') {
         trackString = trackString + ',\nmaxQual: ' + $('#vcfMaxqualInput').val();
     }
-    trackString = trackString + '\n});' ;
+    trackString = trackString + '\n});';
     var track = {name: $("#vcfNameInput").val(), type: 'vcf', string: trackString};
     tracks.push(track);
     console.log(trackString);
@@ -81,9 +81,9 @@ function addVcfTrack() {
 function addWigTrack() {
     console.log('wig track added');
     var trackString = 'Genoverse.Track.File.WIG.extend({\nname: \''
-         + $('#wigNameInput').val() + '\',\ninfo: \''
-         + $('#wigInfoInput').val() + '\',\nurl: \''
-         + $('#wigUrlInput').val() + '\'\n});';
+            + $('#wigNameInput').val() + '\',\ninfo: \''
+            + $('#wigInfoInput').val() + '\',\nurl: \''
+            + $('#wigUrlInput').val() + '\'\n});';
     var track = {name: $("#wigNameInput").val(), type: 'wig', string: trackString};
     tracks.push(track);
     console.log(tracks);
@@ -92,9 +92,9 @@ function addWigTrack() {
 function addBigwigTrack() {
     console.log('bigwig track added');
     var trackString = 'Genoverse.Track.File.BIGWIG.extend({\nname: \''
-         + $('#bigwigNameInput').val() + '\',\ninfo: \''
-         + $('#bigwigInfoInput').val() + '\',\nurl: \''
-         + $('#bigwigUrlInput').val() + '\'\n});';
+            + $('#bigwigNameInput').val() + '\',\ninfo: \''
+            + $('#bigwigInfoInput').val() + '\',\nurl: \''
+            + $('#bigwigUrlInput').val() + '\'\n});';
     var track = {name: $("#bigwigNameInput").val(), type: 'bigwig', string: trackString};
     tracks.push(track);
     console.log(tracks);
@@ -107,7 +107,7 @@ function validate() {
 
     // Get all the inputs of the chromosome
     var inputs = document.querySelectorAll("#inputs input");
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < inputs.length; i++) {
         check[inputs[i].name](); // Check
         if (!check[inputs[i].name]()) {
             valide = false;
@@ -116,33 +116,37 @@ function validate() {
 
     // Get the species from Ensembl or Fasta file
     var species = document.querySelector("#genomic-species-select");
-//                                    check[species.name]();
+    var speciesSelected = species[species.selectedIndex].value;
+    check["species"](speciesSelected);
 
     // Get all the plugins
-    var plugins = document.querySelectorAll("#plugins .material-switch input"),
-            pluginsLength = plugins.length,
-            pluginsSelected = [];
+    var pluginsElement = document.querySelectorAll("#plugins .material-switch input");
+    var pluginsLength = pluginsElement.length;
+    var plugins = [];
 
     // Go through all the plugins to know if they are checked and push in the array
     for (var i = 0; i < pluginsLength; i++) {
-        if (plugins[i].checked) {
-            pluginsSelected.push(plugins[i].name);
+        if (pluginsElement[i].checked) {
+            plugins.push({name: pluginsElement[i].name, checked: true, id: pluginsElement[i].id});
+        } else {
+            plugins.push({name: pluginsElement[i].name, checked: false, id: pluginsElement[i].id});
         }
     }
 
-
     if (valide) {
         var data = {};
-        data.plugins = pluginsSelected;
-        data.chromosome = inputs[0].value;
-        data.start = inputs[1].value;
-        data.end = inputs[2].value;
+        data.plugins = plugins;
+        data.genome = speciesSelected;
+        data.name = inputs[0].value;
+        data.description = inputs[1].value;
+        data.chromosome = inputs[2].value;
+        data.start = inputs[3].value;
+        data.end = inputs[4].value;
+        console.log(data);
         sendData(data);
     } else {
         alert('Fill properly the form');
     }
-
-
 }
 
 function sendData(data) {
@@ -158,9 +162,9 @@ function sendData(data) {
             console.log(JSON.stringify(data));
             if (data === 'done')
             {
-                window.location.href = "/index";
+                window.location.href = "/";
             } else {
-                alert('Error In Loading Config');
+                alert('Error Creating the Instance');
             }
         },
         error: function () {
@@ -174,6 +178,32 @@ function sendData(data) {
  * If not change the background color
  */
 var check = {};
+check['info'] = function () {
+    var info = document.getElementById("project-info-input");
+
+    // Not empty
+    if (info.value !== "") {
+        info.style.background = "white";
+        return true;
+    } else {
+        info.style.backgroundColor = "rgba(255,0,51,0.6)";
+        return false;
+    }
+};
+
+check['name'] = function () {
+    var name = document.getElementById("project-name-input");
+
+    // Not empty
+    if (name.value !== "") {
+        name.style.background = "white";
+        return true;
+    } else {
+        name.style.backgroundColor = "rgba(255,0,51,0.6)";
+        return false;
+    }
+};
+
 check['chromosome'] = function () {
     var chrom = document.getElementById("chromosome-input");
 
@@ -214,10 +244,10 @@ check['end'] = function () {
     }
 };
 
-check['species'] = function () {
+check['species'] = function (value) {
     var species = document.getElementById("genomic-species-select");
 
-    if (species.value !== "") {
+    if (value !== "") {
         species.style.background = "white";
         return true;
     } else {

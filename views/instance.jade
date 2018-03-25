@@ -10,6 +10,7 @@ html
     a.fork
       img(src='images/cranfield-logo.jpg', alt='Cranfield University')
     .containerCustom
+      include ./alert.jade
       .head
         h1 Genoverse Instance
           a.btn.btn-default.pull-right(href='/', style='font-size: 17px;')
@@ -65,12 +66,12 @@ html
                     h2 Plugins
                   // List group
                   ul#plugins.list-group
-                  each plugins in listPlugins
-                    li.list-group-item(title=plugins.id)
-                      | #{plugins.name}
-                      .material-switch.pull-right
-                        input(id=plugins.id, name=plugins.name, type='checkbox', checked='')
-                        label.label-primary(label-default='', for=plugins.id)                  
+                      each plugins in listPlugins
+                        li.list-group-item(title=plugins.id)
+                          | #{plugins.name}
+                          .material-switch.pull-right
+                            input(id=plugins.id, name=plugins.name, type='checkbox', checked='')
+                            label.label-primary(label-default='', for=plugins.id)                  
               .col-md-6
                 .panel.panel-default
                   // Default panel contents
