@@ -36,6 +36,7 @@ router.get('/', auth.IsAuthenticated, function (req, res, next) {
 
 
 });
+
 router.post('/', function (req, res, next) {
 
     console.log('body: ' + JSON.stringify(req.body));
@@ -50,6 +51,7 @@ router.post('/', function (req, res, next) {
         }
     });
 });
+
 function setUpParameters(obj, callback) {
     var valideGenome = fs.existsSync(dir + '/public/javascript/genomes/' + 'human' + '.js');
     if (!valideGenome) {
@@ -73,7 +75,7 @@ function addDatabase(obj) {
         "start": obj.start,
         "end": obj.end,
         "plugins": obj.plugins,
-        "tracks": "",
+        "tracks": ""
     });
     instance.save(function (err) {
         if (err) {

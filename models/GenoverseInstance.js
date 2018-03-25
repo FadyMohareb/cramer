@@ -7,6 +7,12 @@ var trackSchema = new mongoose.Schema({
     data: {type: String, required: true}
 });
 
+var pluginSchema = new mongoose.Schema({
+    "name": {type: String, required: true},
+    "checked": Boolean,
+    "id": {type: String, required: true}
+});
+
 var GenoverseSchema = new mongoose.Schema({
     name: {type: String, required: true, index: {unique: true}},
     description: {type: String, required: true},
@@ -14,7 +20,7 @@ var GenoverseSchema = new mongoose.Schema({
     chr: {type: String, required: true},
     start: {type: String, required: true},
     end: {type: String, required: true},
-    plugins: [{type: String, required: true}],
+    plugins: [pluginSchema],
     tracks: [trackSchema]
 });
 

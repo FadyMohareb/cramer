@@ -1,4 +1,5 @@
 var $ = jQuery;
+var tracks = [];
 
 function toggleSpecies() {
     $("#toggleButton").text(function (i, old) {
@@ -10,47 +11,93 @@ function toggleSpecies() {
 
 function removeTrack() {
     console.log('track deleted');
-}
+} 
 
 function addCustomTrack() {
     console.log('custom track added');
-    var trackString = $("#customText").val();
-    console.log(trackString);
+    var track = {name: $("#customNameInput").val(), type: 'custom', string: $("#customText").val()};
+    tracks.push(track);
+    console.log(tracks);
 }
 
 function addBedTrack() {
     console.log('bed track added');
-
+    var trackString = 'Genoverse.Track.File.BED.extend({\nname: \''
+         + $('#bedNameInput').val() + '\',\ninfo: \''
+         + $('#bedInfoInput').val() + '\',\nurl: \''
+         + $('#bedUrlInput').val() + '\'\n});';
+    var track = {name: $("#bedNameInput").val(), type: 'bed', string: trackString};
+    tracks.push(track);
+    console.log(tracks);
 }
 
 function addBigbedTrack() {
     console.log('bigbed track added');
-
+    var trackString = 'Genoverse.Track.File.BIGBED.extend({\nname: \''
+         + $('#bigbedNameInput').val() + '\',\ninfo: \''
+         + $('#bigbedInfoInput').val() + '\',\nurl: \''
+         + $('#bigbedUrlInput').val() + '\'\n});';
+    var track = {name: $("#bigbedNameInput").val(), type: 'bigbed', string: trackString};
+    tracks.push(track);
+    console.log(tracks);
 }
 
 function addBamTrack() {
     console.log('bam track added');
-
+    // Need to chekc compatibility with url
 }
 
 function addGffTrack() {
     console.log('gff track added');
-
+    var trackString = 'Genoverse.Track.File.GFF.extend({\nname: \''
+         + $('#gffNameInput').val() + '\',\ninfo: \''
+         + $('#gffInfoInput').val() + '\',\nurl: \''
+         + $('#gffUrlInput').val() + '\'' ;
+     // Add other variable parameters
+    trackString = trackString + '\n});' ;
+    var track = {name: $("#gffNameInput").val(), type: 'gff', string: trackString};
+    tracks.push(track);
+    console.log(trackString);
 }
 
 function addVcfTrack() {
     console.log('vcf track added');
-
+    var trackString = 'Genoverse.Track.File.VCF.extend({\nname: \''
+         + $('#vcfNameInput').val() + '\',\ninfo: \''
+         + $('#vcfInfoInput').val() + '\',\nurl: \''
+         + $('#vcfUrlInput').val() + '\'' ;
+    if ($('#vcfThresholdInput').val() != '') {
+        trackString = trackString + ',\nthreshold: ' + $('#vcfThresholdInput').val();
+    }
+    if ($('#vcfMaxqualInput').val() != '') {
+        trackString = trackString + ',\nmaxQual: ' + $('#vcfMaxqualInput').val();
+    }
+    trackString = trackString + '\n});' ;
+    var track = {name: $("#vcfNameInput").val(), type: 'vcf', string: trackString};
+    tracks.push(track);
+    console.log(trackString);
 }
 
 function addWigTrack() {
     console.log('wig track added');
-
+    var trackString = 'Genoverse.Track.File.WIG.extend({\nname: \''
+         + $('#wigNameInput').val() + '\',\ninfo: \''
+         + $('#wigInfoInput').val() + '\',\nurl: \''
+         + $('#wigUrlInput').val() + '\'\n});';
+    var track = {name: $("#wigNameInput").val(), type: 'wig', string: trackString};
+    tracks.push(track);
+    console.log(tracks);
 }
 
 function addBigwigTrack() {
     console.log('bigwig track added');
-
+    var trackString = 'Genoverse.Track.File.BIGWIG.extend({\nname: \''
+         + $('#bigwigNameInput').val() + '\',\ninfo: \''
+         + $('#bigwigInfoInput').val() + '\',\nurl: \''
+         + $('#bigwigUrlInput').val() + '\'\n});';
+    var track = {name: $("#bigwigNameInput").val(), type: 'bigwig', string: trackString};
+    tracks.push(track);
+    console.log(tracks);
 }
 
 // Check the form when click on the button submit
@@ -87,37 +134,37 @@ function validate() {
     if (valide) {
         var data = {};
         data.plugins = pluginsSelected;
-        console.log(data.plugins);
         data.chromosome = inputs[0].value;
         data.start = inputs[1].value;
         data.end = inputs[2].value;
-        sendData(data, 'http://localhost:4000/instance');
+        sendData(data);
     } else {
         alert('Fill properly the form');
     }
+
+
 }
 
-function sendData(data, url) {
-
+function sendData(data) {
     console.log("Try to send");
+
     $.ajax({
         type: 'POST',
         data: JSON.stringify(data),
         contentType: 'application/json',
-        url: url,
+        url: 'http://localhost:4000/instance',
         success: function (data) {
             console.log('success');
             console.log(JSON.stringify(data));
             if (data === 'done')
             {
-                console.log("Success sent data");
                 window.location.href = "/index";
             } else {
                 alert('Error In Loading Config');
             }
         },
         error: function () {
-            console.log('Process error');
+            console.log('process error');
         }
     });
 }

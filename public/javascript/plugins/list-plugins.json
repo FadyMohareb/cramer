@@ -1,38 +1,47 @@
 {  
     "controlPanel": {
         "name": "Control Panel",
+        "checked": true,
         "id": "controlPanel"
     },
     "karyotype": {
         "name": "Karyotype",
+        "checked": true,
         "id": "karyotype"
     },
     "trackControls": {
         "name": "Track Controls",
+        "checked": true,
         "id": "trackControls"
     },
     "resizer": {
         "name": "Resizer",
+        "checked": true,
         "id": "resizer"
     },
     "focusRegion": {
         "name": "Focus Region",
+        "checked": true,
         "id": "focusRegion"
     },
     "tooltips": {
         "name": "Tooltips",
+        "checked": true,
         "id": "tooltips"
     },
     "selectChromosome": {
         "name": "Select Chromosome",
+        "checked": true,
         "id": "selectChromosome"
     },
     "search": {
         "name": "Search",
+        "checked": true,
         "id": "search"
     },
     "fileDrop": {
         "name": "File Drop",
+        "checked": true,
         "id": "fileDrop"
     }
 }

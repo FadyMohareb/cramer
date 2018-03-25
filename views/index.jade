@@ -33,7 +33,14 @@ html
     script(type='text/javascript', src='javascript/genoverse.min.js')
     script.
         var data = !{JSON.stringify(object).replace(/<\//g, '<\\/')};
-        console.log(data.plugins);
+        var plugins = [];
+        var plugin;
+        for(var i in data.plugins){
+            plugin = data.plugins[i];
+            if(plugin.checked){
+                plugins.push(plugin.id);
+            }
+        }
         new Genoverse({
             container: '#genoverse', // Where to inject Genoverse (css/jQuery selector/DOM element)
             // If no genome supplied, it must have at least chromosomeSize, e.g.:
@@ -42,7 +49,7 @@ html
             chr: data.chr,
             start: data.start,
             end: data.end,
-            plugins: data.plugins,
+            plugins: plugins,
             tracks: [
                 Genoverse.Track.Scalebar,
                 Genoverse.Track.extend({
