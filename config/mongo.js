@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var url = "mongodb://localhost:27017/test";
+var url = "mongodb://138.250.31.99:27017/genoverse";
 
 module.exports = {
     init: function () {
