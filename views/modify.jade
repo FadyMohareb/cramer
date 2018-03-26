@@ -68,12 +68,12 @@ html
                     h2 Plugins
                   // List group
                   ul#plugins.list-group
-                  each plugins in object.plugins
-                    li.list-group-item(title=plugins.id)
-                      | #{plugins.name}
-                      .material-switch.pull-right
-                        input(id=plugins.id, name=plugins.name, type='checkbox', checked=plugins.checked)
-                        label.label-primary(label-default='', for=plugins.id)                  
+                      each plugins in object.plugins
+                        li.list-group-item(title=plugins.id)
+                          | #{plugins.name}
+                          .material-switch.pull-right
+                            input(id=plugins.id, name=plugins.name, type='checkbox', checked=plugins.checked)
+                            label.label-primary(label-default='', for=plugins.id)                  
               .col-md-6
                 .panel.panel-default
                   // Default panel contents
@@ -189,7 +189,7 @@ html
                         ul.list-group(href='#customTracks')
                             li.list-group-item Test
             .text-center
-              button.btn.btn-primary.btn-lg(type='button', style='background: #5F8CB0', onclick='validate()') Submit
+              button.btn.btn-primary.btn-lg(type='button', style='background: #5F8CB0', onclick='validate('+true+')') Submit
             script(type="text/javascript", src="javascript/lib/jquery.js")
             script(type="text/javascript", src="css/bootstrap/js/bootstrap.min.js")              
             script(type='text/javascript', src='javascript/html/getDataForConfig.js')

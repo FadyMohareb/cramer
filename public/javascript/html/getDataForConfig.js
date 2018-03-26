@@ -101,7 +101,7 @@ function addBigwigTrack() {
 }
 
 // Check the form when click on the button submit
-function validate() {
+function validate(modify) {
 
     var valide = true;
 
@@ -134,29 +134,49 @@ function validate() {
     }
 
     if (valide) {
-        var data = {};
-        data.plugins = plugins;
-        data.genome = speciesSelected;
-        data.name = inputs[0].value;
-        data.description = inputs[1].value;
-        data.chromosome = inputs[2].value;
-        data.start = inputs[3].value;
-        data.end = inputs[4].value;
-        console.log(data);
-        sendData(data);
+        if (modify) {
+            var url = new URL(window.location.href);
+            var previousName = url.searchParams.get("name");
+            console.log(previousName);
+
+            var data = {};
+            data.previous = previousName;
+            data.plugins = plugins;
+            data.genome = speciesSelected;
+            data.name = inputs[0].value;
+            data.description = inputs[1].value;
+            data.chromosome = inputs[2].value;
+            data.start = inputs[3].value;
+            data.end = inputs[4].value;
+            console.log(data);
+            sendData(data, 'http://localhost:4000/modify');
+            
+        } else {
+            var data = {};
+            data.plugins = plugins;
+            data.genome = speciesSelected;
+            data.name = inputs[0].value;
+            data.description = inputs[1].value;
+            data.chromosome = inputs[2].value;
+            data.start = inputs[3].value;
+            data.end = inputs[4].value;
+            console.log(data);
+            sendData(data, 'http://localhost:4000/instance');
+        }
     } else {
         alert('Fill properly the form');
     }
+
 }
 
-function sendData(data) {
+function sendData(data, url) {
     console.log("Try to send");
 
     $.ajax({
         type: 'POST',
         data: JSON.stringify(data),
         contentType: 'application/json',
-        url: 'http://localhost:4000/instance',
+        url: url,
         success: function (data) {
             console.log('success');
             console.log(JSON.stringify(data));
