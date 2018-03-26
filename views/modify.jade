@@ -7,6 +7,7 @@ html
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
   body
+    include ./alert.jade
     a.fork
       img(src='images/cranfield-logo.jpg', alt='Cranfield University')
     .containerCustom
@@ -189,7 +190,7 @@ html
                         ul.list-group(href='#customTracks')
                             li.list-group-item Test
             .text-center
-              button.btn.btn-primary.btn-lg(type='button', style='background: #5F8CB0', onclick='validate('+true+')') Submit
+              button.btn.btn-primary.btn-lg(type='button', style='background: #5F8CB0', onclick='validate(' + true + ')') Submit
             script(type="text/javascript", src="javascript/lib/jquery.js")
             script(type="text/javascript", src="css/bootstrap/js/bootstrap.min.js")              
             script(type='text/javascript', src='javascript/html/getDataForConfig.js')

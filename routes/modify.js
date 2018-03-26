@@ -10,14 +10,10 @@ var utils = require('../routes/utils.js');
 router.get('/', auth.IsAuthenticated, function (req, res, next) {
     async.parallel({
         species: function (callback) {
-            fs.readFile(dir + '/public/javascript/genomes/list-species.json', 'utf8', function (err, data) {
-                if (err) {
-                    throw err;
-                    callback(err);
-                }
-                console.log('Species loaded');
-                callback(null, JSON.parse(data));
-            });
+            setTimeout(function () {
+                var species = utils.setList(dir + "/public/javascript/genomes/", "list-species.js");
+                callback(null, species);
+            }, 10);
         },
         instance: function (callback) {
             GenoverseInstance.find({name: req.query.name}, function (err, instance) {

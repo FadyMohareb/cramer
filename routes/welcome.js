@@ -2,9 +2,13 @@ var express = require('express');
 var router = express.Router();
 var GenoverseInstance = require('../models/GenoverseInstance.js');
 var User = require('../models/User.js');
+var utils = require('../routes/utils.js');
+
 /* GET genome page. */
 router.get('/', function (req, res, next) {
 
+    utils.updateSpecies();
+    
     GenoverseInstance.find(null, function (err, genoverseInstances) {
         if (err) {
             res.send(err);

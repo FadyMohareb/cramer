@@ -57,7 +57,7 @@ module.exports = {
             });
             response.on('end', function () {
                 try {
-                    require('fs').writeFile(dir + '/public/javascript/genomes/list-species.json', JSON.stringify(JSON.parse(str).species.map(function (d) {
+                    require('fs').writeFile(dir + '/public/javascript/genomes/list-species.js', "module.exports = {Species :" + JSON.stringify(JSON.parse(str).species.map(function (d) {
                         return [
                             d.name, {
                                 display_name: d.display_name,
@@ -67,7 +67,7 @@ module.exports = {
                     }).reduce(function (hash, d) {
                         hash[d[0]] = d[1];
                         return hash;
-                    }, {}), null, 2), function () {
+                    }, {}), null, 2) + "};", function () {
                         console.log('Species File Done');
                     });
                 } catch (e) {
@@ -77,5 +77,14 @@ module.exports = {
         }).on('error', function (e) {
             console.log(`Got error: ${e.message}`);
         }).end();
+    },
+
+    setList: function (path, filename) {
+        var list = require(path + filename);
+        if (filename === "list-species.js") {
+            return list.Species;
+        } else if (filename === "list-plugins.js") {
+            return list.Plugins;
+        }
     }
 };

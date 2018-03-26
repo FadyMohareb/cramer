@@ -13,28 +13,16 @@ router.get('/', auth.IsAuthenticated, function (req, res, next) {
     async.parallel({
         species: function (callback) {
             setTimeout(function () {
-                fs.readFile(dir + '/public/javascript/genomes/list-species.json', 'utf8', function (err, data) {
-                    if (err) {
-                        throw err;
-                        callback(err);
-                    }
-                    console.log("List species loaded");
-                    callback(null, JSON.parse(data));
-                });
+                var species = utils.setList(dir + "/public/javascript/genomes/", "list-species.js");
+                callback(null, species);
             }, 10);
         },
         plugins: function (callback) {
             setTimeout(function () {
-                fs.readFile(dir + '/public/javascript/plugins/list-plugins.json', 'utf8', function (err, data) {
-                    if (err) {
-                        throw err;
-                        callback(err);
-                    }
-                    console.log("List plugins loaded");
-                    callback(null, JSON.parse(data));
-                });
+                var plugins = utils.setList(dir + "/public/javascript/plugins/", "list-plugins.js");
+                callback(null, plugins);
             }, 10);
-        },
+        }
     },
             function (err, results) {
                 if (err) {

@@ -1,4 +1,4 @@
-Genoverse.Genomes.human = {
+Genoverse.Genomes.homo_sapiens = {
   "1": {
     "size": 248956422,
     "bands": [
