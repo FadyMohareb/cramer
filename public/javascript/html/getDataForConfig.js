@@ -1,22 +1,41 @@
 var $ = jQuery;
-var tracks = [];
+var tracks = [scalebar = [], chromosome = [], ensembl = [], dbsnp = [], bed = [], bigbed = [], bam = [], gff = [], vcf = [], wig = [], bigwig = [], custom = []];
+var trackCount = 0;
 
 function toggleSpecies() {
     $("#toggleButton").text(function (i, old) {
-        return old == 'Ensembl' ? 'Upload File' : 'Ensembl';
+        return old === 'Ensembl' ? 'Upload File' : 'Ensembl';
     });
     $("#ensembl").toggle();
     $("#upload").toggle();
 }
 
-function removeTrack() {
+function removeTrack(item) {
     console.log('track deleted');
+    var id = '#L' + $(item).data('id');
+    var name = $(id).text();
+    console.log(name);
+    $(id).remove();
+    for (var i = 0; i < tracks.length; i++) {
+        for (j = 0; j < tracks[i].length; j++) {
+            if (tracks[i][j].name === name) {
+                console.log(tracks[i][j]);
+                tracks[i].splice(j, 1);
+            }
+        }
+    }
 }
 
 function addCustomTrack() {
     console.log('custom track added');
-    var track = {name: $("#customNameInput").val(), type: 'custom', string: $("#customText").val()};
-    tracks.push(track);
+    var name = $("#customNameInput").val();
+    var info = $("#customInfoInput").val();
+    var track = {name: name, description: info, string: $('#customText').val()};
+    // Add to list
+    var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+    $('#customTracks').append(listItem);
+    custom.push(track);
+    trackCount++;
     console.log(tracks);
 }
 
@@ -26,8 +45,14 @@ function addBedTrack() {
             + $('#bedNameInput').val() + '\',\ninfo: \''
             + $('#bedInfoInput').val() + '\',\nurl: \''
             + $('#bedUrlInput').val() + '\'\n});';
-    var track = {name: $("#bedNameInput").val(), type: 'bed', string: trackString};
-    tracks.push(track);
+    var name = $("#bedNameInput").val();
+    var info = $('#bedInfoInput').val();
+    var track = {name: name, description: info, string: trackString};
+    // Add to list
+    var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+    $('#bedTracks').append(listItem);
+    bed.push(track);
+    trackCount++;
     console.log(tracks);
 }
 
@@ -37,14 +62,33 @@ function addBigbedTrack() {
             + $('#bigbedNameInput').val() + '\',\ninfo: \''
             + $('#bigbedInfoInput').val() + '\',\nurl: \''
             + $('#bigbedUrlInput').val() + '\'\n});';
-    var track = {name: $("#bigbedNameInput").val(), type: 'bigbed', string: trackString};
-    tracks.push(track);
+    var name = $("#bigbedNameInput").val();
+    var info = $('#bigbedInfoInput').val();
+    var track = {name: name, description: info, string: trackString};
+    // Add to list
+    var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+    $('#bigbedTracks').append(listItem);
+    bigbed.push(track);
+    trackCount++;
     console.log(tracks);
 }
 
 function addBamTrack() {
-    console.log('bam track added');
-    // Need to chekc compatibility with url
+    var trackString = 'Genoverse.Track.File.BAM.extend({\nname: \''
+            + $('#bamNameInput').val().replace(/\s/g, '</br>') + '\',\ninfo: \''
+            + $('#bamInfoInput').val() + '\',\nurl: \''
+            + $('#bamUrlInput').val() + '\'';
+    // Add other variable parameters
+    trackString = trackString + '\n});';
+    var name = $("#bamNameInput").val();
+    var info = $('#bamInfoInput').val();
+    var track = {name: name, description: info, string: trackString};
+    // Add to list
+    var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+    $('#bamTracks').append(listItem);
+    bam.push(track);
+    trackCount++;
+    console.log(tracks);
 }
 
 function addGffTrack() {
@@ -55,9 +99,15 @@ function addGffTrack() {
             + $('#gffUrlInput').val() + '\'';
     // Add other variable parameters
     trackString = trackString + '\n});';
-    var track = {name: $("#gffNameInput").val(), type: 'gff', string: trackString};
-    tracks.push(track);
-    console.log(trackString);
+    var name = $("#gffNameInput").val();
+    var info = $('#gffInfoInput').val();
+    var track = {name: name, description: info, string: trackString};
+    // Add to list
+    var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+    $('#gffTracks').append(listItem);
+    gff.push(track);
+    trackCount++;
+    console.log(tracks);
 }
 
 function addVcfTrack() {
@@ -73,9 +123,15 @@ function addVcfTrack() {
         trackString = trackString + ',\nmaxQual: ' + $('#vcfMaxqualInput').val();
     }
     trackString = trackString + '\n});';
-    var track = {name: $("#vcfNameInput").val(), type: 'vcf', string: trackString};
-    tracks.push(track);
-    console.log(trackString);
+    var name = $("#vcfNameInput").val();
+    var info = $('#vcfInfoInput').val();
+    var track = {name: name, description: info, string: trackString};
+    // Add to list
+    var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+    $('#vcfTracks').append(listItem);
+    vcf.push(track);
+    trackCount++;
+    console.log(tracks);
 }
 
 function addWigTrack() {
@@ -84,8 +140,14 @@ function addWigTrack() {
             + $('#wigNameInput').val() + '\',\ninfo: \''
             + $('#wigInfoInput').val() + '\',\nurl: \''
             + $('#wigUrlInput').val() + '\'\n});';
-    var track = {name: $("#wigNameInput").val(), type: 'wig', string: trackString};
-    tracks.push(track);
+    var name = $("#wigNameInput").val();
+    var info = $('#wigInfoInput').val();
+    var track = {name: name, description: info, string: trackString};
+    // Add to list
+    var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+    $('#wigTracks').append(listItem);
+    wig.push(track);
+    trackCount++;
     console.log(tracks);
 }
 
@@ -95,9 +157,24 @@ function addBigwigTrack() {
             + $('#bigwigNameInput').val() + '\',\ninfo: \''
             + $('#bigwigInfoInput').val() + '\',\nurl: \''
             + $('#bigwigUrlInput').val() + '\'\n});';
-    var track = {name: $("#bigwigNameInput").val(), type: 'bigwig', string: trackString};
-    tracks.push(track);
+    var name = $('#bigwigNameInput').val();
+    var info = $('#bigwigInfoInput').val();
+    var track = {name: name, description: info, string: trackString};
+    // Add to list
+    var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+    $('#bigwigTracks').append(listItem);
+    bigwig.push(track);
+    trackCount++;
     console.log(tracks);
+}
+
+function basicTrack() {
+    if ($('#ensembl').is(":visible")) {
+        gene.push({name: 'scalebar', description: "", string: "Genoverse.Track.Scalebar.extend({};"});
+    } else {
+        gene.push({name: 'scalebar', description: "", string: "Genoverse.Track.Scalebar.extend({};"});
+    }
+    scalebar.push({name: 'scalebar', description: "", string: "Genoverse.Track.Scalebar;"});
 }
 
 // Check the form when click on the button submit
@@ -133,6 +210,21 @@ function validate(modify) {
         }
     }
 
+    // Get all the tracks selected
+    var tracksElement = document.querySelectorAll("#tracks .list-group-item input");
+    var tracksLength = tracksElement.length;
+    var tracksSelected = [];
+    console.log(tracks);
+    for (var i = 0; i < tracksLength; i++) {
+        if (tracksElement[i].checked) {
+            tracksSelected.push({group: tracksElement[i].name, checked: true, trackChildren: tracks[i]});
+        } else {
+            tracksSelected.push({group: tracksElement[i].name, checked: false, trackChildren: tracks[i]});
+        }
+    }
+
+    basicTrack(speciesSelected);
+
     if (valide) {
         if (modify) {
             var url = new URL(window.location.href);
@@ -148,9 +240,10 @@ function validate(modify) {
             data.chromosome = inputs[2].value;
             data.start = inputs[3].value;
             data.end = inputs[4].value;
+            data.tracks = tracksSelected;
             console.log(data);
             sendData(data, 'http://localhost:4000/modify');
-            
+
         } else {
             var data = {};
             data.plugins = plugins;
@@ -160,6 +253,7 @@ function validate(modify) {
             data.chromosome = inputs[2].value;
             data.start = inputs[3].value;
             data.end = inputs[4].value;
+            data.tracks = tracksSelected;
             console.log(data);
             sendData(data, 'http://localhost:4000/instance');
         }

@@ -1,10 +1,15 @@
 var mongoose = require('mongoose');
 
+var track = new mongoose.Schema({
+    name: {type: String},
+    description: {type: String},
+    data: {type: String}
+});
+
 var trackSchema = new mongoose.Schema({
     group: {type: String, required: true},
-    name: {type: String, required: true},
-    description: {type: String, required: true},
-    data: {type: String, required: true}
+    checked: Boolean,
+    trackChildren: [track]
 });
 
 var pluginSchema = new mongoose.Schema({
