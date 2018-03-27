@@ -223,7 +223,7 @@ function validate(modify) {
         }
     }
 
-    basicTrack(speciesSelected);
+//    basicTrack(speciesSelected);
 
     if (valide) {
         if (modify) {
