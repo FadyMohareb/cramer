@@ -13,14 +13,14 @@ router.get('/', auth.IsAuthenticated, function (req, res, next) {
     async.parallel({
         species: function (callback) {
             setTimeout(function () {
-                var species = utils.setList(dir + "/public/javascript/genomes/", "list-species.js");
-                callback(null, species);
+                var output = utils.setList(dir + "/public/javascript/genomes/", "list-species.js");
+                callback(output[0], output[1]);
             }, 10);
         },
         plugins: function (callback) {
             setTimeout(function () {
-                var plugins = utils.setList(dir + "/public/javascript/plugins/", "list-plugins.js");
-                callback(null, plugins);
+                var output = utils.setList(dir + "/public/javascript/plugins/", "list-plugins.js");
+                callback(output[0], output[1]);
             }, 10);
         }
     },

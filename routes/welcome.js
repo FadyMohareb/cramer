@@ -26,6 +26,7 @@ router.get('/', function (req, res, next) {
 
     });
 });
+
 router.get('/logout', function (req, res, next) {
     req.logout();
     console.log('Log out');

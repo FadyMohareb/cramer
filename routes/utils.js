@@ -80,11 +80,17 @@ module.exports = {
     },
 
     setList: function (path, filename) {
-        var list = require(path + filename);
-        if (filename === "list-species.js") {
-            return list.Species;
-        } else if (filename === "list-plugins.js") {
-            return list.Plugins;
+        try {
+            var list = require(path + filename);
+            if (filename === "list-species.js") {
+                return [null , list.Species];
+            } else if (filename === "list-plugins.js") {
+                return [null, list.Plugins];
+            }
+        } catch (err) {
+            console.log(err);
+            return [err, null];
         }
+
     }
 };

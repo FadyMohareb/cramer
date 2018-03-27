@@ -11,8 +11,8 @@ router.get('/', auth.IsAuthenticated, function (req, res, next) {
     async.parallel({
         species: function (callback) {
             setTimeout(function () {
-                var species = utils.setList(dir + "/public/javascript/genomes/", "list-species.js");
-                callback(null, species);
+                var output = utils.setList(dir + "/public/javascript/genomes/", "list-species.js");
+                callback(output[0], output[1]);
             }, 10);
         },
         instance: function (callback) {
