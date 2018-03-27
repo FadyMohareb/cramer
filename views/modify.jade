@@ -82,28 +82,24 @@ html
                     h2
                       | Tracks
                       // List group
-                  ul.list-group
+                  ul#tracks.list-group
                     li.list-group-item
-                      | Scalebar
+                      | Scalebar 
                       .material-switch.pull-right
-                        input#scalebar_id(name='scalebar', type='checkbox', checked=false)
+                        input#scalebar_id(name='scalebar', type='checkbox', checked=true)
                         label.label-primary(label-default='', for='scalebar_id')
                     li.list-group-item
                       | Chromosome 
                       .material-switch.pull-right
-                        input#chrom_id(name='chromosome', type='checkbox', checked=false)
+                        input#chrom_id(name='chromosome', type='checkbox', checked=true)
                         label.label-primary(label-default='', for='chrom_id')
                     li.list-group-item
-                      | Gene    
-                      button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#geneModal')
-                        span.glyphicon.glyphicon-pencil.gi-1px
+                      | Ensembl Genes    
                       .material-switch.pull-right
-                        input#gene_id(name='gene', type='checkbox', checked=false)
+                        input#gene_id(name='gene', type='checkbox', checked=true)
                         label.label-primary(label-default='', for='gene_id')
                     li.list-group-item
                       | dbSNPs   
-                      button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#dbSNPModal')
-                        span.glyphicon.glyphicon-pencil.gi-1px
                       .material-switch.pull-right
                         input#snp_id(name='snp', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='snp_id')
@@ -115,10 +111,7 @@ html
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#bedModal')
                         span.glyphicon.glyphicon-plus
                       #collapseBED.panel-collapse.collapse
-                        ul.list-group(href='#bedTracks')
-                            li.list-group-item Test
-                                button.btn.btn-xs.pull-right(type='button', data-toggle='modal', onClick='removeTrack()')
-                                   span.glyphicon.glyphicon-remove
+                        ul.list-group(id='bedTracks')
                     li.list-group-item
                       .material-switch.pull-right
                         input#bigbed_id(name='bigbed', type='checkbox', checked=false)
@@ -127,8 +120,7 @@ html
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#bigbedModal')
                         span.glyphicon.glyphicon-plus
                       #collapseBIGBED.panel-collapse.collapse
-                        ul.list-group(href='#bigbedTracks')
-                            li.list-group-item Test
+                        ul.list-group(id='bigbedTracks')
                     li.list-group-item
                       .material-switch.pull-right
                         input#bam_id(name='bam', type='checkbox', checked=false)
@@ -137,8 +129,7 @@ html
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#bamModal')
                         span.glyphicon.glyphicon-plus
                       #collapseBAM.panel-collapse.collapse
-                        ul.list-group(href='#bamTracks')
-                            li.list-group-item Test
+                        ul.list-group(id='bamTracks')
                     li.list-group-item
                       .material-switch.pull-right
                         input#gff_id(name='gff', type='checkbox', checked=false)
@@ -147,8 +138,7 @@ html
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#gffModal')
                         span.glyphicon.glyphicon-plus
                       #collapseGFF.panel-collapse.collapse
-                        ul.list-group(href='#gffTracks')
-                            li.list-group-item Test
+                        ul.list-group(id='gffTracks')
                     li.list-group-item
                       .material-switch.pull-right
                         input#vcf_id(name='vcf', type='checkbox', checked=false)
@@ -157,8 +147,7 @@ html
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#vcfModal')
                         span.glyphicon.glyphicon-plus
                       #collapseVCF.panel-collapse.collapse
-                        ul.list-group(href='#vcfTracks')
-                            li.list-group-item Test
+                        ul.list-group(id='vcfTracks')
                     li.list-group-item
                       .material-switch.pull-right
                         input#wig_id(name='wig', type='checkbox', checked=false)
@@ -167,8 +156,7 @@ html
                        button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#wigModal')
                         span.glyphicon.glyphicon-plus
                       #collapseWIG.panel-collapse.collapse
-                        ul.list-group(href='#wigTracks')
-                            li.list-group-item Test
+                        ul.list-group(id='wigTracks')
                     li.list-group-item
                       .material-switch.pull-right
                         input#bigwig_id(name='bigwig', type='checkbox', checked=false)
@@ -177,8 +165,7 @@ html
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#bigwigModal')
                         span.glyphicon.glyphicon-plus  
                       #collapseBIGWIG.panel-collapse.collapse
-                        ul.list-group(href='#bigwigTracks')
-                            li.list-group-item Test
+                        ul.list-group(id='bigwigTracks')
                     li.list-group-item
                       .material-switch.pull-right
                         input#custom_id(name='custom', type='checkbox', checked=false)
@@ -187,10 +174,10 @@ html
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#customTrackModal')
                         span.glyphicon.glyphicon-plus  
                       #collapseCUSTOM.panel-collapse.collapse
-                        ul.list-group(href='#customTracks')
-                            li.list-group-item Test
+                        ul.list-group(id='customTracks')
             .text-center
-              button.btn.btn-primary.btn-lg(type='button', style='background: #5F8CB0', onclick='validate(' + true + ')') Submit
+              button.btn.btn-primary.btn-lg(type='button', style='background: #5F8CB0', onclick='validate()') Submit
+              
             script(type="text/javascript", src="javascript/lib/jquery.js")
             script(type="text/javascript", src="css/bootstrap/js/bootstrap.min.js")              
             script(type='text/javascript', src='javascript/html/getDataForConfig.js')
@@ -205,9 +192,13 @@ html
             h3.modal-title Add Custom Track
             p  Input custom track properties into the field
             .form-group
-              label(for='customNameInput', aria-describedby='infoHelp') Name*
+              label(for='customNameInput', aria-describedby='nameHelp') Name*
               input#customNameInput.form-control(type='text', placeholder='Enter a name for this custom track')
-              small#infoHelp.form-text.text-muted The name should match the name property of the track
+              small#nameHelp.form-text.text-muted The name should match the name property of the track
+            .form-group
+              label(for='customInfoInput', aria-describedby='infoHelp') Info*
+              input#customInfoInput.form-control(type='text', placeholder='Enter a description of this custom track')
+              small#infoHelp.form-text.text-muted The info should match the info property of the track
           .modal-body
                 textarea#customText.form-control(rows='12')
                   | Genoverse.Track.extend ({
@@ -233,18 +224,15 @@ html
             p  Please, fill the required fields. 
           .modal-body
             .form-group
-              label(for='trackNameInput') Name*
-              input#trackNameInput.form-control(type='text', placeholder='Enter a name for this BAM track')
+              label(for='bamNameInput') Name*
+              input#bamNameInput.form-control(type='text', placeholder='Enter a name for this BAM track')
             .form-group
-              label(for='infoInput', aria-describedby='infoHelp') Info*
-              input#infoInput.form-control(type='text', placeholder="Enter a short description of your BAM track's purpose")
+              label(for='bamInfoInput', aria-describedby='infoHelp') Info*
+              input#bamInfoInput.form-control(type='text', placeholder="Enter a short description of your BAM track's purpose")
               small#infoHelp.form-text.text-muted The description will be used as a hover label in Genoverse
             .form-group
-              label(for='urlInput') Url or File Path*
-              input#urlInput.form-control(type='text', placeholder='Enter url or filepath of BAM file')
-            .form-group
-              label(for='thresholdInput', aria-describedby='infoHelp') Threshold
-              input#infoInput.form-control(type='text', placeholder="Enter the maximum view where you want the track is displayed")
+              label(for='bamUrlInput') Url or File Path*
+              input#bamUrlInput.form-control(type='text', placeholder='Enter url or filepath of BAM file')
             .modal-footer
             p  All fields marked with an asterisk(*) are mandatory. 
               button.btn.btn-default.pull-right(type='button', data-dismiss='modal', onClick='addBamTrack()') Add track
@@ -405,51 +393,3 @@ html
             p  All fields marked with an asterisk(*) are mandatory. 
               button.btn.btn-default.pull-right(type='button', data-dismiss='modal', onClick='addBigwigTrack()') Add track
     // END OF bigwigModal
-    // STARTS dbSNPModal
-    // dbSNP Modal
-    #dbSNPModal.modal.fade(role='dialog')
-      .modal-dialog
-        // Modal content
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal') ×
-            h3.modal-title Edit dbSNP Track
-            p  The default url for the gene track is from the ensembl human genome. Edit as required. 
-          .modal-body
-            .form-group
-              label(for='trackNameInput') Name
-              input#trackNameInput.form-control(type='text', placeholder='Enter a name for the dbSNP track')
-            .form-group
-              label(for='infoInput', aria-describedby='infoHelp') Info
-              input#infoInput.form-control(type='text', placeholder="Enter a short description of your dbSNP track's purpose")
-              small#infoHelp.form-text.text-muted The description will be used as a hover label in Genoverse
-            .form-group
-              label(for='urlInput') Url
-              input#urlInput.form-control(type='text', placeholder='Enter alternate URL')
-            .modal-footer
-              button.btn.btn-default(type='button', data-dismiss='modal', onClick='editdbSNP()') Apply
-    // END OF geneModal
-    // STARTS geneModal
-    // gene Modal
-    #geneModal.modal.fade(role='dialog')
-      .modal-dialog
-        // Modal content
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal') ×
-            h3.modal-title Edit Gene Track
-            p  The default url for the gene track is from the ensembl human genome. Edit as required. 
-          .modal-body
-            .form-group
-              label(for='trackNameInput') Name
-              input#trackNameInput.form-control(type='text', placeholder='Enter a name for the gene track')
-            .form-group
-              label(for='infoInput', aria-describedby='infoHelp') Info
-              input#infoInput.form-control(type='text', placeholder="Enter a short description of your gene track's purpose")
-              small#infoHelp.form-text.text-muted The description will be used as a hover label in Genoverse
-            .form-group
-              label(for='urlInput') Url
-              input#urlInput.form-control(type='text', placeholder='Enter alternate URL')
-            .modal-footer
-              button.btn.btn-default(type='button', data-dismiss='modal', onClick='editGene()') Apply
-    // END OF geneModal

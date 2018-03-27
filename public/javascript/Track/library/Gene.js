@@ -3,9 +3,10 @@ Genoverse.Track.Gene = Genoverse.Track.extend({
   name   : 'Genes',
   height : 200,
   legend : true,
+  species: 'homo_sapiens',
 
   populateMenu: function (feature) {
-    var url  = 'http://www.ensembl.org/Homo_sapiens/' + (feature.feature_type === 'transcript' ? 'Transcript' : 'Gene') + '/Summary?' + (feature.feature_type === 'transcript' ? 't' : 'g') + '=' + feature.id;
+    var url  = 'http://www.ensembl.org/' + this.species + '/' + (feature.feature_type === 'transcript' ? 'Transcript' : 'Gene') + '/Summary?' + (feature.feature_type === 'transcript' ? 't' : 'g') + '=' + feature.id;
     var menu = {
       title    : '<a target="_blank" href="' + url + '">' + (feature.external_name ? feature.external_name + ' (' + feature.id + ')' : feature.id) + '</a>',
       Location : feature.chr + ':' + feature.start + '-' + feature.end,
@@ -14,7 +15,7 @@ Genoverse.Track.Gene = Genoverse.Track.extend({
     };
 
     if (feature.feature_type === 'transcript') {
-      menu.Gene = '<a target="_blank" href="http://www.ensembl.org/Homo_sapiens/Gene/Summary?g=' + feature.Parent + '">' + feature.Parent + '</a>';
+      menu.Gene = '<a target="_blank" href="http://www.ensembl.org/' + this.species + '/Gene/Summary?g=' + feature.Parent + '">' + feature.Parent + '</a>';
     }
 
     return menu;
@@ -26,12 +27,12 @@ Genoverse.Track.Gene = Genoverse.Track.extend({
   },
   100000: { // more than 100K but less then 2M
     labels : true,
-    model  : Genoverse.Track.Model.Gene.Ensembl,
+    model  : Genoverse.Track.Model.Gene.Ensembl.extend({ url: '//rest.ensembl.org/overlap/region/homo_sapiens/__CHR__:__START__-__END__?feature=gene;content-type=application/json' }),
     view   : Genoverse.Track.View.Gene.Ensembl
   },
   1: { // > 1 base-pair, but less then 100K
     labels : true,
-    model  : Genoverse.Track.Model.Transcript.Ensembl,
+    model  : Genoverse.Track.Model.Transcript.Ensembl.extend({ url: '//rest.ensembl.org/overlap/region/homo_sapiens/__CHR__:__START__-__END__?feature=transcript;feature=exon;feature=cds;content-type=application/json'}),
     view   : Genoverse.Track.View.Transcript.Ensembl
   }
 });

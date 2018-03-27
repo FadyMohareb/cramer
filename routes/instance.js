@@ -26,6 +26,7 @@ router.get('/', auth.IsAuthenticated, function (req, res, next) {
     },
             function (err, results) {
                 if (err) {
+                    console.log(err);
                     req.flash('error', 'Error while loading the list plugins or the list species.');
                     res.redirect('/');
                 } else {
