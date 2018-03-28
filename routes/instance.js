@@ -66,7 +66,7 @@ router.post('/', function (req, res, next) {
                     "start": obj.start,
                     "end": obj.end,
                     "plugins": obj.plugins,
-                    "tracks": ""
+                    "tracks": obj.tracks
                 });
                 instance.save(function (err) {
                     if (err) {

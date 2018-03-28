@@ -73,7 +73,7 @@ router.post('/', function (req, res, next) {
                         instance[0].start = obj.start;
                         instance[0].end = obj.end;
                         instance[0].plugins = obj.plugins;
-                        instance[0].tracks = "";
+                        instance[0].tracks = obj.tracks;
                         console.log(instance);
                         instance[0].save(function (err) {
                             if (err) {

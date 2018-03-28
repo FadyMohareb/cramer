@@ -1,10 +1,50 @@
 var $ = jQuery;
+var object = document.currentScript.getAttribute('data');
+var data = JSON.parse(object);
+var nameTracks = ["Scalebar", "Chromosome", "Ensembl Genes", "dbSNPs", "BED", "BIGBED", "BAM", "GFF", "VCF", "WIG", "BIGWIG", "Custom Track"];
 var tracks = [
-    scalebar = [{name: "scalebar", description: "display the scalebar", type: 'bigwig', string: 'Genoverse.Track.Scalebar'}],
-    chromosome = [{name: "chromosome", description: "display the chromosome", type: 'display the chromosome', string: 'Genoverse.Track.Chromosome'}],
+    scalebar = [{name: "scalebar", description: "display the scalebar", data: 'Genoverse.Track.Scalebar'}],
+    chromosome = [{name: "chromosome", description: "display the chromosome", data: 'Genoverse.Track.Chromosome'}],
     gene = [], dbSNP = [], bed = [], bigbed = [], bam = [], gff = [], vcf = [], wig = [], bigwig = [], custom = []
 ];
 var trackCount = 0;
+
+function loadTracks() {
+    var tracksLength = data.tracks.length;
+    for (var i = 4; i < tracksLength; i++) {
+        currentTrack = data.tracks[i];
+        for (var j in currentTrack.trackChildren) {
+            switch (currentTrack.group) {
+                case 'BED':
+                    addBedTrack(true, currentTrack.trackChildren[j]);
+                    break;
+                case 'BIGBED':
+                    addBigbedTrack(true, currentTrack.trackChildren[j]);
+                    break;
+                case 'BAM':
+                    addBamTrack(true, currentTrack.trackChildren[j]);
+                    break;
+                case 'GFF':
+                    addGffTrack(true, currentTrack.trackChildren[j]);
+                    break;
+                case 'VCF':
+                    addVcfTrack(true, currentTrack.trackChildren[j]);
+                    break;
+                case 'WIG':
+                    addWigTrack(true, currentTrack.trackChildren[j]);
+                    break;
+                case 'BIGWIG':
+                    addBigwigTrack(true, currentTrack.trackChildren[j]);
+                    break;
+                case 'Custon Track':
+                    addCustomTrack(true, currentTrack.trackChildren[j]);
+                    break;
+                default:
+                    console.log('The group name of the track does not match');
+            }
+        }
+    }
+}
 
 function toggleSpecies() {
     $("#toggleButton").text(function (i, old) {
@@ -42,7 +82,7 @@ function addGeneTrack() {
             'model: Genoverse.Track.Model.Transcript.Ensembl.extend' +
             '({url: \'//rest.ensembl.org/overlap/region/' + species + '/__CHR__:__START__-__END__?feature=transcript;feature=exon;feature=cds;content-type=application/json\'}),\n' +
             'view: Genoverse.Track.View.Transcript.Ensembl\n}\n})';
-    var track = {name: 'Gene', description: "Genes extracted from Ensembl", type: 'ensembl', string: trackString};
+    var track = {name: 'Gene', description: "Genes extracted from Ensembl", data: trackString};
     gene.push(track);
     console.log(track);
 }
@@ -54,16 +94,16 @@ function addDbsnpTrack() {
             'species: \'' + species + '\',\n' +
             'url: \'//rest.ensembl.org/overlap/region/' + species + '/__CHR__:__START__-__END__?feature=variation;content-type=application/json\'\n' +
             '})';
-    var track = {name: 'dbSNP', description: "All sequence variants from the database of Single Nucleotide Polymorphisms (dbSNP)", type: 'dbSNP', string: trackString};
+    var track = {name: 'dbSNP', description: "All sequence variants from the database of Single Nucleotide Polymorphisms (dbSNP)", data: trackString};
     dbSNP.push(track);
     console.log(track);
 }
 
-function addCustomTrack() {
+function addCustomTrack(modify, track) {
     console.log('custom track added');
     var name = $("#customNameInput").val();
     var info = $("#customInfoInput").val();
-    var track = {name: name, description: info, type: 'custom', string: $('#customText').val()};
+    var track = {name: name, description: info, data: $('#customText').val()};
     // Add to list
     var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
     $('#customTracks').append(listItem);
@@ -72,15 +112,16 @@ function addCustomTrack() {
     console.log(tracks);
 }
 
-function addBedTrack() {
+function addBedTrack(modify, object) {
+
     console.log('bed track added');
-    var trackString = 'Genoverse.Track.File.BED.extend({\nname: \''
+    var trackString = modify ? object.data : 'Genoverse.Track.File.BED.extend({\nname: \''
             + $('#bedNameInput').val() + '\',\ninfo: \''
             + $('#bedInfoInput').val() + '\',\nurl: \''
             + $('#bedUrlInput').val() + '\'\n})';
-    var name = $("#bedNameInput").val();
-    var info = $('#bedInfoInput').val();
-    var track = {name: name, description: info, type: 'bed', string: trackString};
+    var name = modify ? object.name : $("#bedNameInput").val();
+    var info = modify ? object.description : $('#bedInfoInput').val();
+    var track = {name: name, description: info, data: trackString};
     // Add to list
     var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
     $('#bedTracks').append(listItem);
@@ -89,15 +130,15 @@ function addBedTrack() {
     console.log(tracks);
 }
 
-function addBigbedTrack() {
+function addBigbedTrack(modify, object) {
     console.log('bigbed track added');
-    var trackString = 'Genoverse.Track.File.BIGBED.extend({\nname: \''
+    var trackString = modify ? object.data : 'Genoverse.Track.File.BIGBED.extend({\nname: \''
             + $('#bigbedNameInput').val() + '\',\ninfo: \''
             + $('#bigbedInfoInput').val() + '\',\nurl: \''
             + $('#bigbedUrlInput').val() + '\'\n})';
-    var name = $("#bigbedNameInput").val();
-    var info = $('#bigbedInfoInput').val();
-    var track = {name: name, description: info, type: 'bigbed', string: trackString};
+    var name = modify ? object.name : $("#bigbedNameInput").val();
+    var info = modify ? object.description : $('#bigbedInfoInput').val();
+    var track = {name: name, description: info, data: trackString};
     // Add to list
     var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
     $('#bigbedTracks').append(listItem);
@@ -106,16 +147,16 @@ function addBigbedTrack() {
     console.log(tracks);
 }
 
-function addBamTrack() {
-    var trackString = 'Genoverse.Track.File.BAM.extend({\nname: \''
+function addBamTrack(modify, object) {
+    var trackString = modify ? object.data : 'Genoverse.Track.File.BAM.extend({\nname: \''
             + $('#bamNameInput').val().replace(/\s/g, '</br>') + '\',\ninfo: \''
             + $('#bamInfoInput').val() + '\',\nurl: \''
             + $('#bamUrlInput').val() + '\'';
     // Add other variable parameters
     trackString = trackString + '\n})';
-    var name = $("#bamNameInput").val();
-    var info = $('#bamInfoInput').val();
-    var track = {name: name, description: info, type: 'bam', string: trackString};
+    var name = modify ? object.name : $("#bamNameInput").val();
+    var info = modify ? object.description : $('#bamInfoInput').val();
+    var track = {name: name, description: info, data: trackString};
     // Add to list
     var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
     $('#bamTracks').append(listItem);
@@ -124,17 +165,17 @@ function addBamTrack() {
     console.log(tracks);
 }
 
-function addGffTrack() {
+function addGffTrack(modify, object) {
     console.log('gff track added');
-    var trackString = 'Genoverse.Track.File.GFF.extend({\nname: \''
+    var trackString = modify ? object.data : 'Genoverse.Track.File.GFF.extend({\nname: \''
             + $('#gffNameInput').val() + '\',\ninfo: \''
             + $('#gffInfoInput').val() + '\',\nurl: \''
             + $('#gffUrlInput').val() + '\'';
     // Add other variable parameters
     trackString = trackString + '\n})';
-    var name = $("#gffNameInput").val();
-    var info = $('#gffInfoInput').val();
-    var track = {name: name, description: info, type: 'gff', string: trackString};
+    var name = modify ? object.name : $("#gffNameInput").val();
+    var info = modify ? object.description : $('#gffInfoInput').val();
+    var track = {name: name, description: info, data: trackString};
     // Add to list
     var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
     $('#gffTracks').append(listItem);
@@ -143,22 +184,24 @@ function addGffTrack() {
     console.log(tracks);
 }
 
-function addVcfTrack() {
+function addVcfTrack(modify, object) {
     console.log('vcf track added');
-    var trackString = 'Genoverse.Track.File.VCF.extend({\nname: \''
+    var trackString = modify ? object.data : 'Genoverse.Track.File.VCF.extend({\nname: \''
             + $('#vcfNameInput').val() + '\',\ninfo: \''
             + $('#vcfInfoInput').val() + '\',\nurl: \''
             + $('#vcfUrlInput').val() + '\'';
-    if ($('#vcfThresholdInput').val() != '') {
+    if (!modify & $('#vcfThresholdInput').val() != '') {
         trackString = trackString + ',\nthreshold: ' + $('#vcfThresholdInput').val();
     }
-    if ($('#vcfMaxqualInput').val() != '') {
+    if (!modify & $('#vcfMaxqualInput').val() != '') {
         trackString = trackString + ',\nmaxQual: ' + $('#vcfMaxqualInput').val();
     }
-    trackString = trackString + '\n})';
-    var name = $("#vcfNameInput").val();
-    var info = $('#vcfInfoInput').val();
-    var track = {name: name, description: info, type: 'vcf', string: trackString};
+    if (!modify) {
+        trackString = trackString + '\n})';
+    }
+    var name = modify ? object.name : $("#vcfNameInput").val();
+    var info = modify ? object.description : $('#vcfInfoInput').val();
+    var track = {name: name, description: info, data: trackString};
     // Add to list
     var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
     $('#vcfTracks').append(listItem);
@@ -167,15 +210,15 @@ function addVcfTrack() {
     console.log(tracks);
 }
 
-function addWigTrack() {
+function addWigTrack(modify, object) {
     console.log('wig track added');
-    var trackString = 'Genoverse.Track.File.WIG.extend({\nname: \''
+    var trackString = modify ? object.data : 'Genoverse.Track.File.WIG.extend({\nname: \''
             + $('#wigNameInput').val() + '\',\ninfo: \''
             + $('#wigInfoInput').val() + '\',\nurl: \''
             + $('#wigUrlInput').val() + '\'\n})';
-    var name = $("#wigNameInput").val();
-    var info = $('#wigInfoInput').val();
-    var track = {name: name, description: info, type: 'wig', string: trackString};
+    var name = modify ? object.name : $("#wigNameInput").val();
+    var info = modify ? object.description : $('#wigInfoInput').val();
+    var track = {name: name, description: info, type: 'wig', data: trackString};
     // Add to list
     var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
     $('#wigTracks').append(listItem);
@@ -184,15 +227,15 @@ function addWigTrack() {
     console.log(tracks);
 }
 
-function addBigwigTrack() {
+function addBigwigTrack(modify, object) {
     console.log('bigwig track added');
-    var trackString = 'Genoverse.Track.File.BIGWIG.extend({\nname: \''
+    var trackString = modify ? object.data : 'Genoverse.Track.File.BIGWIG.extend({\nname: \''
             + $('#bigwigNameInput').val() + '\',\ninfo: \''
             + $('#bigwigInfoInput').val() + '\',\nurl: \''
             + $('#bigwigUrlInput').val() + '\'\n})';
-    var name = $('#bigwigNameInput').val();
-    var info = $('#bigwigInfoInput').val();
-    var track = {name: name, description: info, type: 'bigwig', string: trackString};
+    var name = modify ? object.name : $('#bigwigNameInput').val();
+    var info = modify ? object.description : $('#bigwigInfoInput').val();
+    var track = {name: name, description: info, type: 'bigwig', data: trackString};
     // Add to list
     var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
     $('#bigwigTracks').append(listItem);
@@ -205,15 +248,6 @@ function findSpecies() {
     // Get the species from Ensembl
     var species = document.querySelector("#genomic-species-select");
     return species[species.selectedIndex].value;
-}
-
-function basicTrack() {
-    if ($('#ensembl').is(":visible")) {
-        gene.push({name: 'scalebar', description: "", string: "Genoverse.Track.Scalebar.extend({};"});
-    } else {
-        gene.push({name: 'scalebar', description: "", string: "Genoverse.Track.Scalebar.extend({};"});
-    }
-    scalebar.push({name: 'scalebar', description: "", string: "Genoverse.Track.Scalebar;"});
 }
 
 // Check the form when click on the button submit
@@ -252,12 +286,14 @@ function validate(modify) {
     var tracksElement = document.querySelectorAll("#tracks .list-group-item input");
     var tracksLength = tracksElement.length;
     var tracksSelected = [];
+    addDbsnpTrack();
+    addGeneTrack();
     console.log(tracks);
     for (var i = 0; i < tracksLength; i++) {
         if (tracksElement[i].checked) {
-            tracksSelected.push({group: tracksElement[i].name, checked: true, trackChildren: tracks[i]});
+            tracksSelected.push({group: nameTracks[i], checked: true, trackChildren: tracks[i]});
         } else {
-            tracksSelected.push({group: tracksElement[i].name, checked: false, trackChildren: tracks[i]});
+            tracksSelected.push({group: nameTracks[i], checked: false, trackChildren: tracks[i]});
         }
     }
 

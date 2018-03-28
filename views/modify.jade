@@ -6,7 +6,7 @@ html
     link(rel='stylesheet', type='text/css', href='css/style.css')
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-  body
+  body(onload="loadTracks()")
     include ./alert.jade
     a.fork
       img(src='images/cranfield-logo.jpg', alt='Cranfield University')
@@ -107,11 +107,11 @@ html
                       .material-switch.pull-right
                         input#bed_id(name='bed', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='bed_id')
-                      a(data-toggle='collapse', href='#collapseBED') BED 
+                      a(data-toggle='collapse', href='#collapseBED') BED
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#bedModal')
                         span.glyphicon.glyphicon-plus
                       #collapseBED.panel-collapse.collapse
-                        ul.list-group(id='bedTracks')
+                        ul.list-group(id='bedTracks')                                       
                     li.list-group-item
                       .material-switch.pull-right
                         input#bigbed_id(name='bigbed', type='checkbox', checked=false)
@@ -176,11 +176,11 @@ html
                       #collapseCUSTOM.panel-collapse.collapse
                         ul.list-group(id='customTracks')
             .text-center
-              button.btn.btn-primary.btn-lg(type='button', style='background: #5F8CB0', onclick='validate()') Submit
+              button.btn.btn-primary.btn-lg(type='button', style='background: #5F8CB0', onclick='validate(true)') Submit
               
             script(type="text/javascript", src="javascript/lib/jquery.js")
             script(type="text/javascript", src="css/bootstrap/js/bootstrap.min.js")              
-            script(type='text/javascript', src='javascript/html/getDataForConfig.js')
+            script(type='text/javascript', data=object, src='javascript/html/getDataForConfig.js')
 
     // STARTS Add custom track button modal
     #customTrackModal.modal.fade(role='dialog')
@@ -393,3 +393,4 @@ html
             p  All fields marked with an asterisk(*) are mandatory. 
               button.btn.btn-default.pull-right(type='button', data-dismiss='modal', onClick='addBigwigTrack()') Add track
     // END OF bigwigModal
+     
