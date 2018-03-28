@@ -11,6 +11,18 @@ for (var i in data.plugins) {
     }
 }
 
+var trackConfig = "";
+var tracksLength = data.tracks.length;
+for (var i = 0; i < tracksLength; i++) {
+    currentTrack = data.tracks[i];
+    for (var j in currentTrack.trackChildren) {
+        trackConfig = trackConfig + currentTrack.trackChildren[j].data + ",";
+    }
+}
+trackConfig = trackConfig.slice(0, -1);
+trackConfig += ";";
+//alert(trackConfig);
+
 new Genoverse({
     container: '#genoverse', // Where to inject Genoverse (css/jQuery selector/DOM element)
     // If no genome supplied, it must have at least chromosomeSize, e.g.:
@@ -39,6 +51,10 @@ new Genoverse({
             setFeatureColor: function (f) {
                 f.color = '#AAA';
             }
+        }),
+        Genoverse.Track.File.BED.extend({
+            url: '/home/pierbjx/Downloads/GRCh38_rRNA.bed',
+            name: "test-bed"
         }),
         Genoverse.Track.dbSNP
     ]
