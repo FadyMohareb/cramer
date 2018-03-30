@@ -78,10 +78,10 @@ html
                  if(listInstances)
                     each instance, i in listInstances
                         li.list-group-item
-                          a(id=instance.name, href='index?name='+ instance.name) #{instance.name}
+                          a(id=instance.name, href='index?name=' + instance.name + '&') #{instance.name}
                           font(size='2')  #{instance.description}
                           if(user)
-                            a.btn.btn-default.btn-xs.pull-right(href='modify?name='+ instance.name)
+                            a.btn.btn-default.btn-xs.pull-right(href='modify?name=' + instance.name)
                                 span.glyphicon.glyphicon-edit
                                 | modify
                           .clearfix

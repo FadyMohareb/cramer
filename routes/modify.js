@@ -2,12 +2,11 @@ var express = require('express');
 var router = express.Router();
 var async = require('async');
 var dir = process.cwd();
-var auth = require('../config/authentication.js');
 var fs = require('fs');
 var GenoverseInstance = require('../models/GenoverseInstance.js');
 var utils = require('../routes/utils.js');
 
-router.get('/', auth.IsAuthenticated, function (req, res, next) {
+router.get('/', utils.IsAuthenticated, function (req, res, next) {
     async.parallel({
         species: function (callback) {
             setTimeout(function () {

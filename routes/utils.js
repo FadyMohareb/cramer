@@ -1,4 +1,5 @@
 var dir = process.cwd();
+var passport = require('passport');
 
 module.exports = {
 
@@ -83,7 +84,7 @@ module.exports = {
         try {
             var list = require(path + filename);
             if (filename === "list-species.js") {
-                return [null , list.Species];
+                return [null, list.Species];
             } else if (filename === "list-plugins.js") {
                 return [null, list.Plugins];
             }
@@ -92,5 +93,14 @@ module.exports = {
             return [err, null];
         }
 
+    },
+
+    IsAuthenticated: function (req, res, next) {
+        if (req.isAuthenticated()) {
+            next();
+        } else {
+            req.flash('warning', 'Please login to use this functionalities.');
+            res.redirect('/login');
+        }
     }
 };

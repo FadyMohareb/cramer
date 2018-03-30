@@ -52,10 +52,6 @@ new Genoverse({
                 f.color = '#AAA';
             }
         }),
-        Genoverse.Track.File.BED.extend({
-            url: '/home/pierbjx/Downloads/GRCh38_rRNA.bed',
-            name: "test-bed"
-        }),
         Genoverse.Track.dbSNP
     ]
 });
