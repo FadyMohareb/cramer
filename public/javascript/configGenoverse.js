@@ -36,6 +36,7 @@ new Genoverse({
         Genoverse.Track.Scalebar,
         Genoverse.Track.extend({
             name: 'Sequence',
+            info: "Sequence info",
             controller: Genoverse.Track.Controller.Sequence,
             model: Genoverse.Track.Model.Sequence.Ensembl,
             view: Genoverse.Track.View.Sequence,
@@ -45,6 +46,7 @@ new Genoverse({
         Genoverse.Track.Gene,
         Genoverse.Track.extend({
             name: 'Regulatory Features',
+            info: "Regulatory features info",
             url: 'http://rest.ensembl.org/overlap/region/human/__CHR__:__START__-__END__?feature=regulatory;content-type=application/json',
             resizable: 'auto',
             model: Genoverse.Track.Model.extend({dataRequestLimit: 5000000}),
