@@ -27,7 +27,8 @@ router.get('/', utils.IsAuthenticated, function (req, res, next) {
     },
             function (err, results) {
                 if (err) {
-                    res.render('error');
+                    req.flash('error', 'Error while loading the species or the instance.');
+                    res.redirect('/');
                 } else {
                     res.render('modify', {object: results.instance[0], listSpecies: results.species});
                 }
