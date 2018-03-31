@@ -1094,7 +1094,7 @@ var Genoverse = Base.extend({
             if (this.useHash) {
                 window.location.hash = this.getQueryString();
             } else {
-                
+
                 window.history.pushState({}, '', this.getQueryString());
             }
         }
@@ -1145,7 +1145,9 @@ var Genoverse = Base.extend({
                 .replace('__START__', this.start)
                 .replace('__END__', this.end);
 
-        return this.useHash ? location : window.location.search ? (window.location.search + '&').replace(this.paramRegex, '$1' + location + '$5').slice(0, -1) : '?' + location;
+        var search = window.location.search + '&';
+
+        return this.useHash ? search.slice(1) + location : search.match(this.paramRegex) ? search.replace(this.paramRegex, '$1' + location + '$5').slice(0, -1) : search + location;
     },
 
     getChromosomeSize: function (chr) {
