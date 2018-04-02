@@ -14,13 +14,15 @@ var trackConfig = "";
 var tracksLength = data.tracks.length;
 for (var i = 0; i < tracksLength; i++) {
     currentTrack = data.tracks[i];
-    for (var j in currentTrack.trackChildren) {
-        trackConfig = trackConfig + currentTrack.trackChildren[j].data + ",";
+    if (currentTrack.checked) {
+        for (var j in currentTrack.trackChildren) {
+
+            trackConfig = trackConfig + currentTrack.trackChildren[j].data + ",";
+        }
     }
 }
 
 trackConfig = trackConfig.slice(0, -1);
-trackConfig += ";";
 //alert(trackConfig);
 
 new Genoverse({
