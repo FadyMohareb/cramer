@@ -1,6 +1,5 @@
 var object = document.currentScript.getAttribute('data');
 var data = JSON.parse(object);
-console.log(data.genome);
 var plugins = [];
 var plugin;
 
@@ -19,6 +18,7 @@ for (var i = 0; i < tracksLength; i++) {
         trackConfig = trackConfig + currentTrack.trackChildren[j].data + ",";
     }
 }
+
 trackConfig = trackConfig.slice(0, -1);
 trackConfig += ";";
 //alert(trackConfig);
