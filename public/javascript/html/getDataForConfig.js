@@ -1,9 +1,10 @@
 var $ = jQuery;
+var global_url = location.protocol + '//' + location.host;
 var object = document.currentScript.getAttribute('data');
 var data = JSON.parse(object);
 var nameTracks = ["Scalebar", "Chromosome", "Ensembl Genes", "dbSNPs", "BED", "BIGBED", "BAM", "GFF", "VCF", "WIG", "BIGWIG", "Custom Track"];
 var tracks = [
-    scalebar = [{name: "scalebar", description: "display the scalebar", data: 'Genoverse.Track.Scalebar'}],
+    scalebar = [{name: "scalebar", description: "display the scalebar", data: "Genoverse.Track.Scalebar"}],
     chromosome = [{name: "chromosome", description: "display the chromosome", data: 'Genoverse.Track.Chromosome'}],
     gene = [], dbSNP = [], bed = [], bigbed = [], bam = [], gff = [], vcf = [], wig = [], bigwig = [], custom = []
 ];
@@ -288,7 +289,6 @@ function validate(modify) {
     var tracksSelected = [];
     addDbsnpTrack();
     addGeneTrack();
-    console.log(tracks);
     for (var i = 0; i < tracksLength; i++) {
         if (tracksElement[i].checked) {
             tracksSelected.push({group: nameTracks[i], checked: true, trackChildren: tracks[i]});
@@ -314,7 +314,7 @@ function validate(modify) {
             data.end = inputs[4].value;
             data.tracks = tracksSelected;
             console.log(data);
-            sendData(data, 'http://localhost:4000/modify');
+            sendData(data, global_url + '/modify');
 
         } else {
             var data = {};
@@ -327,7 +327,7 @@ function validate(modify) {
             data.end = inputs[4].value;
             data.tracks = tracksSelected;
             console.log(data);
-            sendData(data, 'http://localhost:4000/instance');
+            sendData(data, global_url + '/instance');
         }
     } else {
         alert('Fill properly the form');

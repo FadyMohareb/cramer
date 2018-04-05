@@ -8,7 +8,6 @@ var utils = require('../routes/utils.js');
 
 /* GET users listing. */
 router.get('/', utils.IsAuthenticated, function (req, res, next) {
-
     async.parallel({
         species: function (callback) {
             setTimeout(function () {

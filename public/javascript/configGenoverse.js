@@ -10,20 +10,18 @@ for (var i in data.plugins) {
     }
 }
 
-var trackConfig = "";
+var trackConfig = [];
 var tracksLength = data.tracks.length;
 for (var i = 0; i < tracksLength; i++) {
     currentTrack = data.tracks[i];
     if (currentTrack.checked) {
         for (var j in currentTrack.trackChildren) {
-
-            trackConfig = trackConfig + currentTrack.trackChildren[j].data + ",";
+            trackConfig.push(eval(currentTrack.trackChildren[j].data));
         }
     }
 }
 
-trackConfig = trackConfig.slice(0, -1);
-//alert(trackConfig);
+console.log(trackConfig);
 
 new Genoverse({
     container: '#genoverse', // Where to inject Genoverse (css/jQuery selector/DOM element)
@@ -34,28 +32,27 @@ new Genoverse({
     start: data.start,
     end: data.end,
     plugins: plugins,
-    tracks: [
-        Genoverse.Track.Scalebar,
-        Genoverse.Track.extend({
-            name: 'Sequence',
-            info: "Sequence info",
-            controller: Genoverse.Track.Controller.Sequence,
-            model: Genoverse.Track.Model.Sequence.Ensembl,
-            view: Genoverse.Track.View.Sequence,
-            100000: false,
-            resizable: 'auto'
-        }),
-        Genoverse.Track.Gene,
-        Genoverse.Track.extend({
-            name: 'Regulatory Features',
-            info: "Regulatory features info",
-            url: 'http://rest.ensembl.org/overlap/region/human/__CHR__:__START__-__END__?feature=regulatory;content-type=application/json',
-            resizable: 'auto',
-            model: Genoverse.Track.Model.extend({dataRequestLimit: 5000000}),
-            setFeatureColor: function (f) {
-                f.color = '#AAA';
-            }
-        }),
-        Genoverse.Track.dbSNP
-    ]
+    tracks: 
+            trackConfig
+//            [   
+//        Genoverse.Track.Scalebar,
+//        Genoverse.Track.extend({
+//            name: 'Sequence',
+//            100000: false,
+//            resizable: 'auto',
+//            controller: Genoverse.Track.Controller.Sequence,
+//            view: Genoverse.Track.View.Sequence,
+//            model: Genoverse.Track.Model.Sequence.extend({
+//                url: "http://localhost:4000/index/request?chr=__CHR__&start=__START__&end=__END__&type=faidx",
+//                urlParams: {file: "ftp://138.250.31.77/Public/TomatoReference/SL2.50/Sol.2.50.fasta.gz"}
+//            })
+//        }),
+//        Genoverse.Track.File.GFF.extend({
+//            model: Genoverse.Track.Model.File.GFF.extend({
+//                url: "http://localhost:4000/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix",
+//                urlParams: {file: "ftp://138.250.31.77/Public/Genoverse/reference/SL3.0/ITAG3.10_gene_models.gff.gz"}
+//            }),  
+//            name: 'Gene<br/>Models',
+//        })
+//    ]
 });
