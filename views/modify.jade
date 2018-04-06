@@ -13,7 +13,7 @@ html
     .containerCustom
       .head
         h1 Genoverse Instance
-          a.btn.btn-default.pull-right(href='/', style='font-size: 17px;')
+          a.btn.btn-default.pull-right(href='/', style='font-size: 17px; text-shadow: 0 0 0;')
             span.glyphicon.glyphicon-home
             |  Home        
       .wrap
@@ -101,12 +101,12 @@ html
                     li.list-group-item
                       | Scalebar 
                       .material-switch.pull-right
-                        input#scalebar_id(name='scalebar', type='checkbox', checked=true)
+                        input#scalebar_id(name='scalebar', type='checkbox', checked=object.tracks[0].checked)
                         label.label-primary(label-default='', for='scalebar_id')
                     li.list-group-item
                       | Chromosome 
                       .material-switch.pull-right
-                        input#chrom_id(name='chromosome', type='checkbox', checked=false)
+                        input#chrom_id(name='chromosome', type='checkbox', checked=object.tracks[1].checked)
                         label.label-primary(label-default='', for='chrom_id')
                     li.list-group-item
                       .material-switch.pull-right
@@ -119,7 +119,7 @@ html
                         ul.list-group(id='fastaTracks')
                     li.list-group-item
                       .material-switch.pull-right
-                        input#bed_id(name='bed', type='checkbox', checked=false)
+                        input#bed_id(name='bed', type='checkbox', checked=object.tracks[4].checked)
                         label.label-primary(label-default='', for='bed_id')
                       a(data-toggle='collapse', href='#collapseBED') BED Scores 
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#bedModal')
@@ -128,7 +128,7 @@ html
                         ul.list-group(id='bedTracks')
                     li.list-group-item
                       .material-switch.pull-right
-                        input#bigbed_id(name='bigbed', type='checkbox', checked=false)
+                        input#bigbed_id(name='bigbed', type='checkbox', checked=object.tracks[5].checked)
                         label.label-primary(label-default='', for='bigbed_id')
                       a(data-toggle='collapse', href='#collapseBIGBED') BIGBED Scores 
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#bigbedModal')
@@ -137,7 +137,7 @@ html
                         ul.list-group(id='bigbedTracks')
                     li.list-group-item
                       .material-switch.pull-right
-                        input#bam_id(name='bam', type='checkbox', checked=false)
+                        input#bam_id(name='bam', type='checkbox', checked=object.tracks[6].checked)
                         label.label-primary(label-default='', for='bam_id')
                       a(data-toggle='collapse', href='#collapseBAM') Genomic BAM Transcripts 
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#bamModal')
@@ -146,7 +146,7 @@ html
                         ul.list-group(id='bamTracks')
                     li.list-group-item
                       .material-switch.pull-right
-                        input#gff_id(name='gff', type='checkbox', checked=false)
+                        input#gff_id(name='gff', type='checkbox', checked=object.tracks[7].checked)
                         label.label-primary(label-default='', for='gff_id')
                       a(data-toggle='collapse', href='#collapseGFF') GFF Genes  
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#gffModal')
@@ -155,7 +155,7 @@ html
                         ul.list-group(id='gffTracks')
                     li.list-group-item
                       .material-switch.pull-right
-                        input#vcf_id(name='vcf', type='checkbox', checked=false)
+                        input#vcf_id(name='vcf', type='checkbox', checked=object.tracks[8].checked)
                         label.label-primary(label-default='', for='vcf_id')
                       a(data-toggle='collapse', href='#collapseVCF') VCF Highlights 
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#vcfModal')
@@ -164,7 +164,7 @@ html
                         ul.list-group(id='vcfTracks')
                     li.list-group-item
                       .material-switch.pull-right
-                        input#wig_id(name='wig', type='checkbox', checked=false)
+                        input#wig_id(name='wig', type='checkbox', checked=object.tracks[9].checked)
                         label.label-primary(label-default='', for='wig_id')
                        a(data-toggle='collapse', href='#collapseWIG') WIG Graph 
                        button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#wigModal')
@@ -173,7 +173,7 @@ html
                         ul.list-group(id='wigTracks')
                     li.list-group-item
                       .material-switch.pull-right
-                        input#bigwig_id(name='bigwig', type='checkbox', checked=false)
+                        input#bigwig_id(name='bigwig', type='checkbox', checked=object.tracks[10].checked)
                         label.label-primary(label-default='', for='bigwig_id')
                       a(data-toggle='collapse', href='#collapseBIGWIG') BIGWIG Graph 
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#bigwigModal')
