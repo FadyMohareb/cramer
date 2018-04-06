@@ -1,11 +1,11 @@
 var $ = jQuery;
 var object = document.currentScript.getAttribute('data');
 var data = JSON.parse(object);
-var nameTracks = ["Scalebar", "Chromosome", "Ensembl Genes", "dbSNPs", "BED", "BIGBED", "BAM", "GFF", "VCF", "WIG", "BIGWIG", "Custom Track"];
+var nameTracks = ["Scalebar", "Chromosome", "Ensembl Genes", "Ensembl Sequence", "dbSNPs", "FASTA", "BED", "BIGBED", "BAM", "GFF", "VCF", "WIG", "BIGWIG", "SNP Density", "Gene Expression", "Custom Track"];
 var tracks = [
     scalebar = [{name: "scalebar", description: "display the scalebar", data: 'Genoverse.Track.Scalebar'}],
     chromosome = [{name: "chromosome", description: "display the chromosome", data: 'Genoverse.Track.Chromosome'}],
-    gene = [], dbSNP = [], bed = [], bigbed = [], bam = [], gff = [], vcf = [], wig = [], bigwig = [], custom = []
+    gene = [], sequence = [], dbSNP = [], fasta = [], bed = [], bigbed = [], bam = [], gff = [], vcf = [], wig = [], bigwig = [], snpDensity = [], geneExpression = [], custom = []
 ];
 var trackCount = 0;
 
@@ -15,6 +15,9 @@ function loadTracks() {
         currentTrack = data.tracks[i];
         for (var j in currentTrack.trackChildren) {
             switch (currentTrack.group) {
+                case 'FASTA':
+                    addFastaTrack(true, currentTrack.trackChildren[j]);
+                    break;
                 case 'BED':
                     addBedTrack(true, currentTrack.trackChildren[j]);
                     break;
@@ -36,7 +39,13 @@ function loadTracks() {
                 case 'BIGWIG':
                     addBigwigTrack(true, currentTrack.trackChildren[j]);
                     break;
-                case 'Custon Track':
+                case 'SNP Density':
+                    addSnpDensityTrack(true, currentTrack.trackChildren[j]);
+                    break;
+                case 'Gene Expression':
+                    addGeneExpressionTrack(true, currentTrack.trackChildren[j]);
+                    break;
+                case 'Custom Track':
                     addCustomTrack(true, currentTrack.trackChildren[j]);
                     break;
                 default:
@@ -52,7 +61,42 @@ function toggleSpecies() {
     });
     $("#ensembl").toggle();
     $("#upload").toggle();
+    if ($("#upload").is(':visible')) {
+        $("#ensembl-only-tracks").hide();
+        $("#gene_id").prop("checked", false) ;
+        $("#seq_id").prop("checked", false) ;
+        $("#snp_id").prop("checked", false) ;
+    }
+    if ($("#ensembl").is(':visible')) {
+        $("#ensembl-only-tracks").show();
+    }
 }
+
+// UPLOAD GENOME FILE
+$(function() {
+  // Attach the `fileselect` event to genome file input
+   $(document).on('change', ':file', function() {
+    var filechoice = $(this);
+        label = filechoice.val().replace(/\\/g, '/').replace(/.*\//, '');
+    filechoice.trigger('fileselect', [label]);
+  });
+  // We can watch for our custom `fileselect` event like this
+  $(document).ready( function() {
+      $(':file').on('fileselect', function(event, label) {
+          var filechoice = $(this).parents('#upload.input-group').find(':text'),
+              log = label;
+          if( filechoice.length ) {
+              filechoice.val(log);
+          }
+      });
+  });
+});
+
+
+function uploadGenome() {
+    var file = $(':file')[0].files[0];
+  }
+
 
 function removeTrack(item) {
     console.log('track deleted');
@@ -61,7 +105,7 @@ function removeTrack(item) {
     console.log(name);
     $(id).remove();
     for (var i = 0; i < tracks.length; i++) {
-        for (j = 0; j < tracks[i].length; j++) {
+        for (var j = 0; j < tracks[i].length; j++) {
             if (tracks[i][j].name == name) {
                 console.log(tracks[i][j]);
                 tracks[i].splice(j, 1);
@@ -69,6 +113,11 @@ function removeTrack(item) {
         }
     }
 }
+
+
+     /////////////////////////////////////
+     //          ADD NEW TRACKS         //
+     /////////////////////////////////////
 
 function addGeneTrack() {
     var species = findSpecies();
@@ -84,7 +133,24 @@ function addGeneTrack() {
             'view: Genoverse.Track.View.Transcript.Ensembl\n}\n})';
     var track = {name: 'Gene', description: "Genes extracted from Ensembl", data: trackString};
     gene.push(track);
-    console.log(track);
+    console.log(trackString);
+}
+
+function addSequenceTrack() {
+    var species = findSpecies();
+    console.log('sequence track added');
+    var trackString = 'Genoverse.Track.extend({\n' +
+            'name: \'sequence\',\n' +
+            'info: \'sequence information from ensembl\',\n' +
+            'controller: Genoverse.Track.Controller.Sequence,\n' +
+            'model: Genoverse.Track.Model.Sequence.Ensembl.extend({url:' + '\'//rest.ensembl.org/sequence/region/' + species + '/__CHR__:__START__-__END__?content-type=text/plain\'}),\n' +
+            'view: enoverse.Track.View.Sequence,\n' +
+            '100000: false,\n' +
+            'resizable: \'auto\'\n' +
+            '})';
+    var track = {name: 'sequence', description: "sequence information from ensembl", data: trackString};
+    sequence.push(track);
+    console.log(trackString);
 }
 
 function addDbsnpTrack() {
@@ -96,24 +162,59 @@ function addDbsnpTrack() {
             '})';
     var track = {name: 'dbSNP', description: "All sequence variants from the database of Single Nucleotide Polymorphisms (dbSNP)", data: trackString};
     dbSNP.push(track);
-    console.log(track);
+    console.log(trackString);
 }
 
 function addCustomTrack(modify, track) {
     console.log('custom track added');
     var name = $("#customNameInput").val();
     var info = $("#customInfoInput").val();
-    var track = {name: name, description: info, data: $('#customText').val()};
-    // Add to list
-    var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
-    $('#customTracks').append(listItem);
-    custom.push(track);
-    trackCount++;
-    console.log(tracks);
+    var trackString = $('#customText').val();
+    var valid = checkCustomTrack(name, info, trackString);
+    if (valid == true) {
+        var track = {name: name, description: info, data: trackString};
+        //Add to track list
+        var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+        $('#customTracks').append(listItem);
+        custom.push(track);
+        trackCount++;
+        console.log(trackString);
+        $('.modal').modal('hide');
+        $('#collapseCUSTOM').collapse('show');
+    }
+}
+
+function addFastaTrack(modify, object) {
+    console.log('fasta track added');
+    var trackString = 'Genoverse.Track.extend({\n' +
+            'name: \'' + $('#fastaNameInput').val() + '\',\n' +
+            'info: \'' + $('#fastaInfoInput').val() + '\',\n' +
+            'controller: Genoverse.Track.Controller.Sequence,\n' +
+            'model: Genoverse.Track.Model.Sequence.extend({\n' +
+            'url: \'http://localhost:4000/index/request?chr=__CHR__&start=__START__&end=__END__&type=faidx\',\n' +
+            'urlParams: {file: \'' + $('#fastaUrlInput').val() + '\'}\n' +
+            '}),\n' +
+            'view: Genoverse.Track.View.Sequence,\n' +
+            '100000: false,\n' +
+            'resizable: \'auto\'\n' +
+            '})';
+    var name = modify ? object.name : $("#fastaNameInput").val();
+    var info = modify ? object.description : $('#fastaInfoInput').val();
+    var valid = checkTrack('fasta');
+    if (valid == true) {
+        var track = {name: name, description: info, data: trackString};
+        //Add to track list
+        var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+        $('#fastaTracks').append(listItem);
+        fasta.push(track);
+        trackCount++;
+        console.log(trackString);
+        $('.modal').modal('hide');
+        $('#collapseFASTA').collapse('show');
+    }
 }
 
 function addBedTrack(modify, object) {
-
     console.log('bed track added');
     var trackString = modify ? object.data : 'Genoverse.Track.File.BED.extend({\nname: \''
             + $('#bedNameInput').val() + '\',\ninfo: \''
@@ -121,13 +222,18 @@ function addBedTrack(modify, object) {
             + $('#bedUrlInput').val() + '\'\n})';
     var name = modify ? object.name : $("#bedNameInput").val();
     var info = modify ? object.description : $('#bedInfoInput').val();
-    var track = {name: name, description: info, data: trackString};
-    // Add to list
-    var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
-    $('#bedTracks').append(listItem);
-    bed.push(track);
-    trackCount++;
-    console.log(tracks);
+    var valid = checkTrack('bed');
+    if (valid == true) {
+        var track = {name: name, description: info, data: trackString};
+        //Add to track list
+        var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+        $('#bedTracks').append(listItem);
+        bed.push(track);
+        trackCount++;
+        console.log(trackString);
+        $('.modal').modal('hide');
+        $('#collapseBED').collapse('show');
+    }
 }
 
 function addBigbedTrack(modify, object) {
@@ -138,13 +244,18 @@ function addBigbedTrack(modify, object) {
             + $('#bigbedUrlInput').val() + '\'\n})';
     var name = modify ? object.name : $("#bigbedNameInput").val();
     var info = modify ? object.description : $('#bigbedInfoInput').val();
-    var track = {name: name, description: info, data: trackString};
-    // Add to list
-    var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
-    $('#bigbedTracks').append(listItem);
-    bigbed.push(track);
-    trackCount++;
-    console.log(tracks);
+    var valid = checkTrack('bigbed');
+    if (valid == true) {
+        var track = {name: name, description: info, data: trackString};
+        //Add to track list
+        var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+        $('#bigbedTracks').append(listItem);
+        bigbed.push(track);
+        trackCount++;
+        console.log(trackString);
+        $('.modal').modal('hide');
+        $('#collapseBIGBED').collapse('show');
+    }
 }
 
 function addBamTrack(modify, object) {
@@ -156,32 +267,48 @@ function addBamTrack(modify, object) {
     trackString = trackString + '\n})';
     var name = modify ? object.name : $("#bamNameInput").val();
     var info = modify ? object.description : $('#bamInfoInput').val();
-    var track = {name: name, description: info, data: trackString};
-    // Add to list
-    var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
-    $('#bamTracks').append(listItem);
-    bam.push(track);
-    trackCount++;
-    console.log(tracks);
+    var valid = checkTrack('bam');
+    if (valid == true) {
+        var track = {name: name, description: info, data: trackString};
+        //Add to track list
+        var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+        $('#bamTracks').append(listItem);
+        bam.push(track);
+        trackCount++;
+        console.log(trackString);
+        $('.modal').modal('hide');
+        $('#collapseBAM').collapse('show');
+    }
 }
 
 function addGffTrack(modify, object) {
     console.log('gff track added');
     var trackString = modify ? object.data : 'Genoverse.Track.File.GFF.extend({\nname: \''
             + $('#gffNameInput').val() + '\',\ninfo: \''
-            + $('#gffInfoInput').val() + '\',\nurl: \''
-            + $('#gffUrlInput').val() + '\'';
+            + $('#gffInfoInput').val() + '\',\n' +
+            'model: Genoverse.Track.Model.File.GFF.extend({\n' +
+            'url: \'http://localhost:4000/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix\',\n' +
+            'urlParams: {file: \'' + $('#gffUrlInput').val() + '\'}\n' +
+            '})';
     // Add other variable parameters
+    if (!modify & $('#gffThresholdInput').val() != '') {
+        trackString = trackString + ',\nthreshold: ' + $('#gffThresholdInput').val();
+    }
     trackString = trackString + '\n})';
     var name = modify ? object.name : $("#gffNameInput").val();
     var info = modify ? object.description : $('#gffInfoInput').val();
-    var track = {name: name, description: info, data: trackString};
-    // Add to list
-    var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
-    $('#gffTracks').append(listItem);
-    gff.push(track);
-    trackCount++;
-    console.log(tracks);
+    var valid = checkTrack('gff');
+    if (valid == true) {
+        var track = {name: name, description: info, data: trackString};
+        //Add to track list
+        var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+        $('#gffTracks').append(listItem);
+        gff.push(track);
+        trackCount++;
+        console.log(trackString);
+        $('.modal').modal('hide');
+        $('#collapseGFF').collapse('show');
+    }
 }
 
 function addVcfTrack(modify, object) {
@@ -201,13 +328,18 @@ function addVcfTrack(modify, object) {
     }
     var name = modify ? object.name : $("#vcfNameInput").val();
     var info = modify ? object.description : $('#vcfInfoInput').val();
-    var track = {name: name, description: info, data: trackString};
-    // Add to list
-    var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
-    $('#vcfTracks').append(listItem);
-    vcf.push(track);
-    trackCount++;
-    console.log(tracks);
+    var valid = checkTrack('vcf');
+    if (valid == true) {
+        var track = {name: name, description: info, data: trackString};
+        //Add to track list
+        var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+        $('#vcfTracks').append(listItem);
+        vcf.push(track);
+        trackCount++;
+        console.log(trackString);
+        $('.modal').modal('hide');
+        $('#collapseVCF').collapse('show');
+    }
 }
 
 function addWigTrack(modify, object) {
@@ -218,13 +350,18 @@ function addWigTrack(modify, object) {
             + $('#wigUrlInput').val() + '\'\n})';
     var name = modify ? object.name : $("#wigNameInput").val();
     var info = modify ? object.description : $('#wigInfoInput').val();
-    var track = {name: name, description: info, type: 'wig', data: trackString};
-    // Add to list
-    var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
-    $('#wigTracks').append(listItem);
-    wig.push(track);
-    trackCount++;
-    console.log(tracks);
+    var valid = checkTrack('wig');
+    if (valid == true) {
+        var track = {name: name, description: info, data: trackString};
+        //Add to track list
+        var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+        $('#wigTracks').append(listItem);
+        wig.push(track);
+        trackCount++;
+        console.log(trackString);
+        $('.modal').modal('hide');
+        $('#collapseWIG').collapse('show');
+    }
 }
 
 function addBigwigTrack(modify, object) {
@@ -235,13 +372,75 @@ function addBigwigTrack(modify, object) {
             + $('#bigwigUrlInput').val() + '\'\n})';
     var name = modify ? object.name : $('#bigwigNameInput').val();
     var info = modify ? object.description : $('#bigwigInfoInput').val();
-    var track = {name: name, description: info, type: 'bigwig', data: trackString};
+    var valid = checkTrack('bigwig');
+    if (valid == true) {
+        var track = {name: name, description: info, data: trackString};
+        //Add to track list
+        var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+        $('#bigwigTracks').append(listItem);
+        bigwig.push(track);
+        trackCount++;
+        console.log(trackString);
+        $('.modal').modal('hide');
+        $('#collapseBIGWIG').collapse('show');
+    }
+}
+
+function addSnpDensityTrack(modify, object) {
+    console.log('snp density tracks added');
+    // Make heterozygous track
+    var trackStringHet = modify ? object.data : 'Genoverse.Track.HeteroSNPDensity.extend({\nname: \''
+            + $('#hetSnpDensityNameInput').val() + '\',\ninfo: \''
+            + $('#hetSnpDensityInfoInput').val() + '\',\nurl: \''
+            + $('#snpDensityUrlInput').val() + '\'\n})';
+    var nameHet = modify ? object.name : $('#hetSnpDensityNameInput').val();
+    var infoHet = modify ? object.description : $('#hetSnpDensityInfoInput').val();
+    var trackHet = {name: nameHet, description: infoHet, type: 'snpDensity', data: trackStringHet};
+    // Make homozygous track
+    var trackStringHom = modify ? object.data : 'Genoverse.Track.HomoSNPDensity.extend({\nname: \''
+            + $('#homSnpDensityNameInput').val() + '\',\ninfo: \''
+            + $('#homSnpDensityInfoInput').val() + '\',\nurl: \''
+            + $('#snpDensityUrlInput').val() + '\'\n})';
+    var nameHom = modify ? object.name : $('#homSnpDensityNameInput').val();
+    var infoHom = modify ? object.description : $('#homSnpDensityInfoInput').val();
+    var trackHom = {name: nameHom, description: infoHom, type: 'snpDensity', data: trackStringHom};
     // Add to list
-    var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
-    $('#bigwigTracks').append(listItem);
-    bigwig.push(track);
-    trackCount++;
-    console.log(tracks);
+    var valid = checkSnpDensityTrack(nameHet, nameHom, infoHet, infoHom, $('#snpDensityUrlInput').val());
+    if (valid == true) {
+        //Add to track list
+        var listItem = '<div id= "L' + trackCount + '" ></br><li>' + nameHet + '/' + nameHom + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+        $('#snpDensityTracks').append(listItem);
+        snpDensity.push(trackHet);
+        snpDensity.push(trackHom);
+        trackCount++;
+        console.log(trackStringHom);
+        console.log(trackStringHet);
+        $('.modal').modal('hide');
+        $('#collapseSNPDensity').collapse('show');
+    }
+}
+
+function addGeneExpressionTrack(modify, object) {
+    console.log('gene expression track added');
+    var trackString = modify ? object.data : 'Genoverse.Track.GeneExpression.extend({\nname: \''
+            + $('#geneExpressionNameInput').val() + '\',\ninfo: \''
+            + $('#geneExpressionInfoInput').val() + '\',\nrsemUrl: \''
+            + $('#geneExpressionRsemUrlInput').val() + '\',\ngffUrl: \''
+            + $('#geneExpressionGffUrlInput').val() + '\'\n})';
+    var name = modify ? object.name : $('#geneExpressionNameInput').val();
+    var info = modify ? object.description : $('#geneExpressionInfoInput').val();
+    var valid = checkGeneExpressionTrack(name, info, $('#geneExpressionRsemUrlInput').val(), $('#geneExpressionGffUrlInput').val());
+    if (valid == true) {
+        var track = {name: name, description: info, data: trackString};
+        //Add to track list
+        var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+        $('#geneExpressionTracks').append(listItem);
+        geneExpression.push(track);
+        trackCount++;
+        console.log(trackString);
+        $('.modal').modal('hide');
+        $('#collapseGeneExpression').collapse('show');
+    }
 }
 
 function findSpecies() {
@@ -250,10 +449,18 @@ function findSpecies() {
     return species[species.selectedIndex].value;
 }
 
+
+     /////////////////////////////////////
+     //           SUMBIT FORM           //
+     /////////////////////////////////////
+
 // Check the form when click on the button submit
 function validate(modify) {
-
+    
     var valide = true;
+
+    // Upload genome file if there is one chosen
+    uploadGenome();
 
     // Get all the inputs of the chromosome
     var inputs = document.querySelectorAll("#inputs input");
@@ -314,7 +521,7 @@ function validate(modify) {
             data.end = inputs[4].value;
             data.tracks = tracksSelected;
             console.log(data);
-            sendData(data, 'http://localhost:4000/modify');
+            sendData(data, 'http://localhost:5500/modify');
 
         } else {
             var data = {};
@@ -327,10 +534,10 @@ function validate(modify) {
             data.end = inputs[4].value;
             data.tracks = tracksSelected;
             console.log(data);
-            sendData(data, 'http://localhost:4000/instance');
+            sendData(data, 'http://localhost:5500/instance');
         }
     } else {
-        alert('Fill properly the form');
+        alert('Please fill in the form correctly');
     }
 
 }
@@ -441,3 +648,136 @@ check['species'] = function (value) {
         return false;
     }
 };
+
+
+     /////////////////////////////////////
+     //   CHECK INPUTS OF TRACK FORMS   //
+     /////////////////////////////////////
+
+
+function checkTrack(track){
+var valid = true ;
+    if ($('#' + track + 'NameInput').val() == ''){
+        valid = false ;
+        $('#' + track + 'NameInput').css({'background-color' : "rgba(255,0,51,0.6)"});
+    } else {
+        $('#' + track + 'NameInput').css({'background-color' : "white"});
+    }
+    if ($('#' + track + 'InfoInput').val() == '') {
+        valid = false ;
+        $('#' + track + 'InfoInput').css({'background-color' : "rgba(255,0,51,0.6)"});
+    } else {
+        $('#' + track + 'InfoInput').css({'background-color' : "white"});
+    }
+    if ($('#' + track + 'UrlInput').val() == '') {
+        valid = false ;
+        $('#' + track + 'UrlInput').css({'background-color' : "rgba(255,0,51,0.6)"});
+    } else {
+        $('#' + track + 'UrlInput').css({'background-color' : "white"});
+    }
+    if ($('#' + track + 'ThresholdInput')) {
+        if (Number($('#' + track + 'ThresholdInput').val()) > 10000) {
+            valid = false ;
+            $('#' + track + 'ThresholdInput').css({'background-color' : "rgba(255,0,51,0.6)"});
+        } else {
+            $('#' + track + 'ThresholdInput').css({'background-color' : "white"});
+        }
+    }
+    if ($('#' + track + 'MaxqualInput')) {
+        if (Number($('#' + track + 'MaxqualInput').val()) > 10000) {
+            valid = false ;
+            $('#' + track + 'MaxqualInput').css({'background-color' : "rgba(255,0,51,0.6)"});
+        } else {
+            $('#' + track + 'MaxqualInput').css({'background-color' : "white"});
+        }
+    }
+    return valid;
+}
+
+
+function checkSnpDensityTrack(nameHet, nameHom, infoHet, infoHom, url){
+var valid = true ;
+    if (nameHet == ''){
+        valid = false ;
+        $("#hetSnpDensityNameInput").css({'background-color' : "rgba(255,0,51,0.6)"});
+    } else {
+        $("#hetSnpDensityNameInput").css({'background-color' : "white"});
+    }
+    if (infoHet == '') {
+        valid = false ;
+        $("#hetSnpDensityInfoInput").css({'background-color' : "rgba(255,0,51,0.6)"});
+    } else {
+        $("#hetSnpDensityInfoInput").css({'background-color' : "white"});
+    }
+    if (nameHom == ''){
+        valid = false ;
+        $("#homSnpDensityNameInput").css({'background-color' : "rgba(255,0,51,0.6)"});
+    } else {
+        $("#homSnpDensityNameInput").css({'background-color' : "white"});
+    }
+    if (infoHom == '') {
+        valid = false ;
+        $("#homSnpDensityInfoInput").css({'background-color' : "rgba(255,0,51,0.6)"});
+    } else {
+        $("#homSnpDensityInfoInput").css({'background-color' : "white"});
+    }
+    if (url == '') {
+        valid = false ;
+        $('#snpDensityUrlInput').css({'background-color' : "rgba(255,0,51,0.6)"});
+    } else {
+        $("#snpDensityUrlInput").css({'background-color' : "white"});
+    }
+    return valid;
+}
+
+function checkGeneExpressionTrack(name, info, rsemUrl, gffUrl){
+var valid = true ;
+    if (name == ''){
+        valid = false ;
+        $("#geneExpressionNameInput").css({'background-color' : "rgba(255,0,51,0.6)"});
+    } else {
+        $("#geneExpressionNameInput").css({'background-color' : "white"});
+    }
+    if (info == '') {
+        valid = false ;
+        $("#geneExpressionInfoInput").css({'background-color' : "rgba(255,0,51,0.6)"});
+    } else {
+        $("#geneExpressionInfoInput").css({'background-color' : "white"});
+    }
+    if (rsemUrl == '') {
+        valid = false ;
+        $('#geneExpressionRsemUrlInput').css({'background-color' : "rgba(255,0,51,0.6)"});
+    } else {
+        $('#geneExpressionRsemUrlInput').css({'background-color' : "white"});
+    }
+    if (gffUrl == '') {
+        valid = false ;
+        $('#geneExpressionGffUrlInput').css({'background-color' : "rgba(255,0,51,0.6)"});
+    } else {
+        $('#geneExpressionGffUrlInput').css({'background-color' : "white"});
+    }
+    return valid;
+}
+
+function checkCustomTrack(name, info, trackString){
+var valid = true ;
+    if (name == ''){
+        valid = false ;
+        $("#customNameInput").css({'background-color' : "rgba(255,0,51,0.6)"});
+    } else {
+        $("#customNameInput").css({'background-color' : "white"});
+    }
+    if (info == '') {
+        valid = false ;
+        $("#customInfoInput").css({'background-color' : "rgba(255,0,51,0.6)"});
+    } else {
+        $("#customInfoInput").css({'background-color' : "white"});
+    }
+    if (trackString == '') {
+        valid = false ;
+        $('#customText').css({'background-color' : "rgba(255,0,51,0.6)"});
+    } else {
+        $("#customText").css({'background-color' : "white"});
+    }
+    return valid;
+}
