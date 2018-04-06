@@ -2,17 +2,18 @@ var $ = jQuery;
 var global_url = location.protocol + '//' + location.host;
 var object = document.currentScript.getAttribute('data');
 var data = JSON.parse(object);
-var nameTracks = ["Scalebar", "Chromosome", "Ensembl Genes", "Ensembl Sequence", "dbSNPs", "FASTA", "BED", "BIGBED", "BAM", "GFF", "VCF", "WIG", "BIGWIG", "SNP Density", "Gene Expression", "Custom Track"];
+var nameTracks = ["Scalebar", "Chromosome", "FASTA", "BED", "BIGBED", "BAM", "GFF", "VCF", "WIG", "BIGWIG", "SNP Density", "Gene Expression", "Custom Track", "Ensembl Genes", "Ensembl Sequence", "dbSNPs"];
 var tracks = [
     scalebar = [{name: "scalebar", description: "display the scalebar", data: "Genoverse.Track.Scalebar"}],
     chromosome = [{name: "chromosome", description: "display the chromosome", data: 'Genoverse.Track.Chromosome'}],
-    gene = [], sequence = [], dbSNP = [], fasta = [], bed = [], bigbed = [], bam = [], gff = [], vcf = [], wig = [], bigwig = [], snpDensity = [], geneExpression = [], custom = []
+    fasta = [], bed = [], bigbed = [], bam = [], gff = [], vcf = [], wig = [], bigwig = [], snpDensity = [], geneExpression = [], custom = [], gene = [], sequence = [], dbSNP = []
 ];
 var trackCount = 0;
 
 function loadTracks() {
     var tracksLength = data.tracks.length;
-    for (var i = 4; i < tracksLength; i++) {
+    console.log(data.tracks);
+    for (var i = 5; i < tracksLength; i++) {
         currentTrack = data.tracks[i];
         for (var j in currentTrack.trackChildren) {
             switch (currentTrack.group) {
@@ -64,9 +65,9 @@ function toggleSpecies() {
     $("#upload").toggle();
     if ($("#upload").is(':visible')) {
         $("#ensembl-only-tracks").hide();
-        $("#gene_id").prop("checked", false) ;
-        $("#seq_id").prop("checked", false) ;
-        $("#snp_id").prop("checked", false) ;
+        $("#gene_id").prop("checked", false);
+        $("#seq_id").prop("checked", false);
+        $("#snp_id").prop("checked", false);
     }
     if ($("#ensembl").is(':visible')) {
         $("#ensembl-only-tracks").show();
@@ -74,29 +75,29 @@ function toggleSpecies() {
 }
 
 // UPLOAD GENOME FILE
-$(function() {
-  // Attach the `fileselect` event to genome file input
-   $(document).on('change', ':file', function() {
-    var filechoice = $(this);
+$(function () {
+    // Attach the `fileselect` event to genome file input
+    $(document).on('change', ':file', function () {
+        var filechoice = $(this);
         label = filechoice.val().replace(/\\/g, '/').replace(/.*\//, '');
-    filechoice.trigger('fileselect', [label]);
-  });
-  // We can watch for our custom `fileselect` event like this
-  $(document).ready( function() {
-      $(':file').on('fileselect', function(event, label) {
-          var filechoice = $(this).parents('#upload.input-group').find(':text'),
-              log = label;
-          if( filechoice.length ) {
-              filechoice.val(log);
-          }
-      });
-  });
+        filechoice.trigger('fileselect', [label]);
+    });
+    // We can watch for our custom `fileselect` event like this
+    $(document).ready(function () {
+        $(':file').on('fileselect', function (event, label) {
+            var filechoice = $(this).parents('#upload.input-group').find(':text'),
+                    log = label;
+            if (filechoice.length) {
+                filechoice.val(log);
+            }
+        });
+    });
 });
 
 
 function uploadGenome() {
     var file = $(':file')[0].files[0];
-  }
+}
 
 
 function removeTrack(item) {
@@ -116,9 +117,9 @@ function removeTrack(item) {
 }
 
 
-     /////////////////////////////////////
-     //          ADD NEW TRACKS         //
-     /////////////////////////////////////
+/////////////////////////////////////
+//          ADD NEW TRACKS         //
+/////////////////////////////////////
 
 function addGeneTrack() {
     var species = findSpecies();
@@ -172,6 +173,8 @@ function addCustomTrack(modify, track) {
     var info = $("#customInfoInput").val();
     var trackString = $('#customText').val();
     var valid = checkCustomTrack(name, info, trackString);
+    if (modify)
+        valid = true;
     if (valid == true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -202,7 +205,9 @@ function addFastaTrack(modify, object) {
     var name = modify ? object.name : $("#fastaNameInput").val();
     var info = modify ? object.description : $('#fastaInfoInput').val();
     var valid = checkTrack('fasta');
-    if (valid == true) {
+    if (modify)
+        valid = true;
+    if (valid === true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
         var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
@@ -224,7 +229,9 @@ function addBedTrack(modify, object) {
     var name = modify ? object.name : $("#bedNameInput").val();
     var info = modify ? object.description : $('#bedInfoInput').val();
     var valid = checkTrack('bed');
-    if (valid == true) {
+    if (modify)
+        valid = true;
+    if (valid === true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
         var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
@@ -246,7 +253,9 @@ function addBigbedTrack(modify, object) {
     var name = modify ? object.name : $("#bigbedNameInput").val();
     var info = modify ? object.description : $('#bigbedInfoInput').val();
     var valid = checkTrack('bigbed');
-    if (valid == true) {
+    if (modify)
+        valid = true;
+    if (valid === true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
         var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
@@ -269,6 +278,8 @@ function addBamTrack(modify, object) {
     var name = modify ? object.name : $("#bamNameInput").val();
     var info = modify ? object.description : $('#bamInfoInput').val();
     var valid = checkTrack('bam');
+    if (modify)
+        valid = true;
     if (valid == true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -299,6 +310,8 @@ function addGffTrack(modify, object) {
     var name = modify ? object.name : $("#gffNameInput").val();
     var info = modify ? object.description : $('#gffInfoInput').val();
     var valid = checkTrack('gff');
+    if (modify)
+        valid = true;
     if (valid == true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -319,17 +332,19 @@ function addVcfTrack(modify, object) {
             + $('#vcfInfoInput').val() + '\',\nurl: \''
             + $('#vcfUrlInput').val() + '\'';
     if (!modify & $('#vcfThresholdInput').val() != '') {
-        trackString = trackString + ',\nthreshold: ' + $('#vcfThresholdInput').val();
+        trackString += ',\nthreshold: ' + $('#vcfThresholdInput').val();
     }
     if (!modify & $('#vcfMaxqualInput').val() != '') {
-        trackString = trackString + ',\nmaxQual: ' + $('#vcfMaxqualInput').val();
+        trackString += ',\nmaxQual: ' + $('#vcfMaxqualInput').val();
     }
     if (!modify) {
-        trackString = trackString + '\n})';
+        trackString += '\n})';
     }
     var name = modify ? object.name : $("#vcfNameInput").val();
     var info = modify ? object.description : $('#vcfInfoInput').val();
     var valid = checkTrack('vcf');
+    if (modify)
+        valid = true;
     if (valid == true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -352,6 +367,8 @@ function addWigTrack(modify, object) {
     var name = modify ? object.name : $("#wigNameInput").val();
     var info = modify ? object.description : $('#wigInfoInput').val();
     var valid = checkTrack('wig');
+    if (modify)
+        valid = true;
     if (valid == true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -374,6 +391,8 @@ function addBigwigTrack(modify, object) {
     var name = modify ? object.name : $('#bigwigNameInput').val();
     var info = modify ? object.description : $('#bigwigInfoInput').val();
     var valid = checkTrack('bigwig');
+    if (modify)
+        valid = true;
     if (valid == true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -407,6 +426,8 @@ function addSnpDensityTrack(modify, object) {
     var trackHom = {name: nameHom, description: infoHom, type: 'snpDensity', data: trackStringHom};
     // Add to list
     var valid = checkSnpDensityTrack(nameHet, nameHom, infoHet, infoHom, $('#snpDensityUrlInput').val());
+    if (modify)
+        valid = true;
     if (valid == true) {
         //Add to track list
         var listItem = '<div id= "L' + trackCount + '" ></br><li>' + nameHet + '/' + nameHom + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
@@ -431,6 +452,8 @@ function addGeneExpressionTrack(modify, object) {
     var name = modify ? object.name : $('#geneExpressionNameInput').val();
     var info = modify ? object.description : $('#geneExpressionInfoInput').val();
     var valid = checkGeneExpressionTrack(name, info, $('#geneExpressionRsemUrlInput').val(), $('#geneExpressionGffUrlInput').val());
+    if (modify)
+        valid = true;
     if (valid == true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -451,13 +474,13 @@ function findSpecies() {
 }
 
 
-     /////////////////////////////////////
-     //           SUMBIT FORM           //
-     /////////////////////////////////////
+/////////////////////////////////////
+//           SUMBIT FORM           //
+/////////////////////////////////////
 
 // Check the form when click on the button submit
 function validate(modify) {
-    
+
     var valide = true;
 
     // Upload genome file if there is one chosen
@@ -491,11 +514,14 @@ function validate(modify) {
     }
 
     // Get all the tracks selected
-    var tracksElement = document.querySelectorAll("#tracks .list-group-item input");
+    var tracksElement = document.querySelectorAll("#tracks .list-group-item input, #ensembl-tracks .list-group-item input");
     var tracksLength = tracksElement.length;
     var tracksSelected = [];
+    
     addDbsnpTrack();
     addGeneTrack();
+    addSequenceTrack();
+    
     for (var i = 0; i < tracksLength; i++) {
         if (tracksElement[i].checked) {
             tracksSelected.push({group: nameTracks[i], checked: true, trackChildren: tracks[i]});
@@ -651,134 +677,134 @@ check['species'] = function (value) {
 };
 
 
-     /////////////////////////////////////
-     //   CHECK INPUTS OF TRACK FORMS   //
-     /////////////////////////////////////
+/////////////////////////////////////
+//   CHECK INPUTS OF TRACK FORMS   //
+/////////////////////////////////////
 
 
-function checkTrack(track){
-var valid = true ;
-    if ($('#' + track + 'NameInput').val() == ''){
-        valid = false ;
-        $('#' + track + 'NameInput').css({'background-color' : "rgba(255,0,51,0.6)"});
+function checkTrack(track) {
+    var valid = true;
+    if ($('#' + track + 'NameInput').val() == '') {
+        valid = false;
+        $('#' + track + 'NameInput').css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
-        $('#' + track + 'NameInput').css({'background-color' : "white"});
+        $('#' + track + 'NameInput').css({'background-color': "white"});
     }
     if ($('#' + track + 'InfoInput').val() == '') {
-        valid = false ;
-        $('#' + track + 'InfoInput').css({'background-color' : "rgba(255,0,51,0.6)"});
+        valid = false;
+        $('#' + track + 'InfoInput').css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
-        $('#' + track + 'InfoInput').css({'background-color' : "white"});
+        $('#' + track + 'InfoInput').css({'background-color': "white"});
     }
     if ($('#' + track + 'UrlInput').val() == '') {
-        valid = false ;
-        $('#' + track + 'UrlInput').css({'background-color' : "rgba(255,0,51,0.6)"});
+        valid = false;
+        $('#' + track + 'UrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
-        $('#' + track + 'UrlInput').css({'background-color' : "white"});
+        $('#' + track + 'UrlInput').css({'background-color': "white"});
     }
     if ($('#' + track + 'ThresholdInput')) {
         if (Number($('#' + track + 'ThresholdInput').val()) > 10000) {
-            valid = false ;
-            $('#' + track + 'ThresholdInput').css({'background-color' : "rgba(255,0,51,0.6)"});
+            valid = false;
+            $('#' + track + 'ThresholdInput').css({'background-color': "rgba(255,0,51,0.6)"});
         } else {
-            $('#' + track + 'ThresholdInput').css({'background-color' : "white"});
+            $('#' + track + 'ThresholdInput').css({'background-color': "white"});
         }
     }
     if ($('#' + track + 'MaxqualInput')) {
         if (Number($('#' + track + 'MaxqualInput').val()) > 10000) {
-            valid = false ;
-            $('#' + track + 'MaxqualInput').css({'background-color' : "rgba(255,0,51,0.6)"});
+            valid = false;
+            $('#' + track + 'MaxqualInput').css({'background-color': "rgba(255,0,51,0.6)"});
         } else {
-            $('#' + track + 'MaxqualInput').css({'background-color' : "white"});
+            $('#' + track + 'MaxqualInput').css({'background-color': "white"});
         }
     }
     return valid;
 }
 
 
-function checkSnpDensityTrack(nameHet, nameHom, infoHet, infoHom, url){
-var valid = true ;
-    if (nameHet == ''){
-        valid = false ;
-        $("#hetSnpDensityNameInput").css({'background-color' : "rgba(255,0,51,0.6)"});
+function checkSnpDensityTrack(nameHet, nameHom, infoHet, infoHom, url) {
+    var valid = true;
+    if (nameHet == '') {
+        valid = false;
+        $("#hetSnpDensityNameInput").css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
-        $("#hetSnpDensityNameInput").css({'background-color' : "white"});
+        $("#hetSnpDensityNameInput").css({'background-color': "white"});
     }
     if (infoHet == '') {
-        valid = false ;
-        $("#hetSnpDensityInfoInput").css({'background-color' : "rgba(255,0,51,0.6)"});
+        valid = false;
+        $("#hetSnpDensityInfoInput").css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
-        $("#hetSnpDensityInfoInput").css({'background-color' : "white"});
+        $("#hetSnpDensityInfoInput").css({'background-color': "white"});
     }
-    if (nameHom == ''){
-        valid = false ;
-        $("#homSnpDensityNameInput").css({'background-color' : "rgba(255,0,51,0.6)"});
+    if (nameHom == '') {
+        valid = false;
+        $("#homSnpDensityNameInput").css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
-        $("#homSnpDensityNameInput").css({'background-color' : "white"});
+        $("#homSnpDensityNameInput").css({'background-color': "white"});
     }
     if (infoHom == '') {
-        valid = false ;
-        $("#homSnpDensityInfoInput").css({'background-color' : "rgba(255,0,51,0.6)"});
+        valid = false;
+        $("#homSnpDensityInfoInput").css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
-        $("#homSnpDensityInfoInput").css({'background-color' : "white"});
+        $("#homSnpDensityInfoInput").css({'background-color': "white"});
     }
     if (url == '') {
-        valid = false ;
-        $('#snpDensityUrlInput').css({'background-color' : "rgba(255,0,51,0.6)"});
+        valid = false;
+        $('#snpDensityUrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
-        $("#snpDensityUrlInput").css({'background-color' : "white"});
+        $("#snpDensityUrlInput").css({'background-color': "white"});
     }
     return valid;
 }
 
-function checkGeneExpressionTrack(name, info, rsemUrl, gffUrl){
-var valid = true ;
-    if (name == ''){
-        valid = false ;
-        $("#geneExpressionNameInput").css({'background-color' : "rgba(255,0,51,0.6)"});
+function checkGeneExpressionTrack(name, info, rsemUrl, gffUrl) {
+    var valid = true;
+    if (name == '') {
+        valid = false;
+        $("#geneExpressionNameInput").css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
-        $("#geneExpressionNameInput").css({'background-color' : "white"});
+        $("#geneExpressionNameInput").css({'background-color': "white"});
     }
     if (info == '') {
-        valid = false ;
-        $("#geneExpressionInfoInput").css({'background-color' : "rgba(255,0,51,0.6)"});
+        valid = false;
+        $("#geneExpressionInfoInput").css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
-        $("#geneExpressionInfoInput").css({'background-color' : "white"});
+        $("#geneExpressionInfoInput").css({'background-color': "white"});
     }
     if (rsemUrl == '') {
-        valid = false ;
-        $('#geneExpressionRsemUrlInput').css({'background-color' : "rgba(255,0,51,0.6)"});
+        valid = false;
+        $('#geneExpressionRsemUrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
-        $('#geneExpressionRsemUrlInput').css({'background-color' : "white"});
+        $('#geneExpressionRsemUrlInput').css({'background-color': "white"});
     }
     if (gffUrl == '') {
-        valid = false ;
-        $('#geneExpressionGffUrlInput').css({'background-color' : "rgba(255,0,51,0.6)"});
+        valid = false;
+        $('#geneExpressionGffUrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
-        $('#geneExpressionGffUrlInput').css({'background-color' : "white"});
+        $('#geneExpressionGffUrlInput').css({'background-color': "white"});
     }
     return valid;
 }
 
-function checkCustomTrack(name, info, trackString){
-var valid = true ;
-    if (name == ''){
-        valid = false ;
-        $("#customNameInput").css({'background-color' : "rgba(255,0,51,0.6)"});
+function checkCustomTrack(name, info, trackString) {
+    var valid = true;
+    if (name == '') {
+        valid = false;
+        $("#customNameInput").css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
-        $("#customNameInput").css({'background-color' : "white"});
+        $("#customNameInput").css({'background-color': "white"});
     }
     if (info == '') {
-        valid = false ;
-        $("#customInfoInput").css({'background-color' : "rgba(255,0,51,0.6)"});
+        valid = false;
+        $("#customInfoInput").css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
-        $("#customInfoInput").css({'background-color' : "white"});
+        $("#customInfoInput").css({'background-color': "white"});
     }
     if (trackString == '') {
-        valid = false ;
-        $('#customText').css({'background-color' : "rgba(255,0,51,0.6)"});
+        valid = false;
+        $('#customText').css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
-        $("#customText").css({'background-color' : "white"});
+        $("#customText").css({'background-color': "white"});
     }
     return valid;
 }
