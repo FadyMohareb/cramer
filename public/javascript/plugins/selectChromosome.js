@@ -1,8 +1,8 @@
 Genoverse.Plugins.selectChromosome = function () {
     this.controls.push({
-        icon: '<i class="fa fa-list-ul"></i>',
+        icon: '<i class="fa fa-unsorted"></i>',
         'class': 'gv-select-chr',
-        name: 'Select chromosome',
+        name: 'Switch between chromosomes in the genome',
         action: function (browser) {
             var button = this;
 
@@ -39,13 +39,10 @@ Genoverse.Plugins.selectChromosome = function () {
                         for (var i = 0; i < count; i++) {
                             $('select').append('<option value="' + i + '">' + Object.keys(genome)[i] + '</option>');
                         }
-
                     }
                 });
 
-
                 chrList.empty().data('chromosomesList')();
-
 
                 $('#select').change(function () {
                     var index = $(this).val();

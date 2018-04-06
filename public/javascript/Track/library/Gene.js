@@ -18,7 +18,6 @@ Genoverse.Track.Gene = Genoverse.Track.extend({
         if (feature.feature_type === 'transcript') {
             menu.Gene = '<a target="_blank" href="http://www.ensembl.org/' + this.species + '/Gene/Summary?g=' + feature.Parent + '">' + feature.Parent + '</a>';
         }
-
         return menu;
     },
 
