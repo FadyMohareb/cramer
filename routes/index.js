@@ -12,7 +12,7 @@ router.get('/', function (req, res, next) {
             req.flash('error', 'Error while finding the instance in the database.');
             res.redirect('/');
         } else if (instance.length) {
-            if (fs.existsSync(dir + '/public/javascript/genomes/' + instance[0].genome + '.js')) {
+            if (fs.existsSync(dir + '/public/javascript/genomes/' + instance[0].genome.name + '.js')) {
                 console.log('Object loaded');
                 res.render('index', {object: instance[0]});
             } else {

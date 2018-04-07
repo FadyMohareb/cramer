@@ -25,7 +25,7 @@ console.log(trackConfig);
 
 new Genoverse({
     container: '#genoverse',
-    genome: data.genome,
+    genome: data.genome.name,
     chr: data.chr,
     start: data.start,
     end: data.end,
