@@ -97,7 +97,7 @@ $(function () {
 
 
 function uploadGenome() {
-    var file = $(':file')[0].files[0];
+    var file = $(':file')[0].files[0].name;
     return file;
 }
 
@@ -485,9 +485,6 @@ function validate(modify) {
 
     var valide = true;
 
-    // Upload genome file if there is one chosen
-    uploadGenome();
-
     // Get all the inputs of the chromosome
     var inputs = document.querySelectorAll("#inputs input");
     for (var i = 0; i < inputs.length; i++) {
@@ -498,7 +495,7 @@ function validate(modify) {
     }
 
     // Get the genome from Ensembl or file
-    var genomeSelected = $("#ensembl").is(':visible') ? findSpecies() : uploadGenome();
+    var genomeSelected = $("#ensembl").is(':visible') ? {name: findSpecies(), type: "ensembl"} : {name: uploadGenome(), type: "genome"};
     if (!check["genome"](genomeSelected))
         valide = false;
 

@@ -43,11 +43,11 @@ router.post('/', function (req, res, next) {
     async.parallel({
         valideGenome: function (callback) {
             setTimeout(function () {
-                var valideGenome = fs.existsSync(dir + '/public/javascript/genomes/' + obj.genome + '.js');
+                var genome = obj.genome.name;
+                var valideGenome = fs.existsSync(dir + '/public/javascript/genomes/' + genome + '.js');
                 if (!valideGenome) {
                     console.log('Genome Does Not Exist Yet');
-                    utils.createGenome(obj.genome);
-                    valideGenome = fs.existsSync(dir + '/public/javascript/genomes/' + obj.genome + '.js');
+                    utils.createGenome(genome);
                 } else {
                     console.log('Genome File Already Exists');
                 }

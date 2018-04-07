@@ -18,10 +18,15 @@ var pluginSchema = new mongoose.Schema({
     "id": {type: String, required: true}
 });
 
+var genomeSchema = new mongoose.Schema({
+    name: {type: String, required: true},
+    type: {type: String, required: true}
+});
+
 var GenoverseSchema = new mongoose.Schema({
     name: {type: String, required: true, index: {unique: true}},
     description: {type: String, required: true},
-    genome: {type: String, required: true},
+    genome: genomeSchema,
     chr: {type: String, required: true},
     start: {type: String, required: true},
     end: {type: String, required: true},
