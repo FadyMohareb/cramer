@@ -477,8 +477,12 @@ function findSpecies() {
 // Check the form when click on the button submit
 function validate(modify) {
     var ensemblVisible = $("#ensembl").is(':visible');
-    if (modify)
-        var doGenome = uploadGenome().name.includes(".js");
+
+    if (!ensemblVisible) {
+        var file = uploadGenome();
+        var doGenome = file.size ? true : false;
+    }
+
     var valide = true;
 
     // Get all the inputs of the chromosome
@@ -493,12 +497,16 @@ function validate(modify) {
     // Get the genome from Ensembl or file
     if (ensemblVisible) {
         var genomeSelected = {name: findSpecies(), type: "ensembl"};
-        if (!check["genome"](genomeSelected))
+        if (!check["species"](genomeSelected))
             valide = false;
     } else if (doGenome) {
-        var genomeSelected = {name: uploadGenome().name.slice(0, -3), type: "genome"};
+        var genomeSelected = {name: file.name.slice(0, -3), type: "genome"};
+        if (!check["genome"](genomeSelected, file.type.includes("javascript")))
+            valide = false;
     } else {
-        var genomeSelected = {name: uploadGenome().name, type: "genome"};
+        var genomeSelected = {name: file.name, type: "genome"};
+        if (!check["genome"](genomeSelected, true))
+            valide = false;
     }
 
     // Get all the plugins
@@ -689,9 +697,20 @@ check['end'] = function () {
     }
 };
 
-check['genome'] = function (value) {
-    var genome = $("#ensembl").is(':visible') ? document.getElementById("genomic-species-select") : document.getElementById("upload-input");
+check['species'] = function (value) {
+    var species = document.getElementById("genomic-species-select");
     if (value) {
+        species.style.background = "white";
+        return true;
+    } else {
+        species.style.backgroundColor = "rgba(255,0,51,0.6)";
+        return false;
+    }
+};
+
+check['genome'] = function (value, fileType) {
+    var genome = document.getElementById("upload-input");
+    if (value && fileType) {
         genome.style.background = "white";
         return true;
     } else {
@@ -699,7 +718,6 @@ check['genome'] = function (value) {
         return false;
     }
 };
-
 
 /////////////////////////////////////
 //   CHECK INPUTS OF TRACK FORMS   //
