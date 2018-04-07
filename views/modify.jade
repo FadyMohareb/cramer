@@ -43,11 +43,11 @@ html
                            else
                              option(value=species.id) #{species.display_name}
                     #upload.input-group(style='display:none')
-                           label.input-group-btn
-                             span.btn.btn-primary
-                               | Browse… 
-                               input(type='file', style='display: none;', accept=".js", multiple=false)
-                          input.form-control(id='upload-input', type='text', readonly='')
+                              label.input-group-btn
+                                 span.btn.btn-primary
+                                   | Browse… 
+                                   input(type='file', style='display: none;', accept=".js", multiple=false)
+                              input.form-control(id='upload-input', type='text', readonly='')
                 else
                     #ensembl(style='display:none')
                       select#genomic-species-select.form-control(name='species')

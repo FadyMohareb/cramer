@@ -291,7 +291,6 @@ function addBamTrack(modify, object) {
 }
 
 function addGffTrack(modify, object) {
-    console.log('gff track added');
     var trackString = modify ? object.data : 'Genoverse.Track.File.GFF.extend({\nname: \''
             + $('#gffNameInput').val() + '\',\ninfo: \''
             + $('#gffInfoInput').val() + '\',\n' +
@@ -303,7 +302,7 @@ function addGffTrack(modify, object) {
     if (!modify & $('#gffThresholdInput').val() !== '') {
         trackString = trackString + ',\nthreshold: ' + $('#gffThresholdInput').val();
     }
-    trackString = trackString + '\n})';
+    trackString = modify ? trackString : trackString + '\n})';
     var name = modify ? object.name : $("#gffNameInput").val();
     var info = modify ? object.description : $('#gffInfoInput').val();
     var valid = checkTrack('gff');
