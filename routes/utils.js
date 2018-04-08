@@ -1,5 +1,6 @@
 var dir = process.cwd();
 var passport = require('passport');
+var fs = require('fs');
 
 module.exports = {
 
@@ -17,7 +18,7 @@ module.exports = {
             });
             response.on('end', function () {
                 try {
-                    require('fs').writeFile(dir + '/public/javascript/genomes/' + genome + '.js', 'Genoverse.Genomes.' + genome + ' = ' + JSON.stringify(JSON.parse(str).top_level_region.filter(function (d) {
+                    fs.writeFile(dir + '/public/javascript/genomes/' + genome + '.js', 'Genoverse.Genomes.' + genome + ' = ' + JSON.stringify(JSON.parse(str).top_level_region.filter(function (d) {
                         return d.coord_system === 'chromosome';
                     }).map(function (d) {
                         return [
@@ -36,11 +37,14 @@ module.exports = {
                     });
                 } catch (e) {
                     console.log(e.message);
+                    return [e, null];
                 }
             });
         }).on('error', function (e) {
             console.log(`Got error: ${e.message}`);
+            return [e, null];
         }).end();
+        return [null, true];
     },
 
     updateSpecies: function () {
@@ -58,7 +62,7 @@ module.exports = {
             });
             response.on('end', function () {
                 try {
-                    require('fs').writeFile(dir + '/public/javascript/genomes/list-species.js', "module.exports = {Species :" + JSON.stringify(JSON.parse(str).species.map(function (d) {
+                    fs.writeFile(dir + '/public/javascript/genomes/list-species.js', "module.exports = {Species :" + JSON.stringify(JSON.parse(str).species.map(function (d) {
                         return [
                             d.name, {
                                 display_name: d.display_name,
@@ -102,5 +106,16 @@ module.exports = {
             req.flash('warning', 'Please login to use this functionalities.');
             res.redirect('/login');
         }
+    },
+
+    createGenomeFromFile(filename, content) {
+        fs.writeFile(dir + '/public/javascript/genomes/' + filename, content, function (err) {
+            if (err) {
+                console.log(err);
+                return [err, false];
+            }
+        });
+        console.log("The file was saved!");
+        return [null, true];
     }
 };

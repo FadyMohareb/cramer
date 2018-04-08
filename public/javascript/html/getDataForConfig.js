@@ -540,43 +540,42 @@ function validate(modify) {
     }
 
     if (valide) {
-
-        if (!ensemblVisible && doGenome) {
-            var formData = new FormData();
-            formData.append('uploads[]', uploadGenome(), genomeSelected.name + '.js');
-            sendGenome(formData, global_url + '/instance/upload');
-        }
+        var data = {};
+        data.plugins = plugins;
+        data.genome = genomeSelected;
+        data.name = inputs[0].value;
+        data.description = inputs[1].value;
+        data.chromosome = inputs[2].value;
+        data.start = inputs[3].value;
+        data.end = inputs[4].value;
+        data.tracks = tracksSelected;
 
         if (modify) {
             var url = new URL(window.location.href);
             var previousName = url.searchParams.get("name");
-
-            var data = {};
             data.previous = previousName;
-            data.plugins = plugins;
-            data.genome = genomeSelected;
-            data.name = inputs[0].value;
-            data.description = inputs[1].value;
-            data.chromosome = inputs[2].value;
-            data.start = inputs[3].value;
-            data.end = inputs[4].value;
-            data.tracks = tracksSelected;
-            console.log(data);
-            sendData(data, global_url + '/modify');
 
+            if (doGenome) {
+                readFile(file, function (content) {
+                    data.file = {filename: file.name, content: content};
+                    console.log(data);
+                    sendData(data, global_url + '/modify');
+                });
+            } else {
+                console.log(data);
+                sendData(data, global_url + '/modify');
+            }
         } else {
-            var data = {};
-            data.plugins = plugins;
-            data.genome = genomeSelected;
-            data.name = inputs[0].value;
-            data.description = inputs[1].value;
-            data.chromosome = inputs[2].value;
-            data.start = inputs[3].value;
-            data.end = inputs[4].value;
-            data.tracks = tracksSelected;
-            console.log(data);
-            sendData(data, global_url + '/instance');
-
+            if (doGenome) {
+                readFile(file, function (content) {
+                    data.file = {filename: file.name, content: content};
+                    console.log(data);
+                    sendData(data, global_url + '/instance');
+                });
+            } else {
+                console.log(data);
+                sendData(data, global_url + '/instance');
+            }
         }
     } else {
         alert('Please fill in the form correctly');
@@ -584,22 +583,17 @@ function validate(modify) {
 
 }
 
-function sendGenome(data, url) {
-    console.log("Try to send the genome ");
-    console.log(data);
-    $.ajax({
-        url: url,
-        type: 'POST',
-        data: data,
-        processData: false,
-        contentType: false,
-        success: function (data) {
-            console.log('upload successful!\n' + data);
-        },
-        error: function () {
-            console.log('process error');
-        }
-    });
+function readFile(file, cb) { // We pass a callback as parameter
+    var content = "";
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+        content = reader.result;
+        // Content is ready, call the callback
+        cb(content);
+    };
+
+    reader.readAsText(file);
 }
 
 function sendData(data, url) {
@@ -765,31 +759,31 @@ function checkTrack(track) {
 
 function checkSnpDensityTrack(nameHet, nameHom, infoHet, infoHom, url) {
     var valid = true;
-    if (nameHet == '') {
+    if (nameHet === '') {
         valid = false;
         $("#hetSnpDensityNameInput").css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
         $("#hetSnpDensityNameInput").css({'background-color': "white"});
     }
-    if (infoHet == '') {
+    if (infoHet === '') {
         valid = false;
         $("#hetSnpDensityInfoInput").css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
         $("#hetSnpDensityInfoInput").css({'background-color': "white"});
     }
-    if (nameHom == '') {
+    if (nameHom === '') {
         valid = false;
         $("#homSnpDensityNameInput").css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
         $("#homSnpDensityNameInput").css({'background-color': "white"});
     }
-    if (infoHom == '') {
+    if (infoHom === '') {
         valid = false;
         $("#homSnpDensityInfoInput").css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
         $("#homSnpDensityInfoInput").css({'background-color': "white"});
     }
-    if (url == '') {
+    if (url === '') {
         valid = false;
         $('#snpDensityUrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
@@ -800,25 +794,25 @@ function checkSnpDensityTrack(nameHet, nameHom, infoHet, infoHom, url) {
 
 function checkGeneExpressionTrack(name, info, rsemUrl, gffUrl) {
     var valid = true;
-    if (name == '') {
+    if (name === '') {
         valid = false;
         $("#geneExpressionNameInput").css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
         $("#geneExpressionNameInput").css({'background-color': "white"});
     }
-    if (info == '') {
+    if (info === '') {
         valid = false;
         $("#geneExpressionInfoInput").css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
         $("#geneExpressionInfoInput").css({'background-color': "white"});
     }
-    if (rsemUrl == '') {
+    if (rsemUrl === '') {
         valid = false;
         $('#geneExpressionRsemUrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
         $('#geneExpressionRsemUrlInput').css({'background-color': "white"});
     }
-    if (gffUrl == '') {
+    if (gffUrl === '') {
         valid = false;
         $('#geneExpressionGffUrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
     } else {
