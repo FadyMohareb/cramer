@@ -654,7 +654,7 @@ check['chromosome'] = function () {
     var chrom = document.getElementById("chromosome-input");
 
     // Chromosome greater than 0 and not empty
-    if (parseInt(chrom.value) > 0 && chrom.value !== "") {
+    if (chrom.value !== "") {
         chrom.style.background = "white";
         return true;
     } else {

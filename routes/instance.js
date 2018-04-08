@@ -6,7 +6,6 @@ var path = require('path');
 var fs = require('fs');
 var GenoverseInstance = require('../models/GenoverseInstance.js');
 var utils = require('../routes/utils.js');
-var formidable = require('formidable');
 
 /* GET users listing. */
 router.get('/', utils.IsAuthenticated, function (req, res, next) {

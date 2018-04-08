@@ -3,6 +3,7 @@ var router = express.Router();
 var fs = require('fs');
 var dir = process.cwd();
 var GenoverseInstance = require('../models/GenoverseInstance.js');
+var utils = require('../routes/utils.js');
 
 /* GET genome page. */
 router.get('/', function (req, res, next) {
@@ -12,52 +13,47 @@ router.get('/', function (req, res, next) {
             req.flash('error', 'Error while finding the instance in the database.');
             res.redirect('/');
         } else if (instance.length) {
-            if (fs.existsSync(dir + '/public/javascript/genomes/' + instance[0].genome.name + '.js')) {
-                console.log('Object loaded');
-                res.render('index', {object: instance[0]});
-            } else {
-                console.log('Genome file does not exist');
+            console.log('Object loaded: SUCCESS');
+            var filepath = dir + '/public/javascript/genomes/' + instance[0].genome.name + '.js';
+            if (!fs.existsSync(filepath)) {
+                console.log('Genome File : ERROR -> it does not exist');
                 req.flash('error', 'Genome file does not exist.');
                 res.redirect('/');
+            } else if (utils.checkContentGenome(filepath)) {
+                console.log('Genome File : ERROR -> wrong content in the file');
+                req.flash('error', 'Wrong content in the genome file.');
+                res.redirect('/');
+            } else {
+                console.log("Genome File: SUCCESS");
+                res.render('index', {object: instance[0]});
             }
 
         }
     });
-
 });
-
 router.get('/request', function (req, res, next) {
 
     const {spawn} = require('child_process');
-
     var requestCorrect = true;
-
     res.writeHead(200);
-
     var file = req.query.file,
             chr = req.query.chr,
             start = req.query.start,
             end = req.query.end;
-
     if (file) {
         if (chr && start && end) {
             var command = req.query.type.match("faidx") ?
                     "/usr/bin/samtools faidx " + file + ' chr' + chr + ':' + start + '-' + end + ' | tail -n+2'
                     : "/usr/bin/tabix " + file + ' chr' + chr + ':' + start + '-' + end;
-
             const child = spawn("sh", ["-c", command]);
-
             child.stdout.on('data', function (data) {
                 console.log('stdout: ' + data);
             });
-
             child.stdout.pipe(res);
-
             child.stderr.on('data', function (data) {
                 console.log('stderr: ' + data);
                 res.end('stderr: ' + data);
             });
-
             child.on('close', function (code) {
                 console.log('child process exited with code ' + code);
             });
@@ -72,5 +68,4 @@ router.get('/request', function (req, res, next) {
     }
 
 });
-
 module.exports = router;
