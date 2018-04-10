@@ -12,7 +12,10 @@ Genoverse.Plugins.search = function () {
             var matchingGenes = [];
             var matchingPos = [];
             var featuresENS = [];
-            var featuresGFF = [] ;
+            var featuresGFF = [];
+            var ensIds = false;
+            var ensNames = false;
+            var gff = false;
             // If the control panel search button has already been clicked, it will close the search menu
             if ($(searchButton).hasClass('gv-active')) {
                 $('.gv-menu.gv-search-menu .gv-close').trigger('click');
@@ -38,25 +41,37 @@ Genoverse.Plugins.search = function () {
                     }
 
                     if (start < end) {
+                        $('#start-search').css({'background-color': "white"});
+                        $('#end-search').css({'background-color': "white"});
                         browser.moveTo(browser.chr, start, end, true);
                         $('.gv-menu.gv-search-menu .gv-close').trigger('click');
-                        if (gene != '') {
+
+                        ensIds = $(".gv-ens-ids-search").is(':checked');
+                        ensNames = $(".gv-ens-names-search").is(':checked');
+                        gff = $(".gv-gff-search").is(':checked');
+                        if (gene != '' && (ensIds || ensNames || gff)) {
 
                             window.setTimeout(function () {
-                                getMatchingGenes();
+                                getMatchingGenes(ensIds, ensNames, gff);
                                 var geneMenu = $(this).data('geneMenu');
                                 if (geneMenu) {
-                                    geneMenu.css("display", "none")
+                                    geneMenu.css("display", "none");
                                 } else {
-                                    geneMenu = makeGeneMenu()
+                                    geneMenu = makeGeneMenu();
                                 }
                                 $('.gv-gene-menu').draggable();
                                 // Get gene names and positions
                                 var geneNames = $('.gv-gene-names', geneMenu).data({
                                     listGenes: function () {
-                                        for (var i = 0; i < matchingGenes.length; i++) {
+                                        if (matchingGenes.length > 1) {
+                                            for (var i = 0; i < matchingGenes.length; i++) {
+                                                $('<div>')
+                                                        .append('<li data-id="' + i + '">' + matchingGenes[i] + '</li>')
+                                                        .appendTo(geneNames);
+                                            }
+                                        } else {
                                             $('<div>')
-                                                    .append('<li data-id="' + i + '">' + matchingGenes[i] + '</li>')
+                                                    .append('<li>' + 'No matching genes' + '</li>')
                                                     .appendTo(geneNames);
                                         }
                                     }});
@@ -91,6 +106,9 @@ Genoverse.Plugins.search = function () {
                                 $(this).data('geneMenu', geneMenu);
                             }, 500);
                         }
+                    } else {
+                        $('#start-search').css({'background-color': "rgba(255,0,51,0.6)"});
+                        $('#end-search').css({'background-color': "rgba(255,0,51,0.6)"});
                     }
                 });
                 $('.gv-close', searchMenu).on('click', function () {
@@ -102,9 +120,12 @@ Genoverse.Plugins.search = function () {
 
             function makeSearchMenu() {
                 var searchMenu = browser.makeMenu({
-                    'Search by position:': 'Search by gene:',
-                    '<input id="start-search" placeholder="Start position">': '<input id="gene-name" placeholder="Gene">',
-                    '<input id="end-search" placeholder="End position">': 'Search: <div class="gv-gene-search-button gv-menu-button fa fa-arrow-circle-right"></div>'
+                    'Search inputs:': 'Search settings:',
+                    '<input class="gv-search-input" id="start-search" placeholder="Start position">': '<div class="gv-settings"> GFF file: <input class="gv-checkbox gv-gff-search" type="checkbox"></div>',
+                    '<input class="gv-search-input" id="end-search" placeholder="End position">': '<div class="gv-settings">Ensembl IDs: <input class="gv-checkbox gv-ens-ids-search" type="checkbox"></div>',
+                    '<input class="gv-search-input" id="gene-name" placeholder="Gene name/ID">': '<div class="gv-settings">Ensembl gene names: <input class="gv-checkbox gv-ens-names-search" type="checkbox"></div>',
+                    ' ': ' ',
+                    '': '<div class="gv-search-text">Search: <div class="gv-gene-search-button gv-menu-button fa fa-arrow-circle-right"></div></div>'
                 }).addClass('gv-search-menu');
                 return searchMenu;
             }
@@ -119,28 +140,35 @@ Genoverse.Plugins.search = function () {
             }
 
 
-            function getMatchingGenes() {
+            function getMatchingGenes(ensIds, ensNames, gff) {
                 for (var i = 0; i < browser.tracks.length; i++) {
-                    if (browser.tracks[i].id == "genes") { // for ensembl
+                    if ((ensNames || ensIds) && browser.tracks[i].id == "genes") { // for ensembl
                         featuresENS = browser.tracks[i].model.findFeatures(browser.chr, start, end);
                         for (var j = 0; j < featuresENS.length; j++) {
-                            if (featuresENS[j].external_name.includes(gene.toUpperCase()) || featuresENS[j].external_name.includes(gene.toLowerCase()) || featuresENS[j].external_name.includes(gene)) {
+                            if (ensNames && (featuresENS[j].external_name.includes(gene.toUpperCase()) || featuresENS[j].external_name.includes(gene.toLowerCase()) || featuresENS[j].external_name.includes(gene))) {
+                                console.log("searching ensembl gene names");
                                 matchingGenes.push(featuresENS[j].external_name);
                                 matchingPos.push(featuresENS[j].start + ' - ' + featuresENS[j].end);
                             }
-                            if (featuresENS[j].id.includes(gene.toUpperCase()) || featuresENS[j].id.includes(gene.toLowerCase()) || featuresENS[j].external_name.includes(gene)) {
+                            if (ensIds && (featuresENS[j].id.includes(gene.toUpperCase()) || featuresENS[j].id.includes(gene.toLowerCase()) || featuresENS[j].external_name.includes(gene))) {
+                                console.log("searching ensembl ids");
                                 matchingGenes.push(featuresENS[j].id);
                                 matchingPos.push(featuresENS[j].start + ' - ' + featuresENS[j].end);
                             }
                         }
-                    } else if (browser.tracks[i].id == "gff") { // for gff
+                    } else if (gff && browser.tracks[i].id == "gff") { // for gff
                         featuresGFF = browser.tracks[i].model.findFeatures(browser.chr, start, end);
                         for (var j = 0; j < featuresGFF.length; j++) {
                             if (featuresGFF[j].id.includes(gene.toUpperCase()) || featuresGFF[j].id.includes(gene.toLowerCase()) || featuresGFF[j].id.includes(gene)) {
                                 matchingGenes.push(featuresGFF[j].id);
                                 matchingPos.push(featuresGFF[j].start + ' - ' + featuresGFF[j].end);
                             }
-                        } 
+                            //for (var j = 0; j < browser.tracks[i].model.genes.geneIds.length; j++) {
+                            //    if (browser.tracks[i].model.genes.geneIds[j].includes(gene.toUpperCase()) || browser.tracks[i].model.genes.geneIds[j].includes(gene.toLowerCase()) || browser.tracks[i].model.genes.geneIds[j].includes(gene)) {
+                            //        matchingGenes.push(browser.tracks[i].model.genes.geneIds[j]);
+                            //       matchingPos.push(browser.tracks[i].model.genes.chrs[j] + ':' + browser.tracks[i].model.genes.starts[j] + ' - ' + browser.tracks[i].model.genes.ends[j]);
+                            //   }
+                        }
                     }
                 }
 
