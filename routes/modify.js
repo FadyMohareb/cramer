@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var async = require('async');
 var dir = process.cwd();
+var path = require('path');
 var fs = require('fs');
 var GenoverseInstance = require('../models/GenoverseInstance.js');
 var utils = require('../routes/utils.js');
@@ -46,15 +47,20 @@ router.post('/', function (req, res, next) {
     async.parallel({
         valideGenome: function (callback) {
             setTimeout(function () {
-                var valideGenome = fs.existsSync(dir + '/public/javascript/genomes/' + obj.genome + '.js');
-                if (!valideGenome) {
-                    console.log('Genome Does Not Exist Yet');
-                    utils.createGenome(obj.genome);
-                    valideGenome = fs.existsSync(dir + '/public/javascript/genomes/' + obj.genome + '.js');
+                if (obj.genome.type === "ensembl") {
+                    var genome = obj.genome.name;
+                    console.log('Genome From Ensembl');
+                    var output = utils.createGenome(genome);
+                    callback(output[0], output[1]);
+                } else if (obj.file) {
+                    file = obj.file;
+                    console.log("Genome From File");
+                    var output = utils.createGenomeFromFile(file.filename, file.content);
+                    callback(output[0], output[1]);
                 } else {
-                    console.log('Genome File Already Exists');
+                    console.log("Genome Not Changed from File");
+                    callback(null, true);
                 }
-                callback(null, true);
             }, 10);
         },
         valideConfig: function (callback) {
@@ -65,7 +71,6 @@ router.post('/', function (req, res, next) {
                         throw err;
                     } else if (instance.length) {
                         console.log('Object loaded');
-                        console.log(instance);
                         instance[0].name = obj.name;
                         instance[0].description = obj.description;
                         instance[0].genome = obj.genome;
@@ -74,7 +79,6 @@ router.post('/', function (req, res, next) {
                         instance[0].end = obj.end;
                         instance[0].plugins = obj.plugins;
                         instance[0].tracks = obj.tracks;
-                        console.log(instance);
                         instance[0].save(function (err) {
                             if (err) {
                                 throw err;
@@ -101,4 +105,5 @@ router.post('/', function (req, res, next) {
     );
 
 });
+
 module.exports = router;

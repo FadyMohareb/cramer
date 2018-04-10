@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var async = require('async');
 var dir = process.cwd();
+var path = require('path');
 var fs = require('fs');
 var GenoverseInstance = require('../models/GenoverseInstance.js');
 var utils = require('../routes/utils.js');
@@ -43,15 +44,20 @@ router.post('/', function (req, res, next) {
     async.parallel({
         valideGenome: function (callback) {
             setTimeout(function () {
-                var valideGenome = fs.existsSync(dir + '/public/javascript/genomes/' + obj.genome + '.js');
-                if (!valideGenome) {
-                    console.log('Genome Does Not Exist Yet');
-                    utils.createGenome(obj.genome);
-                    valideGenome = fs.existsSync(dir + '/public/javascript/genomes/' + obj.genome + '.js');
+                if (obj.genome.type === "ensembl") {
+                    var genome = obj.genome.name;
+                    console.log('Genome From Ensembl');
+                    var output = utils.createGenome(genome);
+                    callback(output[0], output[1]);
+                } else if (obj.file) {
+                    file = obj.file;
+                    console.log("Genome From File");
+                    var output = utils.createGenomeFromFile(file.filename, file.content);
+                    callback(output[0], output[1]);
                 } else {
-                    console.log('Genome File Already Exists');
+                    console.log("No genome loaded error");
+                    callback("No genome loaded", false);
                 }
-                callback(null, true);
             }, 10);
         },
         valideConfig: function (callback) {
@@ -68,7 +74,6 @@ router.post('/', function (req, res, next) {
                 });
                 instance.save(function (err) {
                     if (err) {
-                        throw err;
                         callback(err);
                     }
                     console.log('Instance added !');
@@ -79,12 +84,15 @@ router.post('/', function (req, res, next) {
         }
     },
             function (err, results) {
-                if (results.valideConfig && results.valideGenome) {
+                if (err) {
+                    res.end('error');
+                    console.log(err);
+                } else if (results.valideConfig && results.valideGenome) {
                     res.end('done');
-                    console.log('Everything is alright -> Open the index page');
+                    console.log('Everything is alright');
                 } else {
                     res.end('error');
-                    console.log('Something is wrong -> Check the createGenome or writeConfig functions');
+                    console.log('Something is wrong -> Check the validGenome and valideConfig functions');
                 }
             }
     );
