@@ -81,6 +81,9 @@ html
                           a(id=instance.name, href='index?name=' + instance.name) #{instance.name}
                           font(size='2')  #{instance.description}
                           if(user)
+                            button.btn.btn-default.btn-xs.pull-right(onclick="removeInstance(" + instance.name + ")")
+                                span.glyphicon.glyphicon-remove
+                                | remove
                             a.btn.btn-default.btn-xs.pull-right(href='modify?name=' + instance.name)
                                 span.glyphicon.glyphicon-edit
                                 | modify
@@ -89,4 +92,4 @@ html
                   li.list-group-item No Instances Available
                     
     script(type="text/javascript", src="javascript/lib/jquery.js")
-    script(type='text/javascript', src='javascript/html/getDataForConfig.js')
+    script(type='text/javascript', src='javascript/html/removeButton.js')

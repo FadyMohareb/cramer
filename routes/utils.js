@@ -87,7 +87,31 @@ module.exports = {
         try {
             var list = require(path + filename);
             if (filename === "list-species.js") {
-                return [null, list.Species];
+                //sort alphatebetically by displayed name
+                var Species = list.Species;
+                var sortable = []; //the sortable elements
+                for (var sp in Species) {
+                    if(!Species.hasOwnProperty(sp)) continue;
+                    sortable.push([sp, Species[sp]["display_name"]]);
+                }
+                
+                sortable.sort(function (a,b) {
+                    if (a[1] < b[1])
+                        return -1;
+                    if (a[1] > b[1])
+                        return 1;
+                    return 0;
+                });
+                
+                var sortedSpecies = { };
+                
+                for (i = 0; i < sortable.length; ++i) {
+                    sortedSpecies[sortable[i][0]]
+                            = {"display_name": sortable[i][1],
+                               "id"          : sortable[i][0]                  
+                              };
+                }
+                return [null, sortedSpecies];
             } else if (filename === "list-plugins.js") {
                 return [null, list.Plugins];
             }
