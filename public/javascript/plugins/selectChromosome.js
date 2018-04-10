@@ -16,15 +16,16 @@ Genoverse.Plugins.selectChromosome = function () {
 
                 var chrList = $('.gv-chr-list').data({
                     chromosomesList: function () {
+                         $('#select').append('<option value="blank">' + '' + '</option>');
                         for (var i = 0; i < count; i++) {
-                            $('#select').append('<option value="' + i + '">' + Object.keys(genome)[i] + '</option>');
+                        $('#select').append('<option value="' + i + '">' + Object.keys(genome)[i] + '</option>');
                         }
                     }
                 });
 
                 chrList.empty().data('chromosomesList')();
 
-                $('#select').on('click', function () {
+                $('#select').change(function () {
                     var index = $(this).val();
                     browser.moveTo(Object.keys(genome)[index], browser.start, browser.end, true);
                 });

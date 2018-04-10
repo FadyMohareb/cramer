@@ -296,6 +296,7 @@ function addGffTrack(modify, object) {
             + $('#gffInfoInput').val() + '\',\n' +
             'model: Genoverse.Track.Model.File.GFF.extend({\n' +
             'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix\',\n' +
+            'largeFile: true,\n' +
             'urlParams: {file: \'' + $('#gffUrlInput').val() + '\'}\n' +
             '})';
     // Add other variable parameters
