@@ -27,4 +27,12 @@ router.get('/logout', function (req, res, next) {
     console.log('Log out');
     res.redirect('/');
 });
+
+router.get('/delete/:name', function (req, res, next) {
+    GenoverseInstance.remove({name: req.params.name}, function(){
+        console.log(req.params.name + 'has been deleted');
+    res.redirect('/');
+    });
+});
+
 module.exports = router;

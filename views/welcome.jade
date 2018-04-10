@@ -81,7 +81,7 @@ html
                           a(id=instance.name, href='index?name=' + instance.name) #{instance.name}
                           font(size='2')  #{instance.description}
                           if(user)
-                            button.btn.btn-default.btn-xs.pull-right(onclick="removeInstance(" + instance.name + ")")
+                            a.btn.btn-default.btn-xs.pull-right(href="/delete/" + instance.name, onclick="return confirm('Are you sure?')")
                                 span.glyphicon.glyphicon-remove
                                 | remove
                             a.btn.btn-default.btn-xs.pull-right(href='modify?name=' + instance.name)
