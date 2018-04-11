@@ -14,15 +14,13 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
+**Genoverse-C3PO requires to run on Linux.**
 Genoverse-C3PO requires NodeJS  and two commonly used bioinformatics programs.
  - [NodeJS](https://nodejs.org/en/download/) v7.x
  - [Samtools](http://www.htslib.org/download/)
  - [Tabix]()
  
  Make sure that Samtools and Tabix are installed in /usr/bin/.
-
-**The server side of Genoverse-C3PO requires to run on Linux.**
-Then, it should work on Windows or MacOS if it is not localhost.
 
 ### Installing
 
@@ -46,6 +44,7 @@ Running at port: <port>
 MangoDB connection open
 ```
 
+Then, it could be accessible from any browser on any operating systems.
 Open your browser and write this in the url address:
 ```
 localhost:<port>
