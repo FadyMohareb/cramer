@@ -69,12 +69,12 @@ Make sure the <port> value is the same than in the output displayed in the promp
 ## Authors
 
 * **Pierre Biojoux** - *Initial work* - [GitHub](https://github.com/PierBJX)
-* **Josephine Burgin** - *Initial work* - [GitHub](https://github.com/PierBJX)
-* **Kevin De Castrp Cogle** - *Initial work* - [GitHub](https://github.com/PierBJX)
-* **Sergio Llaneza Lago** - *Initial work* - [GitHub](https://github.com/PierBJX)
-* **Alisha Ahamed** - *Initial work* - [GitHub](https://github.com/PierBJX)
-* **Magdalena Scislak** - *Initial work* - [GitHub](https://github.com/PierBJX)
-* **Raissa Muvunyi** - *Initial work* - [GitHub](https://github.com/PierBJX)
+* **Josephine Burgin** - *Initial work* - [GitHub](https://github.com/jb234)
+* **Kevin De Castrp Cogle** - *Initial work* - [GitHub](https://github.com/MrKevinDC)
+* **Sergio Llaneza Lago** - *Initial work* - [GitHub](https://github.com/Sergiollaneza)
+* **Alisha Ahamed** - *Initial work* - 
+* **Magdalena Scislak** - *Initial work* - [GitHub](https://github.com/rawwwrrish)
+* **Raissa Muvunyi** - *Initial work* - [GitHub](https://github.com/rmuvun95)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
