@@ -76,7 +76,6 @@ Make sure the <port> value is the same than in the output displayed in the promp
 * **Magdalena Scislak** - *Initial work* - [GitHub](https://github.com/rawwwrrish)
 * **Raissa Muvunyi** - *Initial work* - [GitHub](https://github.com/rmuvun95)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
