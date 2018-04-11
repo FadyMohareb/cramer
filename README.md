@@ -50,6 +50,7 @@ Open your browser and write this in the url address:
 ```
 localhost:<port>
 ```
+OR
 ```
 IPaddress:<port>
 ```
