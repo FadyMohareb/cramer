@@ -51,13 +51,18 @@ require(__dirname + '/public/javascript/Track/Model/Transcript.js');
 require(__dirname + '/public/javascript/Track/Model/Transcript/Ensembl.js');
 require(__dirname + '/public/javascript/Track/View/Transcript.js');
 require(__dirname + '/public/javascript/Track/View/Transcript/Ensembl.js');
-
+ 
 require(__dirname + '/public/javascript/Track/Model/File.js');
 require(__dirname + '/public/javascript/Track/Model/File/BAM.js');
 require(__dirname + '/public/javascript/Track/Model/File/BED.js');
 require(__dirname + '/public/javascript/Track/Model/File/GFF.js');
+require(__dirname + '/public/javascript/Track/Model/File/GFF3.js');
+require(__dirname + '/public/javascript/Track/View/GFF3.js');
 require(__dirname + '/public/javascript/Track/Model/File/VCF.js');
 require(__dirname + '/public/javascript/Track/Model/File/WIG.js');
+
+require(__dirname + '/public/javascript/Track/Model/HeteroSNPDensity.js');
+require(__dirname + '/public/javascript/Track/Model/HomoSNPDensity.js');
 
 require(__dirname + '/public/javascript/Track/library/Chromosome.js');
 require(__dirname + '/public/javascript/Track/library/dbSNP.js');
@@ -67,8 +72,11 @@ require(__dirname + '/public/javascript/Track/library/File/BED.js');
 require(__dirname + '/public/javascript/Track/library/File/BIGBED.js');
 require(__dirname + '/public/javascript/Track/library/File/BIGWIG.js');
 require(__dirname + '/public/javascript/Track/library/File/GFF.js');
+require(__dirname + '/public/javascript/Track/library/File/GFF3.js');
 require(__dirname + '/public/javascript/Track/library/File/VCF.js');
 require(__dirname + '/public/javascript/Track/library/File/WIG.js');
+require(__dirname + '/public/javascript/Track/library/HeteroSNPDensity.js');
+require(__dirname + '/public/javascript/Track/library/HomoSNPDensity.js');
 require(__dirname + '/public/javascript/Track/library/Gene.js');
 require(__dirname + '/public/javascript/Track/library/HighlightRegion.js');
 require(__dirname + '/public/javascript/Track/library/Legend.js');

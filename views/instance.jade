@@ -148,11 +148,20 @@ html
                       .material-switch.pull-right
                         input#gff_id(name='gff', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='gff_id')
-                      a(data-toggle='collapse', href='#collapseGFF') GFF Genes  
+                      a(data-toggle='collapse', href='#collapseGFF') GFF Components  
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#gffModal')
                         span.glyphicon.glyphicon-plus
                       #collapseGFF.panel-collapse.collapse
                         ul.list-group(id='gffTracks')
+                    li.list-group-item
+                      .material-switch.pull-right
+                        input#gff3_id(name='gff3', type='checkbox', checked=false)
+                        label.label-primary(label-default='', for='gff3_id')
+                      a(data-toggle='collapse', href='#collapseGFF3') GFF Genes  
+                      button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#gff3Modal')
+                        span.glyphicon.glyphicon-plus
+                      #collapseGFF3.panel-collapse.collapse
+                        ul.list-group(id='gff3Tracks')
                     li.list-group-item
                       .material-switch.pull-right
                         input#vcf_id(name='vcf', type='checkbox', checked=false)
@@ -322,7 +331,7 @@ html
         .modal-content
           .modal-header
             button.close(type='button', data-dismiss='modal') ×
-            h3.modal-title Add GFF file Track
+            h3.modal-title Add GFF Components Track
             p  Please, fill the required fields. 
           .modal-body
             .form-group
@@ -342,6 +351,45 @@ html
             p  All fields marked with an asterisk(*) are mandatory. 
               button.btn.btn-default.pull-right(type='button', onClick='addGffTrack()') Add track
     // END OF gffModal
+    // STARTS gff3Modal
+    // gff3 Modal
+    #gff3Modal.modal.fade(role='dialog')
+      .modal-dialog
+        // Modal content
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal') ×
+            h3.modal-title Add GFF3 Gene Track
+            p  Please, fill the required fields. 
+          .modal-body
+            .form-group
+              label(for='gff3NameInput') Name*
+              input#gff3NameInput.form-control(type='text', placeholder='Enter a name for this GFF track')
+            .form-group
+              label(for='gff3InfoInput', aria-describedby='infoHelp') Info*
+              input#gff3InfoInput.form-control(type='text', placeholder="Enter a short description of your GFF track's purpose")
+              small#infoHelp.form-text.text-muted The description will be used as a hover label in Genoverse
+            .form-group
+              label(for='gff3UrlInput') Url or File Path*
+              input#gff3UrlInput.form-control(type='text', placeholder='Enter url or filepath of GFF, GFF3 or GTF file')
+            .form-group
+              label(for='gff3ThresholdInput') Threshold
+              input#gff3ThresholdInput.form-control(type='text', placeholder='Enter threhold for gff track')
+            .form-group
+              label(for='gff3IntronSelect') Intron Style
+              .br
+                select#gff3IntronSelect
+                  option(value='bezierCurve') Bezier Curve
+                  option(value='hat') Hat
+                  option(value='line') Line
+            .form-group
+              label(for='gff3TypeMapText') Type Map
+              textarea#gff3TypeMapText.form-control(rows='3')
+                  | exon: 'exon',
+                  | cds: 'cds'
+            p  All fields marked with an asterisk(*) are mandatory. 
+              button.btn.btn-default.pull-right(type='button', onClick='addGff3Track()') Add track
+    // END OF gff3Modal
     // STARTS vcfModal
     // vcf Modal
     #vcfModal.modal.fade(role='dialog')

@@ -2,12 +2,12 @@ var $ = jQuery;
 var global_url = location.protocol + '//' + location.host;
 var object = document.currentScript.getAttribute('data');
 var data = JSON.parse(object);
-var nameTracks = ["Ensembl Genes", "Ensembl Sequence", "dbSNPs", "Scalebar", "Chromosome", "FASTA", "BED", "BIGBED", "BAM", "GFF", "VCF", "WIG", "BIGWIG", "SNP Density", "Gene Expression", "Custom Track"];
+var nameTracks = ["Ensembl Genes", "Ensembl Sequence", "dbSNPs", "Scalebar", "Chromosome", "FASTA", "BED", "BIGBED", "BAM", "GFF", "GFF3", "VCF", "WIG", "BIGWIG", "SNP Density", "Gene Expression", "Custom Track"];
 var tracks = [
     gene = [], sequence = [], dbSNP = [],
     scalebar = [{name: "scalebar", description: "display the scalebar", data: "Genoverse.Track.Scalebar"}],
     chromosome = [{name: "chromosome", description: "display the chromosome", data: 'Genoverse.Track.Chromosome'}],
-    fasta = [], bed = [], bigbed = [], bam = [], gff = [], vcf = [], wig = [], bigwig = [], snpDensity = [], geneExpression = [], custom = []
+    fasta = [], bed = [], bigbed = [], bam = [], gff = [], gff3 = [], vcf = [], wig = [], bigwig = [], snpDensity = [], geneExpression = [], custom = []
 ];
 var trackCount = 0;
 
@@ -32,6 +32,9 @@ function loadTracks() {
                     break;
                 case 'GFF':
                     addGffTrack(true, currentTrack.trackChildren[j]);
+                    break;
+                case 'GFF3':
+                    addGff3Track(true, currentTrack.trackChildren[j]);
                     break;
                 case 'VCF':
                     addVcfTrack(true, currentTrack.trackChildren[j]);
@@ -323,11 +326,57 @@ function addGffTrack(modify, object) {
     }
 }
 
+function addGff3Track(modify, object) {
+    var trackString = modify ? object.data : 'Genoverse.Track.File.GFF3.extend({\nname: \''
+            + $('#gff3NameInput').val() + '\',\ninfo: \''
+            + $('#gff3InfoInput').val() + '\',\n' +
+            'model: Genoverse.Track.Model.File.GFF3.extend({\n' +
+            'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix\',\n' +
+            'largeFile: true,\n' +
+            'urlParams: {file: \'' + $('#gff3UrlInput').val() + '\'}';
+
+    if (!modify & $('#gff3TypeMapText').val() !== '') {
+        trackString = trackString + ',\ntypeMap: {\n' +
+                $('#gff3TypeMapText').val() + '\n}';
+    }
+    trackString = modify ? trackString : trackString + '\n})';
+    // Add other variable parameters
+    if (!modify & $('#gff3ThresholdInput').val() !== '') {
+        trackString = trackString + ',\nthreshold: ' + $('#gffThresholdInput').val();
+    }
+    if (!modify & $('#gff3IntronSelect').val() !== '') {
+        trackString = trackString + ',\nview: Genoverse.Track.View.GFF3.extend({' +
+                'intronStyle: \'' + $('#gff3IntronSelect').val() + '\'})';
+    }
+    trackString = modify ? trackString : trackString + '\n})';
+    var name = modify ? object.name : $("#gff3NameInput").val();
+    var info = modify ? object.description : $('#gff3InfoInput').val();
+    var valid = true;
+    if (!modify)
+        valid = checkTrack('gff3');
+
+    if (valid === true) {
+        console.log(trackString);
+        var track = {name: name, description: info, data: trackString};
+        //Add to track list
+        var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+        $('#gff3Tracks').append(listItem);
+        gff3.push(track);
+        trackCount++;
+        $('.modal').modal('hide');
+        $('#collapseGFF3').collapse('show');
+    }
+}
+
 function addVcfTrack(modify, object) {
     var trackString = modify ? object.data : 'Genoverse.Track.File.VCF.extend({\nname: \''
             + $('#vcfNameInput').val() + '\',\ninfo: \''
-            + $('#vcfInfoInput').val() + '\',\nurl: \''
-            + $('#vcfUrlInput').val() + '\'';
+            + $('#vcfInfoInput').val() + '\',\n' +
+            'model: Genoverse.Track.Model.File.VCF.extend({\n' +
+            'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix\',\n' +
+            'largeFile: true,\n' +
+            'urlParams: {file: \'' + $('#vcfUrlInput').val() + '\'}\n' +
+            '})';
     if (!modify & $('#vcfThresholdInput').val() !== '') {
         trackString += ',\nthreshold: ' + $('#vcfThresholdInput').val();
     }
@@ -403,18 +452,28 @@ function addBigwigTrack(modify, object) {
 
 function addSnpDensityTrack(modify, object) {
     // Make heterozygous track
-    var trackStringHet = modify ? object.data : 'Genoverse.Track.HeteroSNPDensity.extend({\nname: \''
-            + $('#hetSnpDensityNameInput').val() + '\',\ninfo: \''
-            + $('#hetSnpDensityInfoInput').val() + '\',\nurl: \''
-            + $('#snpDensityUrlInput').val() + '\'\n})';
+    var trackStringHet = modify ? object.data : 'Genoverse.Track.HeteroSNPDensity.extend({\nname: \'' +
+            $('#hetSnpDensityNameInput').val() + '\',\ninfo: \'' +
+            $('#hetSnpDensityInfoInput').val() + '\',\n' +
+            'model: Genoverse.Track.Model.HeteroSNPDensity.extend({\n' +
+            'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix\',\n' +
+            'largeFile: true,\n' +
+            'urlParams: {file: \'' + $('#snpDensityUrlInput').val() + '\'}\n' +
+            '})})';
+    console.log(trackStringHet);
     var nameHet = modify ? object.name : $('#hetSnpDensityNameInput').val();
     var infoHet = modify ? object.description : $('#hetSnpDensityInfoInput').val();
     var trackHet = {name: nameHet, description: infoHet, type: 'snpDensity', data: trackStringHet};
     // Make homozygous track
-    var trackStringHom = modify ? object.data : 'Genoverse.Track.HomoSNPDensity.extend({\nname: \''
-            + $('#homSnpDensityNameInput').val() + '\',\ninfo: \''
-            + $('#homSnpDensityInfoInput').val() + '\',\nurl: \''
-            + $('#snpDensityUrlInput').val() + '\'\n})';
+    var trackStringHom = modify ? object.data : 'Genoverse.Track.HomoSNPDensity.extend({\nname: \'' +
+            $('#homSnpDensityNameInput').val() + '\',\ninfo: \'' +
+            $('#homSnpDensityInfoInput').val() + '\',\n' +
+            'model: Genoverse.Track.Model.HomoSNPDensity.extend({\n' +
+            'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix\',\n' +
+            'largeFile: true,\n' +
+            'urlParams: {file: \'' + $('#snpDensityUrlInput').val() + '\'}\n' +
+            '})})';
+    console.log(trackStringHom);
     var nameHom = modify ? object.name : $('#homSnpDensityNameInput').val();
     var infoHom = modify ? object.description : $('#homSnpDensityInfoInput').val();
     var trackHom = {name: nameHom, description: infoHom, type: 'snpDensity', data: trackStringHom};
@@ -424,7 +483,10 @@ function addSnpDensityTrack(modify, object) {
         valid = checkSnpDensityTrack(nameHet, nameHom, infoHet, infoHom, $('#snpDensityUrlInput').val());
     if (valid === true) {
         //Add to track list
-        var listItem = '<div id= "L' + trackCount + '" ></br><li>' + nameHet + '/' + nameHom + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+        var listItem = '<div id= "L' + trackCount + '" ></br><li>' + nameHet + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+         $('#snpDensityTracks').append(listItem);
+         trackCount++;
+        listItem = '<div id= "L' + trackCount + '" ></br><li>' + nameHom + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
         $('#snpDensityTracks').append(listItem);
         snpDensity.push(trackHet);
         snpDensity.push(trackHom);
@@ -579,7 +641,7 @@ function validate(modify) {
     } else {
         alert('Please fill in the form correctly');
     }
-    
+
 }
 
 function readFile(file, cb) { // We pass a callback as parameter
