@@ -8,10 +8,7 @@ Genoverse.Track.Model.File.VCF = Genoverse.Track.Model.File.extend({
     }
 
     if (!this.vcfFile) {
-      if (this.url) {
-        this.vcfFile = new dallianceLib.URLFetchable(this.url);
-        this.tbiFile = new dallianceLib.URLFetchable(this.url + this.prop('indexExt'));
-      } else if (this.dataFile && this.indexFile) {
+      if (this.dataFile && this.indexFile) {
         this.vcfFile = new dallianceLib.BlobFetchable(this.dataFile);
         this.tbiFile = new dallianceLib.BlobFetchable(this.indexFile);
       } else {
