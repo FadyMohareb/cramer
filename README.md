@@ -22,7 +22,7 @@ Genoverse-C3PO requires NodeJS  and two commonly used bioinformatics programs.
  Make sure that Samtools and Tabix are installed in /usr/bin/.
 
 **The server side of Genoverse-C3PO requires to run on Linux.**
-However, if you share a link and you do not run Genoverse-C3PO on localhost it should work on Windows or MacOS.
+Then, it should work on Windows or MacOS if it is not localhost.
 
 ### Installing
 
