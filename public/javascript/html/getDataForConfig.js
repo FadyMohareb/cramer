@@ -716,11 +716,10 @@ check['chromosome'] = function () {
 
     // Chromosome greater than 0 and not empty
     if (chrom.value !== "") {
-        chrom.style.background = "white";
         return true;
     } else {
-        chrom.style.backgroundColor = "rgba(255,0,51,0.6)";
-        return false;
+        chrom.value = 1;
+        return true;
     }
 };
 
@@ -728,26 +727,23 @@ check['start'] = function () {
     var start = document.getElementById("genomic-start-input");
 
     // Start greater or equal to 0 and not empty
-    if (parseInt(start.value) >= 1 && start.value !== "") {
-        start.style.background = "white";
+    if (start.value !== "") {
         return true;
     } else {
-        start.style.backgroundColor = "rgba(255,0,51,0.6)";
-        return false;
+        start.value = 1;
+        return true;
     }
 };
 
 check['end'] = function () {
-    var start = document.getElementById("genomic-start-input");
     var end = document.getElementById("genomic-end-input");
 
     // End greater than the start value and not empty
-    if (parseInt(end.value) > parseInt(start.value) && end.value !== "") {
-        end.style.background = "white";
+    if (end.value !== "") {
         return true;
     } else {
-        end.style.backgroundColor = "rgba(255,0,51,0.6)";
-        return false;
+        end.value = 10000;
+        return true;
     }
 };
 

@@ -3,7 +3,7 @@ Genoverse.Track.File.VCF = Genoverse.Track.File.extend({
   indexExt   : '.tbi',
   model      : Genoverse.Track.Model.File.VCF,
   autoHeight : false,
-  maxQual    : undefined, // Set this to the maximum value of the QUAL field in the file in order to color features by QUAL. Only required for large (tabix indexed) files - small ones can calculate this value automatically
+  maxQual    : 1500,
 
   afterSetMVC: function () {
     if (this.prop('gz')) {
