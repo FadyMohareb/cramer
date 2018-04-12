@@ -3,7 +3,7 @@ Genoverse.Track.File.VCF = Genoverse.Track.File.extend({
   indexExt   : '.tbi',
   model      : Genoverse.Track.Model.File.VCF,
   autoHeight : false,
-  maxQual    : 1500,
+  maxQual    : 1500, // Set this to the maximum value of the QUAL field in the file in order to color features by QUAL. Only required for large (tabix indexed) files - small ones can calculate this value automatically
 
   afterSetMVC: function () {
     if (this.prop('gz')) {
@@ -12,6 +12,22 @@ Genoverse.Track.File.VCF = Genoverse.Track.File.extend({
   },
 
   populateMenu: function (feature) {
+      f  = feature.originalFeature[7].split(';');
+      
+      i = f.length;
+      ann = '';
+      while(i--){
+            if (f[i].includes("ANN")) {
+                ann = f[i].substring(4, f[i].length);
+                ann = ann.split(',').join('<br>');
+                if (i !== -1) {
+                    f.splice(i, 1); //remove ANN from INFO
+                }
+            }
+      }
+
+      f= f.join('<br>');
+      
     return {
       title  : '<a target="_blank" href="http://www.1000genomes.org/node/101">VCF feature details</a>',
       CHROM  : feature.originalFeature[0],
@@ -21,7 +37,8 @@ Genoverse.Track.File.VCF = Genoverse.Track.File.extend({
       ALT    : feature.originalFeature[4],
       QUAL   : feature.originalFeature[5],
       FILTER : feature.originalFeature[6],
-      INFO   : feature.originalFeature[7].split(';').join('<br />')
+      INFO   : f,
+      ANN    : ann
     };
   },
 
