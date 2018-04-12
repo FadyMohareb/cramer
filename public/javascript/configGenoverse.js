@@ -30,10 +30,22 @@ new Genoverse({
     start: data.start,
     end: data.end,
     plugins: plugins,
-    tracks: 
+    tracks:
             trackConfig
 //            [
 //                Genoverse.Track.Scalebar,
+//                Genoverse.Track.File.BAM.extend({
+//                    model: Genoverse.Track.Model.File.ftpBAM.extend({
+//                        url: "http://138.250.31.99:4000/index/request?chr=__CHR__&start=__START__&end=__END__&type=bam",
+//                        urlParams: {file: 'ftp://138.250.31.77/Public/GenoVerse_GP_Testing/FDR/genomesorted.bam'}
+//                    }),
+//                    threshold: 1000000,
+//                    name: 'BAM<br/>Models'
+//                })
+//                Genoverse.Track.File.BIGWIG.extend({
+//                    url: "http://elvis.misc.cranfield.ac.uk/GP/genome1x.bw",
+//                    name: 'WIG<br/>Models'
+//                })
 //                Genoverse.Track.extend({
 //                    name: 'Sequence',
 //                    100000: false,

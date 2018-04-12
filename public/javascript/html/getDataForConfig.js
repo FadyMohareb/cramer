@@ -268,10 +268,14 @@ function addBigbedTrack(modify, object) {
 }
 
 function addBamTrack(modify, object) {
-    var trackString = modify ? object.data : 'Genoverse.Track.File.BAM.extend({\nname: \''
-            + $('#bamNameInput').val().replace(/\s/g, '</br>') + '\',\ninfo: \''
-            + $('#bamInfoInput').val() + '\',\nurl: \''
-            + $('#bamUrlInput').val() + '\'';
+    var trackString = modify ? object.data : 'Genoverse.Track.File.BAM.extend({\nname: \'' +
+            $('#bamNameInput').val().replace(/\s/g, '</br>') + '\',\ninfo: \'' +
+            $('#bamInfoInput').val() + '\',\n' +
+            'model: Genoverse.Track.Model.File.ftpBAM.extend({\n' +
+            'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=bam\',\n' +
+            'largeFile: true,\n' +
+            'urlParams: {file: \'' + $('#bamUrlInput').val() + '\'}\n' +
+            '})';
     // Add other variable parameters
     trackString = trackString + '\n})';
     var name = modify ? object.name : $("#bamNameInput").val();

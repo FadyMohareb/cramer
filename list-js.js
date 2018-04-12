@@ -54,6 +54,7 @@ require(__dirname + '/public/javascript/Track/View/Transcript/Ensembl.js');
  
 require(__dirname + '/public/javascript/Track/Model/File.js');
 require(__dirname + '/public/javascript/Track/Model/File/BAM.js');
+require(__dirname + '/public/javascript/Track/Model/File/ftpBAM.js');
 require(__dirname + '/public/javascript/Track/Model/File/BED.js');
 require(__dirname + '/public/javascript/Track/Model/File/GFF.js');
 require(__dirname + '/public/javascript/Track/Model/File/GFF3.js');

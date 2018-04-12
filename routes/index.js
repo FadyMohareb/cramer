@@ -42,9 +42,15 @@ router.get('/request', function (req, res, next) {
             end = req.query.end;
     if (file) {
         if (chr && start && end) {
-            var command = req.query.type.match("faidx") ?
-                    "/usr/bin/samtools faidx " + file + ' chr' + chr + ':' + start + '-' + end + ' | tail -n+2'
-                    : "/usr/bin/tabix " + file + ' chr' + chr + ':' + start + '-' + end;
+            var command;
+            if (req.query.type.match("faidx")) {
+                command = "/usr/bin/samtools faidx " + file + ' chr' + chr + ':' + start + '-' + end + ' | tail -n+2';
+            } else if (req.query.type.match("tabix")) {
+                command = "/usr/bin/tabix " + file + ' chr' + chr + ':' + start + '-' + end;
+            } else if (req.query.type.match("bam")) {
+                command = "/usr/bin/samtools view " + file + ' ' + chr + ':' + start + '-' + end;
+            }
+
             const child = spawn("sh", ["-c", command]);
             child.stdout.on('data', function (data) {
                 console.log('stdout: ' + data);
