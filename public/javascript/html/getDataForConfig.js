@@ -106,15 +106,13 @@ function uploadGenome() {
 
 
 function removeTrack(item) {
-    console.log('track deleted');
     var id = '#L' + $(item).data('id');
     var name = $(id).text();
-    console.log(name);
+    console.log(name + ' track deleted');
     $(id).remove();
     for (var i = 0; i < tracks.length; i++) {
         for (var j = 0; j < tracks[i].length; j++) {
             if (tracks[i][j].name === name) {
-                console.log(tracks[i][j]);
                 tracks[i].splice(j, 1);
             }
         }
@@ -277,7 +275,7 @@ function addBamTrack(modify, object) {
             'urlParams: {file: \'' + $('#bamUrlInput').val() + '\'}\n' +
             '})';
     // Add other variable parameters
-    trackString = trackString + '\n})';
+    trackString = modify ? trackString : trackString + '\n})';
     var name = modify ? object.name : $("#bamNameInput").val();
     var info = modify ? object.description : $('#bamInfoInput').val();
     var valid = true;
@@ -360,7 +358,6 @@ function addGff3Track(modify, object) {
         valid = checkTrack('gff3');
 
     if (valid === true) {
-        console.log(trackString);
         var track = {name: name, description: info, data: trackString};
         //Add to track list
         var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
@@ -464,7 +461,6 @@ function addSnpDensityTrack(modify, object) {
             'largeFile: true,\n' +
             'urlParams: {file: \'' + $('#snpDensityUrlInput').val() + '\'}\n' +
             '})})';
-    console.log(trackStringHet);
     var nameHet = modify ? object.name : $('#hetSnpDensityNameInput').val();
     var infoHet = modify ? object.description : $('#hetSnpDensityInfoInput').val();
     var trackHet = {name: nameHet, description: infoHet, type: 'snpDensity', data: trackStringHet};
@@ -477,7 +473,6 @@ function addSnpDensityTrack(modify, object) {
             'largeFile: true,\n' +
             'urlParams: {file: \'' + $('#snpDensityUrlInput').val() + '\'}\n' +
             '})})';
-    console.log(trackStringHom);
     var nameHom = modify ? object.name : $('#homSnpDensityNameInput').val();
     var infoHom = modify ? object.description : $('#homSnpDensityInfoInput').val();
     var trackHom = {name: nameHom, description: infoHom, type: 'snpDensity', data: trackStringHom};
@@ -488,8 +483,8 @@ function addSnpDensityTrack(modify, object) {
     if (valid === true) {
         //Add to track list
         var listItem = '<div id= "L' + trackCount + '" ></br><li>' + nameHet + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
-         $('#snpDensityTracks').append(listItem);
-         trackCount++;
+        $('#snpDensityTracks').append(listItem);
+        trackCount++;
         listItem = '<div id= "L' + trackCount + '" ></br><li>' + nameHom + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
         $('#snpDensityTracks').append(listItem);
         snpDensity.push(trackHet);
@@ -502,7 +497,6 @@ function addSnpDensityTrack(modify, object) {
 }
 
 function addGeneExpressionTrack(modify, object) {
-    console.log('gene expression track added');
     var trackString = modify ? object.data : 'Genoverse.Track.GeneExpression.extend({\nname: \''
             + $('#geneExpressionNameInput').val() + '\',\ninfo: \''
             + $('#geneExpressionInfoInput').val() + '\',\nurl: \''
@@ -616,8 +610,10 @@ function validate(modify) {
         data.tracks = tracksSelected;
 
         if (modify) {
-            var url = new URL(window.location.href);
-            var previousName = url.searchParams.get("name");
+            var url = location.href;
+//            console.log(url);
+            var previousName = url.match(/\??name=(\w+)\&?/)[1];
+//            console.log(previousName);
             data.previous = previousName;
 
             if (doGenome) {
@@ -669,7 +665,7 @@ function sendData(data, url) {
         contentType: 'application/json',
         url: url,
         success: function (data) {
-            console.log('success');
+            console.log('Data sent: SUCCESS');
             console.log(JSON.stringify(data));
             if (data === 'done')
             {

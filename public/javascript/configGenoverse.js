@@ -43,8 +43,18 @@ new Genoverse({
 //                    name: 'BAM<br/>Models'
 //                })
 //                Genoverse.Track.File.BIGWIG.extend({
-//                    url: "http://elvis.misc.cranfield.ac.uk/GP/genome1x.bw",
+//                    url: "http://elvis.misc.cranfield.ac.uk:8050/genome1x.bw",
 //                    name: 'WIG<br/>Models'
+//                })
+//                Genoverse.Track.extend({
+//                    name: "Fasta",
+//                    controller: Genoverse.Track.Controller.Sequence,
+//                    view: Genoverse.Track.View.Sequence,
+//                    model: Genoverse.Track.Model.Sequence.extend({
+//                        url: "ftp://ftp.ensemblorg.ebi.ac.uk/pub/current_fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.MT.fa.gz"
+//                    }),
+//                    10000: false,
+//                    resizable: "auto"
 //                })
 //                Genoverse.Track.extend({
 //                    name: 'Sequence',
