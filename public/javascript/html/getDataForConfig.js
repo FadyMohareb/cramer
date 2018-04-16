@@ -611,10 +611,10 @@ function validate(modify) {
 
         if (modify) {
             var url = location.href;
+            var url_dec = decodeURIComponent(url);
 //            console.log(url);
-            var previousName = url.match(/name=([^&?]*)/)[1];
-            previousName = previousName.replace(/%20/g, " ");
-            console.log(previousName);
+            var previousName = url_dec.match(/name=([^&?]*)/)[1];
+//            console.log(previousName);
             data.previous = previousName;
 
             if (doGenome) {
