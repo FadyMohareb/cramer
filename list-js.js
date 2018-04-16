@@ -61,6 +61,7 @@ require(__dirname + '/public/javascript/Track/Model/File/GFF3.js');
 require(__dirname + '/public/javascript/Track/View/GFF3.js');
 require(__dirname + '/public/javascript/Track/Model/File/VCF.js');
 require(__dirname + '/public/javascript/Track/Model/File/WIG.js');
+require(__dirname + '/public/javascript/Track/Model/File/ftpBIGWIG.js');
 
 require(__dirname + '/public/javascript/Track/Model/HeteroSNPDensity.js');
 require(__dirname + '/public/javascript/Track/Model/HomoSNPDensity.js');
@@ -72,6 +73,7 @@ require(__dirname + '/public/javascript/Track/library/File/BAM.js');
 require(__dirname + '/public/javascript/Track/library/File/BED.js');
 require(__dirname + '/public/javascript/Track/library/File/BIGBED.js');
 require(__dirname + '/public/javascript/Track/library/File/BIGWIG.js');
+require(__dirname + '/public/javascript/Track/library/File/ftpBIGWIG.js');
 require(__dirname + '/public/javascript/Track/library/File/GFF.js');
 require(__dirname + '/public/javascript/Track/library/File/GFF3.js');
 require(__dirname + '/public/javascript/Track/library/File/VCF.js');

@@ -429,10 +429,13 @@ function addWigTrack(modify, object) {
 }
 
 function addBigwigTrack(modify, object) {
-    var trackString = modify ? object.data : 'Genoverse.Track.File.BIGWIG.extend({\nname: \''
+    var trackString = modify ? object.data : 'Genoverse.Track.File.ftpBIGWIG.extend({\nname: \''
             + $('#bigwigNameInput').val() + '\',\ninfo: \''
-            + $('#bigwigInfoInput').val() + '\',\nurl: \''
-            + $('#bigwigUrlInput').val() + '\'\n})';
+            + $('#bigwigInfoInput').val() + '\',\n' +
+            "model: Genoverse.Track.Model.File.ftpBIGWIG.extend({" +
+                        'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=bigwig\',\n' +
+                        'urlParams: {file: \'' + $('#bigwigUrlInput').val() + '\'},\n' +
+                        'largeFile: true' + '\n})' + '\n})';
     var name = modify ? object.name : $('#bigwigNameInput').val();
     var info = modify ? object.description : $('#bigwigInfoInput').val();
     var valid = true;
