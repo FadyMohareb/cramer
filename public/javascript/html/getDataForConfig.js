@@ -613,7 +613,8 @@ function validate(modify) {
             var url = location.href;
 //            console.log(url);
             var previousName = url.match(/name=([^&?]*)/)[1];
-//            console.log(previousName);
+            previousName = previousName.replace(/%20/g, " ");
+            console.log(previousName);
             data.previous = previousName;
 
             if (doGenome) {
