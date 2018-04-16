@@ -612,7 +612,7 @@ function validate(modify) {
         if (modify) {
             var url = location.href;
 //            console.log(url);
-            var previousName = url.match(/\??name=(\w+)\&?/)[1];
+            var previousName = url.match(/name=([^&?]*)/)[1];
 //            console.log(previousName);
             data.previous = previousName;
 
