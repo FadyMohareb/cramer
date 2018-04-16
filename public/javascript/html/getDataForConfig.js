@@ -77,6 +77,83 @@ function toggleSpecies() {
         $("#ensembl-only-tracks").show();
     }
 }
+$("#select_all_id").change(function () {
+    selectAll();
+});
+
+function selectAll() {
+    var selecting = $("#select_all_id").is(":checked");
+    var tracks = document.querySelectorAll("#ensembl-only-tracks input");
+    console.log(tracks);
+    //console.log(selecting);
+    switch (selecting) {
+        case true:
+            for (var i = 1; i < tracks.length; i++) {
+                tracks[i].checked = true;
+            }
+            break;
+        case false:
+            for (var i = 1; i < tracks.length; i++) {
+                tracks[i].checked = false;
+            }
+            break;
+    }
+}
+
+$("#select_all_Plugins_id").change(function () {
+    selectAllPlugins();
+});
+
+function selectAllPlugins() {
+      var selecting = $("#select_all_Plugins_id").is(":checked");
+    var plugins = document.querySelectorAll("#plugins.list-group input");
+    console.log(plugins);
+    //console.log(selecting);
+    switch (selecting) {
+        case true:
+            for (var i = 0; i < plugins.length; i++) {
+                plugins[i].checked = true;
+            }
+            break;
+        case false:
+            for (var i = 0; i < plugins.length; i++) {
+                plugins[i].checked = false;
+            }
+            break;
+    }
+}
+
+$("#select_all_Tracks_id").change(function () {
+    selectAllTracks();
+});
+
+function selectAllTracks() {
+    var selecting = $("#select_all_Tracks_id").is(":checked");
+    //console.log(selecting);
+  var configtracks = document.querySelectorAll("#tracks.list-group input");
+    console.log(configtracks);
+    
+    switch (selecting) {
+        case true:
+            for (var i = 0; i < configtracks.length; i++) {
+                configtracks[i].checked = true;
+            }
+            break;
+        case false:
+            for (var i = 0; i < configtracks.length; i++) {
+                configtracks[i].checked = false;
+            }
+            break;
+    }
+
+
+
+
+
+
+
+
+}
 
 // UPLOAD GENOME FILE
 $(function () {
