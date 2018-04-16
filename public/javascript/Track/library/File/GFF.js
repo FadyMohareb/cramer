@@ -1,11 +1,10 @@
 Genoverse.Track.File.GFF = Genoverse.Track.File.extend({
-  id            : 'gff',
-  name          : 'GFF',
-  model         : Genoverse.Track.Model.File.GFF,
-  bump          : true,
-  height        : 100,
-  featureHeight : 5,
-  threshold     : 100000
+    id: 'gff',
+    name: 'GFF',
+    model: Genoverse.Track.Model.File.GFF,
+    autoHeight: false,
+    height: 100,
+    featureHeight: 10,
+    threshold: 10000000,
+    view: Genoverse.Track.View.GFF
 });
-
-Genoverse.Track.File.GTF = Genoverse.Track.File.GFF;

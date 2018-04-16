@@ -1,4 +1,4 @@
-Genoverse.Track.View.GFF3 = Genoverse.Track.View.extend({
+Genoverse.Track.View.GFF = Genoverse.Track.View.extend({
     bump: true,
     labels: true,
     intronStyle: 'bezierCurve',

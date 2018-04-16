@@ -61,7 +61,7 @@ module.exports = {
             });
             response.on('end', function () {
                 try {
-                    fs.writeFile(dir + '/public/javascript/genomes/list-species.js', "module.exports = {Species :" + JSON.stringify(JSON.parse(str).species.map(function (d) {
+                    fs.writeFile(dir + '/public/javascript/list-species.js', "module.exports = {Species :" + JSON.stringify(JSON.parse(str).species.map(function (d) {
                         return [
                             d.name, {
                                 display_name: d.display_name,
@@ -91,25 +91,26 @@ module.exports = {
                 var Species = list.Species;
                 var sortable = []; //the sortable elements
                 for (var sp in Species) {
-                    if(!Species.hasOwnProperty(sp)) continue;
+                    if (!Species.hasOwnProperty(sp))
+                        continue;
                     sortable.push([sp, Species[sp]["display_name"]]);
                 }
-                
-                sortable.sort(function (a,b) {
+
+                sortable.sort(function (a, b) {
                     if (a[1] < b[1])
                         return -1;
                     if (a[1] > b[1])
                         return 1;
                     return 0;
                 });
-                
-                var sortedSpecies = { };
-                
+
+                var sortedSpecies = {};
+
                 for (i = 0; i < sortable.length; ++i) {
                     sortedSpecies[sortable[i][0]]
                             = {"display_name": sortable[i][1],
-                               "id"          : sortable[i][0]                  
-                              };
+                                "id": sortable[i][0]
+                            };
                 }
                 return [null, sortedSpecies];
             } else if (filename === "list-plugins.js") {
@@ -120,6 +121,23 @@ module.exports = {
             return [err, null];
         }
 
+    },
+
+    getGenomes: function () {
+        try {
+            var filesList = [""];
+
+            fs.readdirSync(dir + '/public/javascript/genomes/').forEach(file => {
+                file = file.replace(/\.[^/.]+$/, "");
+                filesList.push(file);
+            });
+            
+            return[null, filesList];
+            
+        } catch (err) {
+            console.log(err);
+            return [err, null];
+        }
     },
 
     IsAuthenticated: function (req, res, next) {
@@ -133,6 +151,7 @@ module.exports = {
 
     createGenomeFromFile(filename, content) {
         try {
+            console.log("The file start to write");
             fs.writeFileSync(dir + '/public/javascript/genomes/' + filename, content);
             console.log("The file was saved!");
             return [null, true];
