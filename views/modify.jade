@@ -32,8 +32,13 @@ html
              .row
               .col-md-3
                 label(label-default='', for='genomic-species-select')
-                  | Genome
-                  button#toggleButton.btn.btn-xs.btn-default(data-toggle='collapse', onclick='toggleSpecies()') Ensembl
+                  | Genome 
+                  .btn-group
+                       button#ensembl-button.btn.btn-xs(onclick='setEnsembl()') e!
+                       button#genome-choose-button.btn.btn-xs(onclick='setGenomeChoose()')
+                          span.glyphicon.glyphicon-list
+                       button#genome-upload-button.btn.btn-xs(onclick='setGenomeUpload()')
+                          span.glyphicon.glyphicon-file
                 if(object.genome.type === "ensembl")
                     #ensembl
                       select#genomic-species-select.form-control(name='species')
@@ -42,6 +47,8 @@ html
                              option(value=species.id, selected) #{species.display_name}
                            else
                              option(value=species.id) #{species.display_name}
+                    #file-choose
+                      select#genomic-files-select.form-control(name='genomes' style='display:none')
                     #upload.input-group(style='display:none')
                               label.input-group-btn
                                  span.btn.btn-primary
@@ -53,12 +60,14 @@ html
                       select#genomic-species-select.form-control(name='species')
                          each species in listSpecies
                            option(value=species.id) #{species.display_name}
-                    #upload.input-group
+                    #file-choose
+                      select#genomic-files-select.form-control(name='genomes')
+                    #upload.input-group(style='display:none')
                               label.input-group-btn
                                  span.btn.btn-primary
                                    | Browse… 
                                    input(type='file', style='display: none;', accept=".js", multiple=false)
-                              input.form-control(id='upload-input', type='text', readonly='', value=object.genome.name)
+                              input.form-control(id='upload-input', type='text', readonly='')
               #inputs
                 .col-md-3
                   label(label-default='', for='chromosome-input') Chromosome

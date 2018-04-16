@@ -16,17 +16,23 @@ router.get('/', utils.IsAuthenticated, function (req, res, next) {
                 callback(output[0], output[1]);
             }, 10);
         },
+//        genomes: function (callback) {
+//            setTimeout(function () {
+//                var output = utils.getGenomes();
+//                callback(output[0], output[1]);
+//            }, 10);
+//        },
         plugins: function (callback) {
             setTimeout(function () {
                 var output = utils.setList(dir + "/public/javascript/plugins/", "list-plugins.js");
                 callback(output[0], output[1]);
             }, 10);
-        }
+        }        
     },
             function (err, results) {
                 if (err) {
                     console.log(err);
-                    req.flash('error', 'Error while loading the list plugins or the list species.');
+                    req.flash('error', 'Error while loading the list of species or genomes or plugins.');
                     res.redirect('/');
                 } else {
                     res.render('instance', {listSpecies: results.species, listPlugins: results.plugins});
