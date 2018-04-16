@@ -70,18 +70,24 @@ html
                   // Default panel contents
                   .panel-heading
                     h2 Plugins
+                       .material-switch.pull-right
+                           input#select_all_Plugins_id(name='selectAllPlugins', type='checkbox', checked=true)
+                           label.label-primary(label-default='', for='select_all_Plugins_id')
                   // List group
                   ul#plugins.list-group
                       each plugins in listPlugins
                         li.list-group-item(title=plugins.id)
                           | #{plugins.name}
                           .material-switch.pull-right
-                            input(id=plugins.id, name=plugins.name, type='checkbox', checked='')
+                            input(id=plugins.id, name=plugins.name, type='checkbox', checked=true)
                             label.label-primary(label-default='', for=plugins.id)  
                 #ensembl-only-tracks.panel.panel-default
                   // Default panel contents
                   .panel-heading
                     h2 Ensembl Tracks
+                       .material-switch.pull-right
+                           input#select_all_id(name='selectAll', type='checkbox', checked=false)
+                           label.label-primary(label-default='', for='select_all_id')
                   // List group
                   ul#ensembl-tracks.list-group
                     li.list-group-item
@@ -103,8 +109,10 @@ html
                 .panel.panel-default
                   // Default panel contents
                   .panel-heading
-                    h2
-                      | Tracks
+                    h2 Tracks
+                       .material-switch.pull-right
+                          input#select_all_Tracks_id(name='selectAllTracks', type='checkbox', checked=false)
+                          label.label-primary(label-default='', for='select_all_Tracks_id')
                       // List group
                   ul#tracks.list-group
                     li.list-group-item
