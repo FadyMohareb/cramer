@@ -36,10 +36,17 @@ router.get('/request', function (req, res, next) {
     const {spawn} = require('child_process');
     var requestCorrect = true;
     res.writeHead(200);
-    var file = req.query.file,
-            chr = req.query.chr,
-            start = req.query.start,
-            end = req.query.end;
+//    var file = req.query.file,
+//            chr = req.query.chr,
+//            start = req.query.start,
+//            end = req.query.end;
+
+    var file = "ftp://138.250.31.77/Public/GenoVerse_GP_Testing/FDR/genome1x.bw",
+            chr = 1,
+            start = 16000,
+            end = 17000;
+    console.log("YES");
+    
     if (file) {
         if (chr && start && end) {
             var command;
@@ -49,7 +56,10 @@ router.get('/request', function (req, res, next) {
                 command = "/usr/bin/tabix " + file + ' chr' + chr + ':' + start + '-' + end;
             } else if (req.query.type.match("bam")) {
                 command = "/usr/bin/samtools view " + file + ' ' + chr + ':' + start + '-' + end;
+            } else if (req.query.type.match("bigwig")) {
+                command = "echo $'" + chr + "\t" + start + "\t" + end + "' > position.bed | bwtool extract bed position.bed " + file + " /dev/stdout";
             }
+            console.log(command);
 
             const child = spawn("sh", ["-c", command]);
             child.stdout.on('data', function (data) {
