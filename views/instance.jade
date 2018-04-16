@@ -34,7 +34,7 @@ html
                 label(label-default='', for='genomic-species-select')
                   | Genome 
                   .btn-group
-                       button#ensembl-button.btn.btn-xs(onclick='setEnsembl()') e!
+                       button#ensembl-button.btn.btn-xs(onclick='setEnsembl()', autofocus) e!
                        button#genome-choose-button.btn.btn-xs(onclick='setGenomeChoose()')
                           span.glyphicon.glyphicon-list
                        button#genome-upload-button.btn.btn-xs(onclick='setGenomeUpload()')
@@ -43,9 +43,10 @@ html
                   select#genomic-species-select.form-control(name='species')
                     each species in listSpecies
                       option(value=species.id) #{species.display_name}
-                #file-choose
-                  select#genomic-files-select.form-control(name='genomes' style='display:none')
-                
+                #filechoose(style='display:none')
+                  select#genomic-files-select.form-control(name='genomes')
+                    each genome in listGenomes
+                       option(value=genome) #{genome}
                 #upload.input-group(style='display:none')
                           label.input-group-btn
                              span.btn.btn-primary

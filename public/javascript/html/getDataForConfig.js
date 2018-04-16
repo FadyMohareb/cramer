@@ -54,14 +54,14 @@ function loadTracks() {
 
 function setEnsembl() {
     $("#ensembl").show();
-    $("#file-choose").hide();
+    $("#filechoose").hide();
     $("#upload").hide();
     $("#ensembl-only-tracks").show();
 }
 
 function setGenomeChoose() {
     $("#ensembl").hide();
-    $("#file-choose").show();
+    $("#filechoose").show();
     $("#upload").hide();
     $("#ensembl-only-tracks").hide();
     $("#gene_id").prop("checked", false);
@@ -73,7 +73,7 @@ function setGenomeChoose() {
 
 function setGenomeUpload() {
     $("#ensembl").hide();
-    $("#file-choose").hide();
+    $("#filechoose").hide();
     $("#upload").show();
     $("#ensembl-only-tracks").hide();
     $("#gene_id").prop("checked", false);
@@ -100,13 +100,6 @@ $(function () {
         });
     });
 });
-
-
-function uploadGenome() {
-    var file = $(':file')[0].files[0] ? $(':file')[0].files[0] : data.genome;
-    return file;
-}
-
 
 function removeTrack(item) {
     console.log('track deleted');
@@ -206,7 +199,7 @@ function addFastaTrack(modify, object) {
 function addBedTrack(modify, object) {
     var trackString = modify ? object.data : 'Genoverse.Track.File.BED.extend({\nname: \''
             + $('#bedNameInput').val() + '\',\ninfo: \''
-            + $('#bedInfoInput').val() + '\',\nurl: \'' +             
+            + $('#bedInfoInput').val() + '\',\nurl: \'' +
             'model: Genoverse.Track.Model.File.BED.extend({\n' +
             'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix\',\n' +
             'largeFile: true,\n' +
@@ -482,6 +475,16 @@ function findSpecies() {
     return species[species.selectedIndex].value;
 }
 
+function uploadGenome() {
+    var file = $(':file')[0].files[0];
+    return file;
+}
+
+function findListGenome() {
+    // Get the genome from the list
+    var genome = document.querySelector("#genomic-files-select");
+    return genome[genome.selectedIndex].value;
+}
 
 /////////////////////////////////////
 //           SUMBIT FORM           //
@@ -490,11 +493,8 @@ function findSpecies() {
 // Check the form when click on the button submit
 function validate(modify) {
     var ensemblVisible = $("#ensembl").is(':visible');
-
-    if (!ensemblVisible) {
-        var file = uploadGenome();
-        var doGenome = file.size ? true : false;
-    }
+    var genomeListVisible = $("#filechoose").is(':visible');
+    var genomeUploadVisible = $("#upload").is(':visible');
 
     var valide = true;
 
@@ -507,19 +507,22 @@ function validate(modify) {
         }
     }
 
-    // Get the genome from Ensembl or file
+    // Get the genome from Ensembl or file or list
     if (ensemblVisible) {
         var genomeSelected = {name: findSpecies(), type: "ensembl"};
         if (!check["species"](genomeSelected))
             valide = false;
-    } else if (doGenome) {
+    } else if (genomeListVisible) {
+        var genomeSelected = {name: findListGenome(), type: "list"};
+        if (!check["listGenome"](genomeSelected))
+            valide = false;
+    } else if (genomeUploadVisible) {
+        var file = uploadGenome();
         var genomeSelected = {name: file.name.slice(0, -3), type: "genome"};
-        if (!check["genome"](genomeSelected, file.type.includes("javascript")))
+        if (!check["uploadGenome"](genomeSelected, file.type.includes("javascript")))
             valide = false;
     } else {
-        var genomeSelected = {name: file.name, type: "genome"};
-        if (!check["genome"](genomeSelected, true))
-            valide = false;
+        valide = false;
     }
 
     // Get all the plugins
@@ -570,7 +573,7 @@ function validate(modify) {
             var previousName = url.searchParams.get("name");
             data.previous = previousName;
 
-            if (doGenome) {
+            if (genomeUploadVisible) {
                 readFile(file, function (content) {
                     data.file = {filename: file.name, content: content};
                     console.log(data);
@@ -581,7 +584,7 @@ function validate(modify) {
                 sendData(data, global_url + '/modify');
             }
         } else {
-            if (doGenome) {
+            if (genomeUploadVisible) {
                 readFile(file, function (content) {
                     data.file = {filename: file.name, content: content};
                     console.log(data);
@@ -712,9 +715,20 @@ check['species'] = function (value) {
     }
 };
 
-check['genome'] = function (value, fileType) {
+check['listGenome'] = function (value) {
+    var genome = document.getElementById("genomic-files-select");
+    if (value.name) {
+        genome.style.background = "white";
+        return true;
+    } else {
+        genome.style.backgroundColor = "rgba(255,0,51,0.6)";
+        return false;
+    }
+};
+
+check['uploadGenome'] = function (value, fileType) {
     var genome = document.getElementById("upload-input");
-    if (value && fileType) {
+    if (value.name && fileType) {
         genome.style.background = "white";
         return true;
     } else {

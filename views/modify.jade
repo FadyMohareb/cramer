@@ -47,8 +47,10 @@ html
                              option(value=species.id, selected) #{species.display_name}
                            else
                              option(value=species.id) #{species.display_name}
-                    #file-choose
-                      select#genomic-files-select.form-control(name='genomes' style='display:none')
+                    #filechoose(style='display:none')
+                      select#genomic-files-select.form-control(name='genomes')
+                        each genome in listGenomes
+                           option(value=genome) #{genome}
                     #upload.input-group(style='display:none')
                               label.input-group-btn
                                  span.btn.btn-primary
@@ -60,8 +62,13 @@ html
                       select#genomic-species-select.form-control(name='species')
                          each species in listSpecies
                            option(value=species.id) #{species.display_name}
-                    #file-choose
+                    #filechoose
                       select#genomic-files-select.form-control(name='genomes')
+                        each genome in listGenomes
+                         if(genome === object.genome.name)
+                           option(value=genome, selected) #{genome}
+                         else
+                           option(value=genome) #{genome}
                     #upload.input-group(style='display:none')
                               label.input-group-btn
                                  span.btn.btn-primary
@@ -175,22 +182,22 @@ html
                         ul.list-group(id='bedTracks')
                     li.list-group-item
                       .material-switch.pull-right
-                        input#bigbed_id(name='bigbed', type='checkbox', checked=object.tracks[7].checked)
-                        label.label-primary(label-default='', for='bigbed_id')
-                      a(data-toggle='collapse', href='#collapseBIGBED') BIGBED Scores 
-                      button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#bigbedModal')
-                        span.glyphicon.glyphicon-plus
-                      #collapseBIGBED.panel-collapse.collapse
-                        ul.list-group(id='bigbedTracks')
-                    li.list-group-item
-                      .material-switch.pull-right
-                        input#bam_id(name='bam', type='checkbox', checked=object.tracks[8].checked)
+                        input#bam_id(name='bam', type='checkbox', checked=object.tracks[7].checked)
                         label.label-primary(label-default='', for='bam_id')
                       a(data-toggle='collapse', href='#collapseBAM') Genomic BAM Transcripts 
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#bamModal')
                         span.glyphicon.glyphicon-plus
                       #collapseBAM.panel-collapse.collapse
                         ul.list-group(id='bamTracks')
+                    li.list-group-item
+                      .material-switch.pull-right
+                        input#bigwig_id(name='bigwig', type='checkbox', checked=object.tracks[8].checked)
+                        label.label-primary(label-default='', for='bigwig_id')
+                      a(data-toggle='collapse', href='#collapseBIGWIG') BIGWIG Graph 
+                      button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#bigwigModal')
+                        span.glyphicon.glyphicon-plus  
+                      #collapseBIGWIG.panel-collapse.collapse
+                        ul.list-group(id='bigwigTracks')
                     li.list-group-item
                       .material-switch.pull-right
                         input#gff_id(name='gff', type='checkbox', checked=object.tracks[9].checked)
@@ -202,16 +209,7 @@ html
                         ul.list-group(id='gffTracks')
                     li.list-group-item
                       .material-switch.pull-right
-                        input#gff3_id(name='gff3', type='checkbox', checked=object.tracks[10].checked)
-                        label.label-primary(label-default='', for='gff3_id')
-                      a(data-toggle='collapse', href='#collapseGFF3') GFF Genes  
-                      button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#gff3Modal')
-                        span.glyphicon.glyphicon-plus
-                      #collapseGFF3.panel-collapse.collapse
-                        ul.list-group(id='gff3Tracks')
-                    li.list-group-item
-                      .material-switch.pull-right
-                        input#vcf_id(name='vcf', type='checkbox', checked=object.tracks[11].checked)
+                        input#vcf_id(name='vcf', type='checkbox', checked=object.tracks[10].checked)
                         label.label-primary(label-default='', for='vcf_id')
                       a(data-toggle='collapse', href='#collapseVCF') VCF Highlights 
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#vcfModal')
@@ -220,25 +218,7 @@ html
                         ul.list-group(id='vcfTracks')
                     li.list-group-item
                       .material-switch.pull-right
-                        input#wig_id(name='wig', type='checkbox', checked=object.tracks[12].checked)
-                        label.label-primary(label-default='', for='wig_id')
-                       a(data-toggle='collapse', href='#collapseWIG') WIG Graph 
-                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#wigModal')
-                        span.glyphicon.glyphicon-plus
-                      #collapseWIG.panel-collapse.collapse
-                        ul.list-group(id='wigTracks')
-                    li.list-group-item
-                      .material-switch.pull-right
-                        input#bigwig_id(name='bigwig', type='checkbox', checked=object.tracks[13].checked)
-                        label.label-primary(label-default='', for='bigwig_id')
-                      a(data-toggle='collapse', href='#collapseBIGWIG') BIGWIG Graph 
-                      button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#bigwigModal')
-                        span.glyphicon.glyphicon-plus  
-                      #collapseBIGWIG.panel-collapse.collapse
-                        ul.list-group(id='bigwigTracks')
-                    li.list-group-item
-                      .material-switch.pull-right
-                        input#snpDensity_id(name='snpDensity', type='checkbox', checked=object.tracks[14].checked)
+                        input#snpDensity_id(name='snpDensity', type='checkbox', checked=object.tracks[11].checked)
                         label.label-primary(label-default='', for='snpDensity_id')
                       a(data-toggle='collapse', href='#collapseSNPDensity') SNP Density Graphs 
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#snpDensityModal')
@@ -247,7 +227,7 @@ html
                         ul.list-group(id='snpDensityTracks')
                     li.list-group-item
                       .material-switch.pull-right
-                        input#geneExpression_id(name='geneExpression', type='checkbox', checked=object.tracks[15].checked)
+                        input#geneExpression_id(name='geneExpression', type='checkbox', checked=object.tracks[12].checked)
                         label.label-primary(label-default='', for='geneExpression_id')
                       a(data-toggle='collapse', href='#collapseGeneExpression') Gene Expression Graph 
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#geneExpressionModal')
@@ -256,7 +236,7 @@ html
                         ul.list-group(id='geneExpressionTracks')
                     li.list-group-item
                       .material-switch.pull-right
-                        input#custom_id(name='custom', type='checkbox', checked=object.tracks[16].checked)
+                        input#custom_id(name='custom', type='checkbox', checked=object.tracks[13].checked)
                         label.label-primary(label-default='', for='custom_id')
                       a(data-toggle='collapse', href='#collapseCUSTOM') Custom Track 
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#customTrackModal')
