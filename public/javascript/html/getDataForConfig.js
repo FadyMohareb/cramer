@@ -434,8 +434,7 @@ function addBigwigTrack(modify, object) {
             + $('#bigwigInfoInput').val() + '\',\n' +
             "model: Genoverse.Track.Model.File.ftpBIGWIG.extend({" +
                         'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=bigwig\',\n' +
-                        'urlParams: {file: \'' + $('#bigwigUrlInput').val() + '\'},\n' +
-                        'largeFile: true' + '\n})' + '\n})';
+                        'urlParams: {file: \'' + $('#bigwigUrlInput').val() + '\'}' + '\n})' + '\n})';
     var name = modify ? object.name : $('#bigwigNameInput').val();
     var info = modify ? object.description : $('#bigwigInfoInput').val();
     var valid = true;
@@ -456,7 +455,7 @@ function addBigwigTrack(modify, object) {
 
 function addSnpDensityTrack(modify, object) {
     // Make heterozygous track
-    var trackStringHet = modify ? object.data : 'Genoverse.Track.HeteroSNPDensity.extend({\nname: \'' +
+    var trackString = modify ? object.data : 'Genoverse.Track.SNPDensity.extend({\nname: \'' +
             $('#hetSnpDensityNameInput').val() + '\',\ninfo: \'' +
             $('#hetSnpDensityInfoInput').val() + '\',\n' +
             'model: Genoverse.Track.Model.HeteroSNPDensity.extend({\n' +

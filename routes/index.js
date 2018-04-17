@@ -51,7 +51,7 @@ router.get('/request', function (req, res, next) {
             } else if (req.query.type.match("bam")) {
                 command = "/usr/bin/samtools view " + file + ' ' + chr + ':' + start + '-' + end;
             } else if (req.query.type.match("bigwig")) {
-                command = "echo '" + chr + "\t" + start + "\t" + end + "' > position.bed | bwtool extract bed position.bed " + file + " resultBW.txt | cat resultBW.txt";
+                command = "echo '" + chr + "\t" + start + "\t" + end + "' > position.bed | bwtool extract bed position.bed " + file + " stdout";
             }
             console.log('Command: ' + command);
 

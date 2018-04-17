@@ -1,8 +1,10 @@
 Genoverse.Track.Model.File.ftpBIGWIG = Genoverse.Track.Model.Graph.Bar.extend({
     dataType: 'text',
-
+    
     getData: function () {
+        var deferred = $.Deferred();
         return this.base.apply(this, arguments);
+        return deferred;
     },
 
     parseData: function (text, chr, s, e) {
