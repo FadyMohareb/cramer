@@ -202,7 +202,7 @@ html
                       .material-switch.pull-right
                         input#gff_id(name='gff', type='checkbox', checked=object.tracks[9].checked)
                         label.label-primary(label-default='', for='gff_id')
-                      a(data-toggle='collapse', href='#collapseGFF') GFF Components  
+                      a(data-toggle='collapse', href='#collapseGFF') GFF Genes  
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#gffModal')
                         span.glyphicon.glyphicon-plus
                       #collapseGFF.panel-collapse.collapse
@@ -220,7 +220,7 @@ html
                       .material-switch.pull-right
                         input#snpDensity_id(name='snpDensity', type='checkbox', checked=object.tracks[11].checked)
                         label.label-primary(label-default='', for='snpDensity_id')
-                      a(data-toggle='collapse', href='#collapseSNPDensity') SNP Density Graphs 
+                      a(data-toggle='collapse', href='#collapseSNPDensity') SNP Density Graph 
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#snpDensityModal')
                         span.glyphicon.glyphicon-plus  
                       #collapseSNPDensity.panel-collapse.collapse
@@ -300,32 +300,7 @@ html
             p  All fields marked with an asterisk(*) are mandatory. 
               button.btn.btn-default.pull-right(type='button', onClick='addBedTrack()') Add track
     // END OF bedModal
-    // STARTS bigbedModal
-    // bigbed Modal
-    #bigbedModal.modal.fade(role='dialog')
-      .modal-dialog
-        // Modal content
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal') ×
-            h3.modal-title Add BIGBED file Track
-            p  Please, fill the required fields. 
-          .modal-body
-            .form-group
-              label(for='bigbedNameInput') Name*
-              input#bigbedNameInput.form-control(type='text', placeholder='Enter a name for this BIGBED track')
-            .form-group
-              label(for='bigbedInfoInput', aria-describedby='infoHelp') Info*
-              input#bigbedInfoInput.form-control(type='text', placeholder="Enter a short description of your BIGBED track's purpose")
-              small#infoHelp.form-text.text-muted The description will be used as a hover label in Genoverse
-            .form-group
-              label(for='bigbedUrlInput') Url or File Path*
-              input#bigbedUrlInput.form-control(type='text', placeholder='Enter url or filepath of BIGBED file')
-            .modal-footer
-            p  All fields marked with an asterisk(*) are mandatory. 
-              button.btn.btn-default.pull-right(type='button', onClick='addBigbedTrack()') Add track
-    // END OF bigbedModal
-        // STARTS bamModal
+    // STARTS bamModal
     // bam Modal
     #bamModal.modal.fade(role='dialog')
       .modal-dialog
@@ -350,6 +325,31 @@ html
             p  All fields marked with an asterisk(*) are mandatory. 
               button.btn.btn-default.pull-right(type='button', onClick='addBamTrack()') Add track
     // END OF bamModal
+    // STARTS bigwigModal
+    // bigwig Modal
+    #bigwigModal.modal.fade(role='dialog')
+      .modal-dialog
+        // Modal content
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal') ×
+            h3.modal-title Add BIGWIG file Track
+            p  Please, fill the required fields. 
+          .modal-body
+            .form-group
+              label(for='bigwigNameInput') Name*
+              input#bigwigNameInput.form-control(type='text', placeholder='Enter a name for this BIGWIG track')
+            .form-group
+              label(for='bigwigInfoInput', aria-describedby='infoHelp') Info*
+              input#bigwigInfoInput.form-control(type='text', placeholder="Enter a short description of your BIGWIG track's purpose")
+              small#infoHelp.form-text.text-muted The description will be used as a hover label in Genoverse
+            .form-group
+              label(for='bigwigUrlInput') Url or File Path*
+              input#bigwigUrlInput.form-control(type='text', placeholder='Enter url or filepath of BIGWIG file')
+            .modal-footer
+            p  All fields marked with an asterisk(*) are mandatory. 
+              button.btn.btn-default.pull-right(type='button', onClick='addBigwigTrack()') Add track
+    // END OF bigwigModal
     // STARTS gffModal
     // gff Modal
     #gffModal.modal.fade(role='dialog')
@@ -358,7 +358,7 @@ html
         .modal-content
           .modal-header
             button.close(type='button', data-dismiss='modal') ×
-            h3.modal-title Add GFF file Track
+            h3.modal-title Add GFF Gene Track
             p  Please, fill the required fields. 
           .modal-body
             .form-group
@@ -374,50 +374,21 @@ html
             .form-group
               label(for='gffThresholdInput') Threshold
               input#gffThresholdInput.form-control(type='text', placeholder='Enter threhold for gff track')
-            .modal-footer
-            p  All fields marked with an asterisk(*) are mandatory. 
-              button.btn.btn-default.pull-right(type='button', onClick='addGffTrack()') Add track
-    // END OF gffModal
-    // STARTS gff3Modal
-    // gff3 Modal
-    #gff3Modal.modal.fade(role='dialog')
-      .modal-dialog
-        // Modal content
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal') ×
-            h3.modal-title Add GFF Gene Track
-            p  Please, fill the required fields. 
-          .modal-body
             .form-group
-              label(for='gff3NameInput') Name*
-              input#gff3NameInput.form-control(type='text', placeholder='Enter a name for this GFF track')
-            .form-group
-              label(for='gff3InfoInput', aria-describedby='infoHelp') Info*
-              input#gff3InfoInput.form-control(type='text', placeholder="Enter a short description of your GFF track's purpose")
-              small#infoHelp.form-text.text-muted The description will be used as a hover label in Genoverse
-            .form-group
-              label(for='gff3UrlInput') Url or File Path*
-              input#gff3UrlInput.form-control(type='text', placeholder='Enter url or filepath of GFF, GFF3 or GTF file')
-            .form-group
-              label(for='gff3ThresholdInput') Threshold
-              input#gff3ThresholdInput.form-control(type='text', placeholder='Enter threhold for gff track')
-            .form-group
-              label(for='gff3IntronSelect') Intron Style
+              label(for='gffIntronSelect') Intron Style
               .br
-                select#gff3IntronSelect
+                select#gffIntronSelect
                   option(value='bezierCurve') Bezier Curve
                   option(value='hat') Hat
                   option(value='line') Line
             .form-group
-              label(for='gff3TypeMapText') Type Map
-              textarea#gff3TypeMapText.form-control(rows='3')
+              label(for='gffTypeMapText') Type Map
+              textarea#gffTypeMapText.form-control(rows='3')
                   | exon: 'exon',
                   | cds: 'cds'
-            .modal-footer
             p  All fields marked with an asterisk(*) are mandatory. 
-              button.btn.btn-default.pull-right(type='button', onClick='addGff3Track()') Add track
-    // END OF gff3Modal
+              button.btn.btn-default.pull-right(type='button', onClick='addGffTrack()') Add track
+    // END OF gffModal
     // STARTS vcfModal
     // vcf Modal
     #vcfModal.modal.fade(role='dialog')
@@ -449,56 +420,6 @@ html
             p  All fields marked with an asterisk(*) are mandatory. 
               button.btn.btn-default.pull-right(type='button', onClick='addVcfTrack()') Add track
     // END OF vcfModal
-    // STARTS wigModal
-    // wig Modal
-    #wigModal.modal.fade(role='dialog')
-      .modal-dialog
-        // Modal content
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal') ×
-            h3.modal-title Add WIG file Track
-            p  Please, fill the required fields. 
-          .modal-body
-            .form-group
-              label(for='wigNameInput') Name*
-              input#wigNameInput.form-control(type='text', placeholder='Enter a name for this WIG track')
-            .form-group
-              label(for='wigInfoInput', aria-describedby='infoHelp') Info*
-              input#wigInfoInput.form-control(type='text', placeholder="Enter a short description of your WIG track's purpose")
-              small#infoHelp.form-text.text-muted The description will be used as a hover label in Genoverse
-            .form-group
-              label(for='wigUrlInput') Url or File Path*
-              input#wigUrlInput.form-control(type='text', placeholder='Enter url or ftp filepath of WIG file')
-            .modal-footer
-            p  All fields marked with an asterisk(*) are mandatory. 
-              button.btn.btn-default.pull-right(type='button', onClick='addWigTrack()') Add track
-    // END OF wigModal
-    // STARTS bigwigModal
-    // bigwig Modal
-    #bigwigModal.modal.fade(role='dialog')
-      .modal-dialog
-        // Modal content
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal') ×
-            h3.modal-title Add BIGWIG file Track
-            p  Please, fill the required fields. 
-          .modal-body
-            .form-group
-              label(for='bigwigNameInput') Name*
-              input#bigwigNameInput.form-control(type='text', placeholder='Enter a name for this BIGWIG track')
-            .form-group
-              label(for='bigwigInfoInput', aria-describedby='infoHelp') Info*
-              input#bigwigInfoInput.form-control(type='text', placeholder="Enter a short description of your BIGWIG track's purpose")
-              small#infoHelp.form-text.text-muted The description will be used as a hover label in Genoverse
-            .form-group
-              label(for='bigwigUrlInput') Url or File Path*
-              input#bigwigUrlInput.form-control(type='text', placeholder='Enter url or filepath of BIGWIG file')
-            .modal-footer
-            p  All fields marked with an asterisk(*) are mandatory. 
-              button.btn.btn-default.pull-right(type='button', onClick='addBigwigTrack()') Add track
-    // END OF bigwigModal
     // STARTS snpDensityModal
     // snpDensity Modal
     #snpDensityModal.modal.fade(role='dialog')
@@ -507,29 +428,19 @@ html
         .modal-content
           .modal-header
             button.close(type='button', data-dismiss='modal') ×
-            h3.modal-title Add SNP Density Tracks
+            h3.modal-title Add SNP Density Track
             p  Please, fill the required fields. 
           .modal-body
             .form-group
-              label(for='hetSnpDensityNameInput') Heterozygous SNPs Track Name*
-              input#hetSnpDensityNameInput.form-control(type='text', placeholder='Enter a name for this SNP density track')
+              label(for='snpDensityNameInput') SNP Density Track Name*
+              input#snpDensityNameInput.form-control(type='text', placeholder='Enter a name for this SNP density track')
             .form-group
-              label(for='hetSnpDenistyInfoInput', aria-describedby='infoHelp') Heterozygous SNPs Track Info*
-              input#hetSnpDensityInfoInput.form-control(type='text', placeholder="Enter a short description of this SNP density track's purpose")
-              small#infoHelp.form-text.text-muted The description will be used as a hover label in Genoverse
-            form-group
-              label(for='homSnpDensityNameInput') HomozygousSNPs Track Name*
-              input#homSnpDensityNameInput.form-control(type='text', placeholder='Enter a name for this SNP density track')
-            .form-group
-              label(for='homSnpDenistyInfoInput', aria-describedby='infoHelp') HomozygousSNPs Track Info*
-              input#homSnpDensityInfoInput.form-control(type='text', placeholder="Enter a short description of this SNP density track's purpose")
+              label(for='snpDenistyInfoInput', aria-describedby='infoHelp') SNP Density Track Info*
+              input#snpDensityInfoInput.form-control(type='text', placeholder="Enter a short description of this SNP density track's purpose")
               small#infoHelp.form-text.text-muted The description will be used as a hover label in Genoverse
             .form-group
               label(for='snpDensityUrlInput') VCF Url or File Path*
               input#snpDensityUrlInput.form-control(type='text', placeholder='Enter url or filepath of VCF file')
-            .form-group
-              label(for='snpDensityMAF') MAF Threshold
-              input#snpDensityMAFInput.form-control(type='text', placeholder='Enter MAF threshold')
             .modal-footer
             p  All fields marked with an asterisk(*) are mandatory. 
               button.btn.btn-default.pull-right(type='button', onClick='addSnpDensityTrack()') Add track
@@ -592,4 +503,4 @@ html
           .modal-footer
             button.btn.btn-default.pull-right(type='button', onClick='addCustomTrack()') Add track
     // END of Add custom track button modal
-    
+     
