@@ -108,7 +108,7 @@ $("#select_all_Plugins_id").change(function () {
 });
 
 function selectAllPlugins() {
-      var selecting = $("#select_all_Plugins_id").is(":checked");
+    var selecting = $("#select_all_Plugins_id").is(":checked");
     var plugins = document.querySelectorAll("#plugins.list-group input");
     console.log(plugins);
     //console.log(selecting);
@@ -133,9 +133,9 @@ $("#select_all_Tracks_id").change(function () {
 function selectAllTracks() {
     var selecting = $("#select_all_Tracks_id").is(":checked");
     //console.log(selecting);
-  var configtracks = document.querySelectorAll("#tracks.list-group input");
+    var configtracks = document.querySelectorAll("#tracks.list-group input");
     console.log(configtracks);
-    
+
     switch (selecting) {
         case true:
             for (var i = 0; i < configtracks.length; i++) {
@@ -268,7 +268,7 @@ function addFastaTrack(modify, object) {
 function addBedTrack(modify, object) {
     var trackString = modify ? object.data : 'Genoverse.Track.File.BED.extend({\nname: \''
             + $('#bedNameInput').val() + '\',\ninfo: \''
-            + $('#bedInfoInput').val() + '\',\n' +             
+            + $('#bedInfoInput').val() + '\',\n' +
             'model: Genoverse.Track.Model.File.BED.extend({\n' +
             'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix\',\n' +
             'largeFile: true,\n' +
@@ -326,8 +326,8 @@ function addBigwigTrack(modify, object) {
             + $('#bigwigNameInput').val() + '\',\ninfo: \''
             + $('#bigwigInfoInput').val() + '\',\n' +
             "model: Genoverse.Track.Model.File.ftpBIGWIG.extend({" +
-                        'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=bigwig\',\n' +
-                        'urlParams: {file: \'' + $('#bigwigUrlInput').val() + '\'}' + '\n})' + '\n})';
+            'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=bigwig\',\n' +
+            'urlParams: {file: \'' + $('#bigwigUrlInput').val() + '\'}' + '\n})' + '\n})';
     var name = modify ? object.name : $('#bigwigNameInput').val();
     var info = modify ? object.description : $('#bigwigInfoInput').val();
     var valid = true;
@@ -452,8 +452,8 @@ function addBigwigTrack(modify, object) {
             + $('#bigwigNameInput').val() + '\',\ninfo: \''
             + $('#bigwigInfoInput').val() + '\',\n' +
             "model: Genoverse.Track.Model.File.ftpBIGWIG.extend({" +
-                        'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=bigwig\',\n' +
-                        'urlParams: {file: \'' + $('#bigwigUrlInput').val() + '\'}' + '\n})' + '\n})';
+            'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=bigwig\',\n' +
+            'urlParams: {file: \'' + $('#bigwigUrlInput').val() + '\'}' + '\n})' + '\n})';
     var name = modify ? object.name : $('#bigwigNameInput').val();
     var info = modify ? object.description : $('#bigwigInfoInput').val();
     var valid = true;
@@ -503,8 +503,8 @@ function addSnpDensityTrack(modify, object) {
     var valid = true;
     if (!modify)
 //        valid = checkSnpDensityTrack(nameHet, nameHom, infoHet, infoHom, $('#snpDensityUrlInput').val());
-          valid = checkTrack('snpDensity');
-      console.log(valid);
+        valid = checkTrack('snpDensity');
+    console.log(valid);
     if (valid === true) {
         //Add to track list
         var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
@@ -723,17 +723,19 @@ function sendData(data, url) {
         contentType: 'application/json',
         url: url,
         success: function (data) {
-            console.log('success');
+            console.log('Process SUCCESS');
             console.log(JSON.stringify(data));
             if (data === 'done')
             {
                 window.location.href = "/";
+            } else if (data === 'name') {
+                alert('Instance Name Already Exist');
             } else {
                 alert('Error Creating the Instance');
             }
         },
         error: function () {
-            console.log('process error');
+            console.log('Process ERROR');
         }
     });
 }

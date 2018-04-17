@@ -71,24 +71,32 @@ router.post('/', function (req, res, next) {
         },
         valideConfig: function (callback) {
             setTimeout(function () {
-                var instance = new GenoverseInstance({
-                    "name": obj.name,
-                    "description": obj.description,
-                    "genome": obj.genome,
-                    "chr": obj.chromosome,
-                    "start": obj.start,
-                    "end": obj.end,
-                    "plugins": obj.plugins,
-                    "tracks": obj.tracks
-                });
-                instance.save(function (err) {
-                    if (err) {
-                        console.log(err);
-                        callback(err);
+                GenoverseInstance.find({name: obj.name}, function (err, exist) {
+                    if (exist.length) {
+                        console.log("Instance Name Already Exist");
+                        callback("Name already exist", null);
+                    } else {
+                        var instance = new GenoverseInstance({
+                            "name": obj.name,
+                            "description": obj.description,
+                            "genome": obj.genome,
+                            "chr": obj.chromosome,
+                            "start": obj.start,
+                            "end": obj.end,
+                            "plugins": obj.plugins,
+                            "tracks": obj.tracks
+                        });
+                        instance.save(function (err) {
+                            if (err) {
+                                console.log(err);
+                                callback(err);
+                            }
+                            console.log('Instance added !');
+                            callback(null, true);
+                        });
                     }
-                    console.log('Instance added !');
-                    callback(null, true);
                 });
+
 
             }, 10);
         }
@@ -96,7 +104,12 @@ router.post('/', function (req, res, next) {
             function (err, results) {
                 if (err) {
                     console.log(err);
-                    res.end('error');
+                    if (err === "Name already exist") {
+                        res.end('name');
+                    } else {
+                        res.end('error');
+                    }
+
                 } else if (results.valideConfig && results.valideGenome) {
                     console.log('Everything is alright');
                     res.end('done');
