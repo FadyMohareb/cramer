@@ -11,7 +11,13 @@ router.get('/', utils.IsAuthenticated, function (req, res, next) {
     async.parallel({
         species: function (callback) {
             setTimeout(function () {
-                var output = utils.setList(dir + "/public/javascript/genomes/", "list-species.js");
+                var output = utils.setList(dir + "/public/javascript/", "list-species.js");
+                callback(output[0], output[1]);
+            }, 10);
+        },
+        genomes: function (callback) {
+            setTimeout(function () {
+                var output = utils.getGenomes();
                 callback(output[0], output[1]);
             }, 10);
         },
@@ -31,7 +37,7 @@ router.get('/', utils.IsAuthenticated, function (req, res, next) {
                     req.flash('error', 'Error while loading the species or the instance.');
                     res.redirect('/');
                 } else {
-                    res.render('modify', {object: results.instance[0], listSpecies: results.species});
+                    res.render('modify', {object: results.instance[0], listGenomes: results.genomes, listSpecies: results.species});
                 }
 
             });
@@ -52,14 +58,17 @@ router.post('/', function (req, res, next) {
                     console.log('Genome From Ensembl');
                     var output = utils.createGenome(genome);
                     callback(output[0], output[1]);
+                } else if (obj.genome.type === "list") {
+                    console.log("Genome File From List");
+                    callback(null, true);
                 } else if (obj.file) {
                     file = obj.file;
-                    console.log("Genome From File");
+                    console.log("Genome From Upload File");
                     var output = utils.createGenomeFromFile(file.filename, file.content);
                     callback(output[0], output[1]);
                 } else {
-                    console.log("Genome Not Changed from File");
-                    callback(null, true);
+                    console.log("No genome loaded error");
+                    callback("No genome loaded", false);
                 }
             }, 10);
         },
@@ -67,6 +76,7 @@ router.post('/', function (req, res, next) {
             setTimeout(function () {
                 GenoverseInstance.find({name: obj.previous}, function (err, instance) {
                     if (err) {
+                        console.log(err);
                         res.send(err);
                         throw err;
                     } else if (instance.length) {
@@ -81,6 +91,7 @@ router.post('/', function (req, res, next) {
                         instance[0].tracks = obj.tracks;
                         instance[0].save(function (err) {
                             if (err) {
+                                console.log(err);
                                 throw err;
                                 callback(err);
                             }
@@ -95,11 +106,12 @@ router.post('/', function (req, res, next) {
     },
             function (err, results) {
                 if (results.valideConfig && results.valideGenome) {
-                    res.end('done');
                     console.log('Everything is alright -> Open the index page');
+                    res.end('done');
                 } else {
-                    res.end('error');
+                    console.log(err);
                     console.log('Something is wrong -> Check the createGenome or writeConfig functions');
+                    res.end('error');
                 }
             }
     );

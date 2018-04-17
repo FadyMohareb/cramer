@@ -12,7 +12,13 @@ router.get('/', utils.IsAuthenticated, function (req, res, next) {
     async.parallel({
         species: function (callback) {
             setTimeout(function () {
-                var output = utils.setList(dir + "/public/javascript/genomes/", "list-species.js");
+                var output = utils.setList(dir + "/public/javascript/", "list-species.js");
+                callback(output[0], output[1]);
+            }, 10);
+        },
+        genomes: function (callback) {
+            setTimeout(function () {
+                var output = utils.getGenomes();
                 callback(output[0], output[1]);
             }, 10);
         },
@@ -26,10 +32,10 @@ router.get('/', utils.IsAuthenticated, function (req, res, next) {
             function (err, results) {
                 if (err) {
                     console.log(err);
-                    req.flash('error', 'Error while loading the list plugins or the list species.');
+                    req.flash('error', 'Error while loading the list of species or genomes or plugins.');
                     res.redirect('/');
                 } else {
-                    res.render('instance', {listSpecies: results.species, listPlugins: results.plugins});
+                    res.render('instance', {listSpecies: results.species, listGenomes: results.genomes, listPlugins: results.plugins});
                 }
 
             }
@@ -49,6 +55,9 @@ router.post('/', function (req, res, next) {
                     console.log('Genome From Ensembl');
                     var output = utils.createGenome(genome);
                     callback(output[0], output[1]);
+                } else if (obj.genome.type === "list") {
+                    console.log("Genome File From List");
+                    callback(null, true);
                 } else if (obj.file) {
                     file = obj.file;
                     console.log("Genome From File");
@@ -74,6 +83,7 @@ router.post('/', function (req, res, next) {
                 });
                 instance.save(function (err) {
                     if (err) {
+                        console.log(err);
                         callback(err);
                     }
                     console.log('Instance added !');
@@ -85,14 +95,14 @@ router.post('/', function (req, res, next) {
     },
             function (err, results) {
                 if (err) {
-                    res.end('error');
                     console.log(err);
-                } else if (results.valideConfig && results.valideGenome) {
-                    res.end('done');
-                    console.log('Everything is alright');
-                } else {
                     res.end('error');
+                } else if (results.valideConfig && results.valideGenome) {
+                    console.log('Everything is alright');
+                    res.end('done');
+                } else {
                     console.log('Something is wrong -> Check the validGenome and valideConfig functions');
+                    res.end('error');
                 }
             }
     );
