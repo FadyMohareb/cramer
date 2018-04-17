@@ -42,9 +42,14 @@ new Genoverse({
 //                    threshold: 1000000,
 //                    name: 'BAM<br/>Models'
 //                })
-//                Genoverse.Track.File.BIGWIG.extend({
-//                    url: "http://elvis.misc.cranfield.ac.uk:8050/genome1x.bw",
-//                    name: 'WIG<br/>Models'
+//6820032-6824128 16000-17000
+//                Genoverse.Track.File.ftpBIGWIG.extend({
+//                    model: Genoverse.Track.Model.File.ftpBIGWIG.extend({
+//                        url: "http://138.250.31.99:2500/index/request?chr=__CHR__&start=__START__&end=__END__&type=bigwig",
+//                        urlParams: {file: 'ftp://138.250.31.77/Public/GenoVerse_GP_Testing/FDR/genome1x.bw'},
+//                        largeFile: true
+//                    }),
+//                    name: 'BIGWIG<br/>Graphs'
 //                })
 //                Genoverse.Track.extend({
 //                    name: "Fasta",

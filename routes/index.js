@@ -40,6 +40,7 @@ router.get('/request', function (req, res, next) {
             chr = req.query.chr,
             start = req.query.start,
             end = req.query.end;
+    
     if (file) {
         if (chr && start && end) {
             var command;
@@ -49,7 +50,10 @@ router.get('/request', function (req, res, next) {
                 command = "/usr/bin/tabix " + file + ' chr' + chr + ':' + start + '-' + end;
             } else if (req.query.type.match("bam")) {
                 command = "/usr/bin/samtools view " + file + ' ' + chr + ':' + start + '-' + end;
+            } else if (req.query.type.match("bigwig")) {
+                command = "echo '" + chr + "\t" + start + "\t" + end + "' > position.bed | bwtool extract bed position.bed " + file + " stdout";
             }
+            console.log('Command: ' + command);
 
             const child = spawn("sh", ["-c", command]);
             child.stdout.on('data', function (data) {

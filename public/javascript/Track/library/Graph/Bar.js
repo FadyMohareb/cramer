@@ -193,6 +193,15 @@ Genoverse.Track.Graph.Bar = Genoverse.Track.Graph.extend({
   model     : Genoverse.Track.Model.Graph.Bar,
   view      : Genoverse.Track.View.Graph.Bar,
   threshold : 500000,
+  
+   setInterface: function () {
+    this.base();
+
+    this._interface.isLocal   = 'model';
+    this._interface.dataFile  = 'model';
+    this._interface.indexFile = 'model';
+    this._interface.largeFile = 'model';
+  },
 
   10000: $.extend( // Switch to line graph at 10000bp region
     Object.keys(Genoverse.Track.Graph.Line.prototype).reduce(function (hash, key) {

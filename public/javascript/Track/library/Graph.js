@@ -194,7 +194,7 @@ Genoverse.Track.Graph = Genoverse.Track.extend({
    */
   resizable    : true,
   rescaleableY : 'auto',
-
+  
   setDefaults: function () {
     this.range       = this.yRange || [ 0, this.height ];
     this.rescaleable = this.rescaleableY;

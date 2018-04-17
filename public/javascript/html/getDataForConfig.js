@@ -148,14 +148,6 @@ function selectAllTracks() {
             }
             break;
     }
-
-
-
-
-
-
-
-
 }
 
 // UPLOAD GENOME FILE
@@ -453,9 +445,34 @@ function addWigTrack(modify, object) {
     }
 }
 
+function addBigwigTrack(modify, object) {
+    var trackString = modify ? object.data : 'Genoverse.Track.File.ftpBIGWIG.extend({\nname: \''
+            + $('#bigwigNameInput').val() + '\',\ninfo: \''
+            + $('#bigwigInfoInput').val() + '\',\n' +
+            "model: Genoverse.Track.Model.File.ftpBIGWIG.extend({" +
+                        'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=bigwig\',\n' +
+                        'urlParams: {file: \'' + $('#bigwigUrlInput').val() + '\'}' + '\n})' + '\n})';
+    var name = modify ? object.name : $('#bigwigNameInput').val();
+    var info = modify ? object.description : $('#bigwigInfoInput').val();
+    var valid = true;
+    if (!modify)
+        valid = checkTrack('bigwig');
+    if (valid === true) {
+        var track = {name: name, description: info, data: trackString};
+        //Add to track list
+        var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
+        $('#bigwigTracks').append(listItem);
+        bigwig.push(track);
+        console.log('BIGWIG track added');
+        trackCount++;
+        $('.modal').modal('hide');
+        $('#collapseBIGWIG').collapse('show');
+    }
+}
+
 function addSnpDensityTrack(modify, object) {
     // Make heterozygous track
-    var trackStringHet = modify ? object.data : 'Genoverse.Track.HeteroSNPDensity.extend({\nname: \'' +
+    var trackString = modify ? object.data : 'Genoverse.Track.SNPDensity.extend({\nname: \'' +
             $('#hetSnpDensityNameInput').val() + '\',\ninfo: \'' +
             $('#hetSnpDensityInfoInput').val() + '\',\n' +
             'model: Genoverse.Track.Model.HeteroSNPDensity.extend({\n' +
