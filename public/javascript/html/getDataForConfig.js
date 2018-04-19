@@ -251,7 +251,7 @@ function addFastaTrack(modify, object) {
     var info = modify ? object.description : $('#fastaInfoInput').val();
     var valid = true;
     if (!modify)
-        valid = checkTrack('fasta');
+        valid = checkTrack('fasta', ['fasta', 'txt', 'fna', 'ffn', 'faa', 'frn']);
     if (valid === true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -277,7 +277,7 @@ function addBedTrack(modify, object) {
     var info = modify ? object.description : $('#bedInfoInput').val();
     var valid = true;
     if (!modify)
-        valid = checkTrack('bed');
+        valid = checkTrack('bed', 'bed');
     if (valid === true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -306,7 +306,7 @@ function addBamTrack(modify, object) {
     var info = modify ? object.description : $('#bamInfoInput').val();
     var valid = true;
     if (!modify)
-        valid = checkTrack('bam');
+        valid = checkTrack('bam', 'bam');
 
     if (valid === true) {
         var track = {name: name, description: info, data: trackString};
@@ -330,7 +330,7 @@ function addBigwigTrack(modify, object) {
     var info = modify ? object.description : $('#bigwigInfoInput').val();
     var valid = true;
     if (!modify)
-        valid = checkTrack('bigwig');
+        valid = checkTrack('bigwig', 'bw');
     if (valid === true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -371,7 +371,7 @@ function addGffTrack(modify, object) {
     var info = modify ? object.description : $('#gffInfoInput').val();
     var valid = true;
     if (!modify)
-        valid = checkTrack('gff');
+        valid = checkTrack('gff', ['gff', 'gff3', 'gtf']);
 
     if (valid === true) {
         console.log(trackString);
@@ -408,7 +408,7 @@ function addVcfTrack(modify, object) {
     var info = modify ? object.description : $('#vcfInfoInput').val();
     var valid = true;
     if (!modify)
-        valid = checkTrack('vcf');
+        valid = checkTrack('vcf', 'vcf');
     if (valid === true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -431,7 +431,7 @@ function addWigTrack(modify, object) {
     var info = modify ? object.description : $('#wigInfoInput').val();
     var valid = true;
     if (!modify)
-        valid = checkTrack('wig');
+        valid = checkTrack('wig', 'wig');
     if (valid === true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -456,7 +456,7 @@ function addBigwigTrack(modify, object) {
     var info = modify ? object.description : $('#bigwigInfoInput').val();
     var valid = true;
     if (!modify)
-        valid = checkTrack('bigwig');
+        valid = checkTrack('bigwig', 'bw');
     if (valid === true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -589,7 +589,7 @@ function validate(modify) {
     var ensemblVisible = $("#ensembl").is(':visible');
     var genomeListVisible = $("#filechoose").is(':visible');
     var genomeUploadVisible = $("#upload").is(':visible');
-
+    var err = [];
     var valide = true;
 
     // Get all the inputs of the chromosome
@@ -598,6 +598,12 @@ function validate(modify) {
         check[inputs[i].name](); // Check
         if (!check[inputs[i].name]()) {
             valide = false;
+            if(inputs[i].name !== 'name'){
+                err.push('- ' + inputs[i].name + ' field is empty');
+            } else {
+                err.push('- ' + inputs[i].name + ' field is empty or name is incorrect, acceptable are:\n\t- alphabetic characters, A to Z,\n\t- the 10 Arabic numerals, 0 to 9\n\t- "_", "-" or "space" character between words');
+            }
+            
         }
     }
 
@@ -610,11 +616,13 @@ function validate(modify) {
         var genomeSelected = {name: findListGenome(), type: "list"};
         if (!check["listGenome"](genomeSelected))
             valide = false;
+            err.push('- genome is not selected');
     } else if (genomeUploadVisible) {
         var file = uploadGenome();
         var genomeSelected = {name: file.name.slice(0, -3), type: "genome"};
         if (!check["uploadGenome"](genomeSelected, file.type.includes("javascript")))
             valide = false;
+            err.push('- genome is not selected');
     } else {
         valide = false;
     }
@@ -693,7 +701,7 @@ function validate(modify) {
             }
         }
     } else {
-        alert('Please fill in the form correctly');
+        errMessage(err);
     }
 
 }
@@ -734,7 +742,14 @@ function sendData(data, url) {
     });
 }
 
-
+function errMessage(err) {
+    if (err.length > 1) {
+        err = err.join('\n\n');
+        alert('Please fill in the form correctly:\n\n\n' + err);
+    } else if (err.length === 1) {
+        alert('\t\tPlease fill in the form correctly:\n\n' + err);
+    }
+}
 /* Functions to check if the form is filled properly
  * If not change the background color
  */
@@ -754,9 +769,10 @@ check['info'] = function () {
 
 check['name'] = function () {
     var name = document.getElementById("project-name-input");
+    var alphanumeric = /^\w+([ _-]?\w+)*$/;
 
-    // Not empty
-    if (name.value !== "") {
+    // Not empty and alphanumeric
+    if (name.value.match(alphanumeric)) {
         name.style.background = "white";
         return true;
     } else {
@@ -839,30 +855,47 @@ check['uploadGenome'] = function (value, fileType) {
 /////////////////////////////////////
 
 
-function checkTrack(track) {
+function checkTrack(track, ext) {
+    
+    //check extension
+    var extCall = checkExtension($('#' + track + 'UrlInput').val(), ext);
+    
+    //error messages
+    var errTrack = [];
+    
     var valid = true;
     if ($('#' + track + 'NameInput').val() === '') {
         valid = false;
         $('#' + track + 'NameInput').css({'background-color': "rgba(255,0,51,0.6)"});
+        errTrack.push('- name field is empty');
     } else {
         $('#' + track + 'NameInput').css({'background-color': "white"});
     }
     if ($('#' + track + 'InfoInput').val() === '') {
         valid = false;
         $('#' + track + 'InfoInput').css({'background-color': "rgba(255,0,51,0.6)"});
+        errTrack.push('- info field is empty');
     } else {
         $('#' + track + 'InfoInput').css({'background-color': "white"});
     }
-    if ($('#' + track + 'UrlInput').val() === '') {
+    if ($('#' + track + 'UrlInput').val() === '' ) {
         valid = false;
         $('#' + track + 'UrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
+        errTrack.push('- url/file path is missing');
     } else {
-        $('#' + track + 'UrlInput').css({'background-color': "white"});
+        if (extCall === false) {
+            valid = false;
+            $('#' + track + 'UrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
+            errTrack.push('- url/file path is incorrect, acceptable file\nextension(s): ' + ext);
+        } else {
+            $('#' + track + 'UrlInput').css({'background-color': "white"});
+        }
     }
     if ($('#' + track + 'ThresholdInput')) {
         if (Number($('#' + track + 'ThresholdInput').val()) > 10000) {
             valid = false;
             $('#' + track + 'ThresholdInput').css({'background-color': "rgba(255,0,51,0.6)"});
+            errTrack.push('threshold value is incorrect');
         } else {
             $('#' + track + 'ThresholdInput').css({'background-color': "white"});
         }
@@ -871,97 +904,160 @@ function checkTrack(track) {
         if (Number($('#' + track + 'MaxqualInput').val()) > 10000) {
             valid = false;
             $('#' + track + 'MaxqualInput').css({'background-color': "rgba(255,0,51,0.6)"});
+            errTrack.push('max quality value is incorrect');
         } else {
             $('#' + track + 'MaxqualInput').css({'background-color': "white"});
         }
     }
+    
+    errMessage(errTrack);
+    
     return valid;
 }
 
+function checkExtension(filepath, ext) {
+    var getExt = filepath.toLowerCase().split('.');
+    var found = false;
+    for (var i = 0; i < ext.length; i++) {
+        if (getExt.indexOf(ext[i]) > -1) {
+            found = true;
+            break;
+        }
+    }
+    return found;
+}
 
 function checkSnpDensityTrack(nameHet, nameHom, infoHet, infoHom, url) {
     var valid = true;
+    
+    //check extension
+    var extCallSnpDensityTrack = checkExtension(url, 'vcf');
+    
+    //error messages
+    var errSnpDensityTrack = [];
+    
     if (nameHet === '') {
         valid = false;
         $("#hetSnpDensityNameInput").css({'background-color': "rgba(255,0,51,0.6)"});
+        errSnpDensityTrack.push('- name field for heterozygous is empty');
     } else {
         $("#hetSnpDensityNameInput").css({'background-color': "white"});
     }
     if (infoHet === '') {
         valid = false;
         $("#hetSnpDensityInfoInput").css({'background-color': "rgba(255,0,51,0.6)"});
+        errSnpDensityTrack.push('- info field for heterozygous is empty');
     } else {
         $("#hetSnpDensityInfoInput").css({'background-color': "white"});
     }
     if (nameHom === '') {
         valid = false;
         $("#homSnpDensityNameInput").css({'background-color': "rgba(255,0,51,0.6)"});
+        errSnpDensityTrack.push('- name field for homozygous is empty');
     } else {
         $("#homSnpDensityNameInput").css({'background-color': "white"});
     }
     if (infoHom === '') {
         valid = false;
         $("#homSnpDensityInfoInput").css({'background-color': "rgba(255,0,51,0.6)"});
+        errSnpDensityTrack.push('- info field for homozygous is empty');
     } else {
         $("#homSnpDensityInfoInput").css({'background-color': "white"});
     }
     if (url === '') {
         valid = false;
         $('#snpDensityUrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
+        errSnpDensityTrack.push('- url/file path is missing');
     } else {
-        $("#snpDensityUrlInput").css({'background-color': "white"});
+        if (extCallSnpDensityTrack === false) {
+            valid = false;
+            $('#snpDensityUrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
+            errSnpDensityTrack.push('- url/file path is incorrect, acceptable file\nextension: vcf');
+        } else {
+            $("#snpDensityUrlInput").css({'background-color': "white"});
+        }
     }
+    
+    errMessage(errSnpDensityTrack);
     return valid;
 }
 
 function checkGeneExpressionTrack(name, info, rsemUrl, gffUrl) {
     var valid = true;
+    
+    //check extension
+    var extCallGeneExpressionTrack = checkExtension(gffUrl, 'gff');
+    
+    //error messages
+    var errGeneExpressionTrack = [];
+    
     if (name === '') {
         valid = false;
         $("#geneExpressionNameInput").css({'background-color': "rgba(255,0,51,0.6)"});
+        errGeneExpressionTrack.push('- name field is empty');
     } else {
         $("#geneExpressionNameInput").css({'background-color': "white"});
     }
     if (info === '') {
         valid = false;
         $("#geneExpressionInfoInput").css({'background-color': "rgba(255,0,51,0.6)"});
+        errGeneExpressionTrack.push('- info field is empty');
     } else {
         $("#geneExpressionInfoInput").css({'background-color': "white"});
     }
     if (rsemUrl === '') {
         valid = false;
         $('#geneExpressionRsemUrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
+        errGeneExpressionTrack.push('- RSEM results field is empty');
     } else {
         $('#geneExpressionRsemUrlInput').css({'background-color': "white"});
     }
     if (gffUrl === '') {
         valid = false;
         $('#geneExpressionGffUrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
+        errGeneExpressionTrack.push('- url/file path is missing');
     } else {
-        $('#geneExpressionGffUrlInput').css({'background-color': "white"});
+        if (extCallGeneExpressionTrack === false) {
+            valid = false;
+            $('#geneExpressionGffUrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
+            errGeneExpressionTrack.push('- url/file path is incorrect, acceptable file\nextension: gff');
+        } else {
+            $('#geneExpressionGffUrlInput').css({'background-color': "white"});
+        } 
     }
+
+    errMessage(errGeneExpressionTrack);
     return valid;
 }
 
 function checkCustomTrack(name, info, trackString) {
     var valid = true;
+    
+    //error messages
+    var errCustomTrack = [];
+    
     if (name === '') {
         valid = false;
         $("#customNameInput").css({'background-color': "rgba(255,0,51,0.6)"});
+        errCustomTrack.push('- name field is empty');
     } else {
         $("#customNameInput").css({'background-color': "white"});
     }
     if (info === '') {
         valid = false;
         $("#customInfoInput").css({'background-color': "rgba(255,0,51,0.6)"});
+        errCustomTrack.push('- info field is empty');
     } else {
         $("#customInfoInput").css({'background-color': "white"});
     }
-    if (trackString === '') {
+    if (trackString === '' || trackString === 'Genoverse.Track.extend ({\nid:\nname:\nmodel:\ninfo:\nurl:\n\nlabels: false\n}),') {
         valid = false;
         $('#customText').css({'background-color': "rgba(255,0,51,0.6)"});
+        errCustomTrack.push('- track details field is empty');
     } else {
         $("#customText").css({'background-color': "white"});
     }
+    
+    errMessage(errCustomTrack);
     return valid;
 }
