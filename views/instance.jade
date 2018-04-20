@@ -33,11 +33,11 @@ html
               .col-md-3
                 label(label-default='', for='genomic-species-select')
                   | Genome 
-                  .btn-group
-                       button#ensembl-button.btn.btn-xs(onclick='setEnsembl()', autofocus) e!
-                       button#genome-choose-button.btn.btn-xs(onclick='setGenomeChoose()')
+                  .btn-group(style='color:lightslategray; background-color:grey;')
+                       button#ensembl-button.btn.btn-xs(title='Fetch from Ensembl', onclick='setEnsembl()', autofocus) e!
+                       button#genome-choose-button.btn.btn-xs(title='Use a file available on the database', onclick='setGenomeChoose()')
                           span.glyphicon.glyphicon-list
-                       button#genome-upload-button.btn.btn-xs(onclick='setGenomeUpload()')
+                       button#genome-upload-button.btn.btn-xs(title='Upload a new file', onclick='setGenomeUpload()')
                           span.glyphicon.glyphicon-file
                 #ensembl
                   select#genomic-species-select.form-control(name='species')
