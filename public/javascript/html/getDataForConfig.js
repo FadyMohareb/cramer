@@ -277,7 +277,7 @@ function addBedTrack(modify, object) {
     var info = modify ? object.description : $('#bedInfoInput').val();
     var valid = true;
     if (!modify)
-        valid = checkTrack('bed', 'bed');
+        valid = checkTrack('bed', ['bed']);
     if (valid === true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -306,7 +306,7 @@ function addBamTrack(modify, object) {
     var info = modify ? object.description : $('#bamInfoInput').val();
     var valid = true;
     if (!modify)
-        valid = checkTrack('bam', 'bam');
+        valid = checkTrack('bam', ['bam']);
 
     if (valid === true) {
         var track = {name: name, description: info, data: trackString};
@@ -332,7 +332,7 @@ function addBigwigTrack(modify, object) {
     var info = modify ? object.description : $('#bigwigInfoInput').val();
     var valid = true;
     if (!modify)
-        valid = checkTrack('bigwig', 'bw');
+        valid = checkTrack('bigwig', ['bw']);
     if (valid === true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -410,7 +410,7 @@ function addVcfTrack(modify, object) {
     var info = modify ? object.description : $('#vcfInfoInput').val();
     var valid = true;
     if (!modify)
-        valid = checkTrack('vcf', 'vcf');
+        valid = checkTrack('vcf', ['vcf']);
     if (valid === true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -433,7 +433,7 @@ function addWigTrack(modify, object) {
     var info = modify ? object.description : $('#wigInfoInput').val();
     var valid = true;
     if (!modify)
-        valid = checkTrack('wig', 'wig');
+        valid = checkTrack('wig', ['wig']);
     if (valid === true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -458,7 +458,7 @@ function addBigwigTrack(modify, object) {
     var info = modify ? object.description : $('#bigwigInfoInput').val();
     var valid = true;
     if (!modify)
-        valid = checkTrack('bigwig', 'bw');
+        valid = checkTrack('bigwig', ['bw']);
     if (valid === true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -937,7 +937,7 @@ function checkSnpDensityTrack(nameHet, nameHom, infoHet, infoHom, url) {
     var valid = true;
     
     //check extension
-    var extCallSnpDensityTrack = checkExtension(url, 'vcf');
+    var extCallSnpDensityTrack = checkExtension(url, 'gz');
     
     //error messages
     var errSnpDensityTrack = [];
