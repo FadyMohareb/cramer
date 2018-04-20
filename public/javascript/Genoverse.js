@@ -51,6 +51,7 @@ var Genoverse = Base.extend({
             Genoverse.wrapFunctions(browser);
             browser.init();
         });
+        
     },
 
     loadGenome: function () {
@@ -483,6 +484,7 @@ var Genoverse = Base.extend({
         documentEvents['mouseup' + this.eventNamespace] = $.proxy(this.mouseup, this);
         documentEvents['mousemove' + this.eventNamespace] = $.proxy(this.mousemove, this);
         documentEvents['keydown' + this.eventNamespace] = $.proxy(this.keydown, this);
+        documentEvents['focusout' + this.eventNamespace] = $.proxy(this.focusout, this);
         documentEvents['keyup' + this.eventNamespace] = $.proxy(this.keyup, this);
         documentEvents['mousewheel' + this.eventNamespace] = function (e) {
             if (browser.wheelAction === 'zoom') {
@@ -707,10 +709,11 @@ var Genoverse = Base.extend({
     keydown: function (e) {
         if (e.which === 16 && !this.prev.dragAction && this.dragAction === 'scroll') { // shift key
             this.toggleSelect(true);
-        } else if (e.which === 27) { // escape key
+        } else if (e.which === 27 || e.which === 32) { // escape or space key
             this.cancelSelect();
             this.closeMenus();
         }
+
     },
 
     keyup: function (e) {
@@ -718,7 +721,16 @@ var Genoverse = Base.extend({
             this.toggleSelect();
         }
     },
+    
+    focusout: function (e) {
+        if (this.dragAction === 'doubleclick') {
 
+            this.cancelSelect();
+            this.closeMenus();
+        }
+
+    },
+    
     mousedown: function (e) {
         if (e.shiftKey) {
             if (this.dragAction === 'scroll') {
@@ -726,7 +738,8 @@ var Genoverse = Base.extend({
             }
         } else if (this.prev.dragAction) {
             this.toggleSelect();
-        }
+        } 
+
 
         switch (this.dragAction) {
             case 'select' :
@@ -1121,7 +1134,7 @@ var Genoverse = Base.extend({
         var match = ((this.useHash ? window.location.hash.replace(/^#/, '?') || window.location.search : window.location.search) + '&').match(this.paramRegex);
         var coords = {};
         var i = 0;
-
+        
         if (!match) {
             return coords;
         }
@@ -1216,7 +1229,7 @@ var Genoverse = Base.extend({
 
         $('.gv-focus, .gv-highlight, .gv-menu-loading', menu).remove();
         $('.gv-title', menu).html(features.length + ' features');
-
+        
         $.each(features.sort(function (a, b) {
             return a.start - b.start;
         }), function (i, feature) {
@@ -1366,7 +1379,7 @@ var Genoverse = Base.extend({
         obj.menus.filter(':visible').children('.gv-close').trigger('click');
         obj.menus = $();
     },
-
+    
     hideMessages: function () {
         if (this.autoHideMessages) {
             this.wrapper.find('.gv-message-container').addClass('gv-collapsed');
