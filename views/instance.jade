@@ -183,7 +183,7 @@ html
                       .material-switch.pull-right
                         input#snpDensity_id(name='snpDensity', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='snpDensity_id')
-                      a(data-toggle='collapse', href='#collapseSNPDensity') SNP Density Graphs 
+                      a(data-toggle='collapse', href='#collapseSNPDensity') SNP Density Graph 
                       button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#snpDensityModal')
                         span.glyphicon.glyphicon-plus  
                       #collapseSNPDensity.panel-collapse.collapse
@@ -391,29 +391,19 @@ html
         .modal-content
           .modal-header
             button.close(type='button', data-dismiss='modal') ×
-            h3.modal-title Add SNP Density Tracks
+            h3.modal-title Add SNP Density Track
             p  Please, fill the required fields. 
           .modal-body
             .form-group
-              label(for='hetSnpDensityNameInput') Heterozygous SNPs Track Name*
-              input#hetSnpDensityNameInput.form-control(type='text', placeholder='Enter a name for this SNP density track')
+              label(for='snpDensityNameInput') SNP Density Track Name*
+              input#snpDensityNameInput.form-control(type='text', placeholder='Enter a name for this SNP density track')
             .form-group
-              label(for='hetSnpDenistyInfoInput', aria-describedby='infoHelp') Heterozygous SNPs Track Info*
-              input#hetSnpDensityInfoInput.form-control(type='text', placeholder="Enter a short description of this SNP density track's purpose")
-              small#infoHelp.form-text.text-muted The description will be used as a hover label in Genoverse
-            form-group
-              label(for='homSnpDensityNameInput') HomozygousSNPs Track Name*
-              input#homSnpDensityNameInput.form-control(type='text', placeholder='Enter a name for this SNP density track')
-            .form-group
-              label(for='homSnpDenistyInfoInput', aria-describedby='infoHelp') HomozygousSNPs Track Info*
-              input#homSnpDensityInfoInput.form-control(type='text', placeholder="Enter a short description of this SNP density track's purpose")
+              label(for='snpDenistyInfoInput', aria-describedby='infoHelp') SNP Density Track Info*
+              input#snpDensityInfoInput.form-control(type='text', placeholder="Enter a short description of this SNP density track's purpose")
               small#infoHelp.form-text.text-muted The description will be used as a hover label in Genoverse
             .form-group
               label(for='snpDensityUrlInput') VCF Url or File Path*
               input#snpDensityUrlInput.form-control(type='text', placeholder='Enter url or filepath of VCF file')
-            .form-group
-              label(for='snpDensityMAF') MAF Threshold
-              input#snpDensityMAFInput.form-control(type='text', placeholder='Enter MAF threshold')
             .modal-footer
             p  All fields marked with an asterisk(*) are mandatory. 
               button.btn.btn-default.pull-right(type='button', onClick='addSnpDensityTrack()') Add track

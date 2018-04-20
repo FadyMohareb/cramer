@@ -40,7 +40,7 @@ router.get('/request', function (req, res, next) {
             chr = req.query.chr,
             start = req.query.start,
             end = req.query.end;
-    
+
     if (file) {
         if (chr && start && end) {
             var command;
@@ -55,7 +55,7 @@ router.get('/request', function (req, res, next) {
             }
             console.log('Command: ' + command);
 
-            const child = spawn("sh", ["-c", command]);
+            const child = spawn("sh", ["-c", command], {cwd: dir + "/indexes"});
             child.stdout.on('data', function (data) {
                 console.log('stdout: ' + data);
             });

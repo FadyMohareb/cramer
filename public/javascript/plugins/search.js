@@ -13,11 +13,10 @@ Genoverse.Plugins.search = function () {
             var matchingPos = [];
             var featuresENS = [];
             var featuresGFF = [];
-            var featuresGFF3 = [];
             var ensIds = false;
             var ensNames = false;
-            var gff = false;
-             var gff3 = false;
+            var gffname = false;
+            var gffid = false;
             // If the control panel search button has already been clicked, it will close the search menu
             if ($(searchButton).hasClass('gv-active')) {
                 $('.gv-menu.gv-search-menu .gv-close').trigger('click');
@@ -50,12 +49,12 @@ Genoverse.Plugins.search = function () {
 
                         ensIds = $(".gv-ens-ids-search").is(':checked');
                         ensNames = $(".gv-ens-names-search").is(':checked');
-                        gff = $(".gv-gff-search").is(':checked');
-                        gff3 = $(".gv-gff3-search").is(':checked'); 
-                        if (gene != '' && (ensIds || ensNames || gff || gff3)) {
+                        gffname = $(".gv-gffname-search").is(':checked');
+                        gffid = $(".gv-gffids-search").is(':checked');
+                        if (gene != '' && (ensIds || ensNames || gffname || gffid)) {
 
                             window.setTimeout(function () {
-                                getMatchingGenes(ensIds, ensNames, gff, gff3);
+                                getMatchingGenes(ensIds, ensNames, gffid, gffname);
                                 var geneMenu = $(this).data('geneMenu');
                                 if (geneMenu) {
                                     geneMenu.css("display", "none");
@@ -124,8 +123,8 @@ Genoverse.Plugins.search = function () {
             function makeSearchMenu() {
                 var searchMenu = browser.makeMenu({
                     'Search inputs:': 'Search settings:',
-                    '<input class="gv-search-input" id="start-search" placeholder="Start position">': '<div class="gv-settings"> GFF gene track: <input class="gv-checkbox gv-gff3-search" type="checkbox"></div>',
-                    '<input class="gv-search-input" id="end-search" placeholder="End position">': '<div class="gv-settings">GFF ID track: <input class="gv-checkbox gv-gff-search" type="checkbox"></div>',
+                    '<input class="gv-search-input" id="start-search" placeholder="Start position">': '<div class="gv-settings"> GFF gene IDs: <input class="gv-checkbox gv-gffids-search" type="checkbox"></div>',
+                    '<input class="gv-search-input" id="end-search" placeholder="End position">': '<div class="gv-settings">GFF gene names: <input class="gv-checkbox gv-gffnames-search" type="checkbox"></div>',
                     '<input class="gv-search-input" id="gene-name" placeholder="Gene name/ID">': '<div class="gv-settings">Ensembl gene IDs: <input class="gv-checkbox gv-ens-ids-search" type="checkbox"></div>',
                     '<div class="gv-search-text">Search: <div class="gv-gene-search-button gv-menu-button fa fa-arrow-circle-right"></div></div>': '<div class="gv-settings">Ensembl gene names: <input class="gv-checkbox gv-ens-names-search" type="checkbox"></div>'
                 }).addClass('gv-search-menu');
@@ -142,41 +141,35 @@ Genoverse.Plugins.search = function () {
             }
 
 
-            function getMatchingGenes(ensIds, ensNames, gff, gff3) {
+            function getMatchingGenes(ensIds, ensNames, gffids, gffnames) {
                 for (var i = 0; i < browser.tracks.length; i++) {
                     if ((ensNames || ensIds) && browser.tracks[i].id == "genes") { // for ensembl track
                         featuresENS = browser.tracks[i].model.findFeatures(browser.chr, start, end);
                         for (var j = 0; j < featuresENS.length; j++) {
                             if (ensNames && (featuresENS[j].external_name.includes(gene.toUpperCase()) || featuresENS[j].external_name.includes(gene.toLowerCase()) || featuresENS[j].external_name.includes(gene))) {
-                                console.log("searching ensembl gene names");
                                 matchingGenes.push(featuresENS[j].external_name);
                                 matchingPos.push(featuresENS[j].start + ' - ' + featuresENS[j].end);
                             }
                             if (ensIds && (featuresENS[j].id.includes(gene.toUpperCase()) || featuresENS[j].id.includes(gene.toLowerCase()) || featuresENS[j].external_name.includes(gene))) {
-                                console.log("searching ensembl ids");
                                 matchingGenes.push(featuresENS[j].id);
                                 matchingPos.push(featuresENS[j].start + ' - ' + featuresENS[j].end);
                             }
                         }
-                    } else if (gff && browser.tracks[i].id == "gff") { // for gff track
+                    } else if (gffids && browser.tracks[i].id === "gff") { // for gff track
                         featuresGFF = browser.tracks[i].model.findFeatures(browser.chr, start, end);
                         for (var j = 0; j < featuresGFF.length; j++) {
                             if (featuresGFF[j].id.includes(gene.toUpperCase()) || featuresGFF[j].id.includes(gene.toLowerCase()) || featuresGFF[j].id.includes(gene)) {
                                 matchingGenes.push(featuresGFF[j].id);
                                 matchingPos.push(featuresGFF[j].start + ' - ' + featuresGFF[j].end);
                             }
-                        }
-                    } else if (gff3 && browser.tracks[i].id == "gff3") { // for gff3 track
-                        featuresGFF3 = browser.tracks[i].model.findFeatures(browser.chr, start, end);
-                        for (var j = 0; j < featuresGFF3.length; j++) {
-                            if (featuresGFF3[j].name.includes(gene.toUpperCase()) || featuresGFF3[j].name.includes(gene.toLowerCase()) || featuresGFF3[j].name.includes(gene)) {
-                                matchingGenes.push(featuresGFF3[j].name);
-                                matchingPos.push(featuresGFF3[j].start + ' - ' + featuresGFF3[j].end);
+                            if (featuresGFF[j].name.includes(gene.toUpperCase()) || featuresGFF[j].name.includes(gene.toLowerCase()) || featuresGFF[j].name.includes(gene)) {
+                                matchingGenes.push(featuresGFF[j].name);
+                                matchingPos.push(featuresGFF[j].start + ' - ' + featuresGFF[j].end);
                             }
                         }
                     }
-                }
 
+                }
             }
         }});
 };
