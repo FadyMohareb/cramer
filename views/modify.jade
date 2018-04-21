@@ -441,6 +441,12 @@ html
             .form-group
               label(for='snpDensityUrlInput') VCF Url or File Path*
               input#snpDensityUrlInput.form-control(type='text', placeholder='Enter url or filepath of VCF file')
+            .form-group
+              label(for='snpDensityBinsizeInput') Bin size
+              input#snpDensityBinsizeInput.form-control(type='text', placeholder='Enter a bin size for the graph')
+            .form-group
+              label(for='snpDensityThresholdInput') Threshold
+              input#snpDensityThresholdInput.form-control(type='text', placeholder='Enter a threshold view for the track')
             .modal-footer
             p  All fields marked with an asterisk(*) are mandatory. 
               button.btn.btn-default.pull-right(type='button', onClick='addSnpDensityTrack()') Add track
