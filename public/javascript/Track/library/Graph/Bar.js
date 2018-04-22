@@ -192,7 +192,7 @@ Genoverse.Track.Graph.Bar = Genoverse.Track.Graph.extend({
   type      : 'Bar',
   model     : Genoverse.Track.Model.Graph.Bar,
   view      : Genoverse.Track.View.Graph.Bar,
-  threshold : 10000000,
+  threshold : 1000000,
   
    setInterface: function () {
     this.base();

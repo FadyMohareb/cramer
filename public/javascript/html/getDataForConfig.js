@@ -479,30 +479,22 @@ function addSnpDensityTrack(modify, object) {
             $('#snpDensityInfoInput').val() + '\',\n' +
             'model: Genoverse.Track.Model.SNPDensity.extend({\n' +
             'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix\',\n' +
-            'largeFile: true,\n' +
-            'urlParams: {file: \'' + $('#snpDensityUrlInput').val() + '\'}\n' +
-            '})\n})';
+            'largeFile: true,\n';
+    if (!modify & $('#snpDensityBinsizeInput').val() !== '') {
+        trackString += 'binSize: ' + $('#snpDensityBinsizeInput').val() + ',\n';
+    }
+    trackString = modify ? trackString : trackString + 'urlParams: {file: \'' + $('#snpDensityUrlInput').val() + '\'}\n' + '})';
+    if (!modify & $('#snpDensityThresholdInput').val() !== '') {
+        trackString += ',\nthreshold: ' + $('#snpDensityThresholdInput').val();
+    }
+    trackString = modify ? trackString : trackString + '\n})';
     var name = modify ? object.name : $('#snpDensityNameInput').val();
     var info = modify ? object.description : $('#snpDensityInfoInput').val();
     var track = {name: name, description: info, type: 'snpDensity', data: trackString};
     console.log(trackString);
-//    // Make homozygous track
-//    var trackStringHom = modify ? object.data : 'Genoverse.Track.HomoSNPDensity.extend({\nname: \'' +
-//            $('#homSnpDensityNameInput').val() + '\',\ninfo: \'' +
-//            $('#homSnpDensityInfoInput').val() + '\',\n' +
-//            'model: Genoverse.Track.Model.HomoSNPDensity.extend({\n' +
-//            'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix\',\n' +
-//            'largeFile: true,\n' +
-//            'urlParams: {file: \'' + $('#snpDensityUrlInput').val() + '\'}\n' +
-//            '})})';
-//    console.log(trackStringHom);
-//    var nameHom = modify ? object.name : $('#homSnpDensityNameInput').val();
-//    var infoHom = modify ? object.description : $('#homSnpDensityInfoInput').val();
-//    var trackHom = {name: nameHom, description: infoHom, type: 'snpDensity', data: trackStringHom};
     // Add to list
     var valid = true;
     if (!modify)
-//        valid = checkSnpDensityTrack(nameHet, nameHom, infoHet, infoHom, $('#snpDensityUrlInput').val());
         valid = checkTrack('snpDensity');
     console.log(valid);
     if (valid === true) {
@@ -510,12 +502,8 @@ function addSnpDensityTrack(modify, object) {
         var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
         $('#snpDensityTracks').append(listItem);
         trackCount++;
-//        listItem = '<div id= "L' + trackCount + '" ></br><li>' + nameHom + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
-//        $('#snpDensityTracks').append(listItem);
         snpDensity.push(track);
-//        snpDensity.push(trackHom);
         console.log('SNP track added');
-//        trackCount++;
         $('.modal').modal('hide');
         $('#collapseSNPDensity').collapse('show');
     }
@@ -898,7 +886,7 @@ function checkTrack(track, ext) {
         }
     }
     if ($('#' + track + 'ThresholdInput')) {
-        if (Number($('#' + track + 'ThresholdInput').val()) > 10000) {
+        if (Number($('#' + track + 'ThresholdInput').val()) > 100000000) {
             valid = false;
             $('#' + track + 'ThresholdInput').css({'background-color': "rgba(255,0,51,0.6)"});
             errTrack.push('threshold value is incorrect');
