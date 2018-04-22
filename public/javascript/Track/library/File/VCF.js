@@ -13,9 +13,10 @@ Genoverse.Track.File.VCF = Genoverse.Track.File.extend({
 
   populateMenu: function (feature) {
       f  = feature.originalFeature[7].split(';');
-      
+
       i = f.length;
-      ann = '';
+      ann = '-';
+      
       while(i--){
             if (f[i].includes("ANN")) {
                 ann = f[i].substring(4, f[i].length);
@@ -27,7 +28,7 @@ Genoverse.Track.File.VCF = Genoverse.Track.File.extend({
       }
 
       f= f.join('<br>');
-      
+
     return {
       title  : '<a target="_blank" href="http://www.1000genomes.org/node/101">VCF feature details</a>',
       CHROM  : feature.originalFeature[0],
@@ -39,6 +40,7 @@ Genoverse.Track.File.VCF = Genoverse.Track.File.extend({
       FILTER : feature.originalFeature[6],
       INFO   : f,
       ANN    : ann
+
     };
   },
 
