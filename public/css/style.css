@@ -59,6 +59,10 @@ body {
     border: 0;
 }
 
+.label-contrast{
+    background-color: #C1D8EB;
+}
+
 .help      { 
     font-weight: bold;
     text-align: center; 

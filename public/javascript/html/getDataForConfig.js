@@ -424,54 +424,6 @@ function addVcfTrack(modify, object) {
     }
 }
 
-function addWigTrack(modify, object) {
-    var trackString = modify ? object.data : 'Genoverse.Track.File.WIG.extend({\nname: \''
-            + $('#wigNameInput').val() + '\',\ninfo: \''
-            + $('#wigInfoInput').val() + '\',\nurl: \''
-            + $('#wigUrlInput').val() + '\'\n})';
-    var name = modify ? object.name : $("#wigNameInput").val();
-    var info = modify ? object.description : $('#wigInfoInput').val();
-    var valid = true;
-    if (!modify)
-        valid = checkTrack('wig', ['wig']);
-    if (valid === true) {
-        var track = {name: name, description: info, data: trackString};
-        //Add to track list
-        var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
-        $('#wigTracks').append(listItem);
-        wig.push(track);
-        console.log('WIG track added');
-        trackCount++;
-        $('.modal').modal('hide');
-        $('#collapseWIG').collapse('show');
-    }
-}
-
-function addBigwigTrack(modify, object) {
-    var trackString = modify ? object.data : 'Genoverse.Track.File.ftpBIGWIG.extend({\nname: \''
-            + $('#bigwigNameInput').val() + '\',\ninfo: \''
-            + $('#bigwigInfoInput').val() + '\',\n' +
-            "model: Genoverse.Track.Model.File.ftpBIGWIG.extend({" +
-            'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=bigwig\',\n' +
-            'urlParams: {file: \'' + $('#bigwigUrlInput').val() + '\'}' + '\n})' + '\n})';
-    var name = modify ? object.name : $('#bigwigNameInput').val();
-    var info = modify ? object.description : $('#bigwigInfoInput').val();
-    var valid = true;
-    if (!modify)
-        valid = checkTrack('bigwig', ['bw']);
-    if (valid === true) {
-        var track = {name: name, description: info, data: trackString};
-        //Add to track list
-        var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
-        $('#bigwigTracks').append(listItem);
-        bigwig.push(track);
-        console.log('BIGWIG track added');
-        trackCount++;
-        $('.modal').modal('hide');
-        $('#collapseBIGWIG').collapse('show');
-    }
-}
-
 function addSnpDensityTrack(modify, object) {
     // Make heterozygous track
     var trackString = modify ? object.data : 'Genoverse.Track.SNPDensity.extend({\nname: \'' +
@@ -495,7 +447,7 @@ function addSnpDensityTrack(modify, object) {
     // Add to list
     var valid = true;
     if (!modify)
-        valid = checkTrack('snpDensity');
+        valid = checkTrack('snpDensity', ['vcf']);
     console.log(valid);
     if (valid === true) {
         //Add to track list

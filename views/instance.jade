@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title Genoverse Instance
+    title Cranfield Genoverse 2.0 - Instance
     link(rel='stylesheet', type='text/css', href='css/bootstrap/css/bootstrap.min.css')
     link(rel='stylesheet', type='text/css', href='css/style.css')
     meta(charset='UTF-8')
@@ -12,7 +12,7 @@ html
       img(src='images/cranfield-logo.jpg', alt='Cranfield University')
     .containerCustom
       .head
-        h1 Genoverse Instance
+        h1 New Instance
           a.btn.btn-default.pull-right(href='/', style='font-size: 17px; text-shadow: 0 0 0;')
             span.glyphicon.glyphicon-home
             |  Home        
@@ -24,7 +24,7 @@ html
               #inputs
                 .col-md-4
                   label(label-default='', for='project-name') Project Name
-                  input#project-name-input.form-control(name='name', placeholder='Enter project name', type='text')
+                  input#project-name-input.form-control(name='name', placeholder='Enter project name', type='text', maxlength='30')
                 .col-md-8
                   label(label-default='', for='project-info') Description
                   input#project-info-input.form-control(name='info', placeholder='Enter description of the project', type='text')
@@ -72,7 +72,7 @@ html
                     h2 Plugins
                        .material-switch.pull-right
                            input#select_all_Plugins_id(name='selectAllPlugins', type='checkbox', checked=true)
-                           label.label-primary(label-default='', for='select_all_Plugins_id')
+                           label.label-contrast(label-default='', for='select_all_Plugins_id')
                   // List group
                   ul#plugins.list-group
                       each plugins in listPlugins
@@ -86,8 +86,8 @@ html
                   .panel-heading
                     h2 Ensembl Tracks
                        .material-switch.pull-right
-                           input#select_all_id(name='selectAll', type='checkbox', checked=false)
-                           label.label-primary(label-default='', for='select_all_id')
+                           input#select_all_id(name='selectAll', type='checkbox', checked=false, )
+                           label.label-contrast(label-default='', for='select_all_id')
                   // List group
                   ul#ensembl-tracks.list-group
                     li.list-group-item
@@ -112,7 +112,7 @@ html
                     h2 Tracks
                        .material-switch.pull-right
                           input#select_all_Tracks_id(name='selectAllTracks', type='checkbox', checked=false)
-                          label.label-primary(label-default='', for='select_all_Tracks_id')
+                          label.label-contrast(label-default='', for='select_all_Tracks_id')
                       // List group
                   ul#tracks.list-group
                     li.list-group-item
