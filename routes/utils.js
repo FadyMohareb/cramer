@@ -5,6 +5,17 @@ var fs = require('fs');
 
 module.exports = {
 
+    extractHead: function (listSequenceName, chr) {
+        var listSequenceLength = listSequenceName.length;
+        for (var i = 0; i < listSequenceLength; i++) {
+            sequenceName = listSequenceName[i];
+            if (sequenceName.substr(sequenceName.length - chr.length) === chr) {
+                console.log('Sequence Name: ' + sequenceName);
+                return sequenceName;
+            }
+        }
+    },
+
     createGenome: function (genome) {
         console.log('Write the genome file');
         // Create a genome file from the Ensembl REST API
@@ -131,9 +142,9 @@ module.exports = {
                 file = file.replace(/\.[^/.]+$/, "");
                 filesList.push(file);
             });
-            
+
             return[null, filesList];
-            
+
         } catch (err) {
             console.log(err);
             return [err, null];

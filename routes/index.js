@@ -31,9 +31,11 @@ router.get('/', function (req, res, next) {
         }
     });
 });
+
 router.get('/request', function (req, res, next) {
 
     const {spawn} = require('child_process');
+    var sync = require('child_process').execSync;
     var requestCorrect = true;
     res.writeHead(200);
     var file = req.query.file,
@@ -47,11 +49,17 @@ router.get('/request', function (req, res, next) {
             if (req.query.type.match("faidx")) {
                 command = "/usr/bin/samtools faidx " + file + ' chr' + chr + ':' + start + '-' + end + ' | tail -n+2';
             } else if (req.query.type.match("tabix")) {
-                command = "/usr/bin/tabix " + file + ' chr' + chr + ':' + start + '-' + end;
+                var listSequenceName = sync('tabix -l ' + file, {cwd: dir + "/indexes"}).toString().split('\n');
+                var sequenceName = utils.extractHead(listSequenceName, chr);
+                command = "/usr/bin/tabix " + file + ' ' + sequenceName + ':' + start + '-' + end;
             } else if (req.query.type.match("bam")) {
-                command = "/usr/bin/samtools view " + file + ' ' + chr + ':' + start + '-' + end;
+                var listSequenceName = sync('samtools view -H ' + file + '| grep \'@SQ\' | awk \'{for (i=1;i<=NF;i++){if ($i ~/^SN:/) {print $i}}}\'', {cwd: dir + "/indexes"}).toString().split('\n');
+                var sequenceName = utils.extractHead(listSequenceName, chr).substring(3);
+                command = "/usr/bin/samtools view " + file + ' ' + sequenceName + ':' + start + '-' + end;
             } else if (req.query.type.match("bigwig")) {
-                command = "echo '" + chr + "\t" + start + "\t" + end + "' > position.bed | bwtool extract bed position.bed " + file + " stdout";
+                var listSequenceName = sync('/usr/local/bin/kentUtils/bigWigInfo ' + file + ' -chroms | grep SN', {cwd: dir + "/indexes"}).toString().split('\n');
+                var sequenceName = utils.extractHead(listSequenceName, chr).substring(3);
+                command = "echo '" + sequenceName + "\t" + start + "\t" + end + "' > position.bed | bwtool extract bed position.bed " + file + " stdout";
             }
             console.log('Command: ' + command);
 
