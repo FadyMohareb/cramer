@@ -60,12 +60,14 @@ router.get('/request', function (req, res, next) {
                 var listSequenceName = sync('/usr/local/bin/kentUtils/bigWigInfo ' + file + ' -chroms | grep SN', {cwd: dir + "/indexes"}).toString().split('\n');
                 var sequenceName = utils.extractHead(listSequenceName, chr).substring(3);
                 command = "echo '" + sequenceName + "\t" + start + "\t" + end + "' > position.bed | bwtool extract bed position.bed " + file + " stdout";
+            } else if (req.query.type.match("rsem")) {
+                command = "wget -qO- " + file;
             }
             console.log('Command: ' + command);
 
             const child = spawn("sh", ["-c", command], {cwd: dir + "/indexes"});
             child.stdout.on('data', function (data) {
-                console.log('stdout: ' + data);
+//                console.log('stdout: ' + data);
             });
             child.stdout.pipe(res);
             child.stderr.on('data', function (data) {

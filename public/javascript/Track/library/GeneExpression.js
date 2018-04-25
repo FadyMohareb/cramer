@@ -2,7 +2,7 @@ Genoverse.Track.GeneExpression= Genoverse.Track.Graph.Bar.extend({
   name          : 'Gene Expression',
   model         : Genoverse.Track.Model.GeneExpression,
   height        : 100,
-  autoHeight    : true,
+  threshold     : 1000000000,
   
   populateMenu: function (features) {
     if (!features.length) {
@@ -12,7 +12,7 @@ Genoverse.Track.GeneExpression= Genoverse.Track.Graph.Bar.extend({
     var start = features[0].start;
     var end   = features[features.length - 1].end;
     var avg   = features[0].start !== features[features.length - 1].start;
-    var menu  = { title: features[0].id /*added for gene ids in gene expression tracks*/ + ' chr'+ features[0].chr + ':' + (start === end ? start : start + '-' + end) };
+    var menu  = { title: features[0].id /* added so gene ids is displayed */ };
     var values, i;
 
     function getValues(_features) {
@@ -61,7 +61,7 @@ Genoverse.Track.GeneExpression= Genoverse.Track.Graph.Bar.extend({
       }
     } else {
       if (features.length === 1) {
-        menu.Value = features[0].height;
+        menu["expected count"] = features[0].height;
       } else {
         for (i = 0; i < features.length; i++) {
           menu[features[i].dataset] = features[i].height;

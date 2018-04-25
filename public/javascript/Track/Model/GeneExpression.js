@@ -1,104 +1,200 @@
 Genoverse.Track.Model.GeneExpression = Genoverse.Track.Model.Graph.Bar.extend({
     dataType: 'text',
-    gfffeatures: genePositions = [genes = [], startPos = [], endPos = []],
-    gffdata: '',
+    geneIds: [],
+    expCounts: [],
+    largeFile: true,
+    expCountThreshold: 20,
 
-    getData: function (chr) {
-        console.log("getData" + chr);
-        if (!this.url) {
-            this.isLocal = true;
-            this.dataFile = this.track.dataFile;
-            this.indexFile = this.track.indexFile;
+    getData: function (chr, start, end, done) {
 
-            if (this.indexFile) {
-                var reader = new FileReader();
+        if (this.urlRsem && this.url) {
+            var deferred = $.Deferred();
 
-                reader.onload = function (e) {
-                    this.gffdata = e.target.result;
-                    var lines = this.gffdata.split('\n');
-                    console.log(lines.length);
-                    var fields;
-                    for (var i = 0; i < lines.length; i++) {
-                        if (!lines[i].length || lines[i].indexOf('#') === 0) {
-                            continue;
-                        }
-                        fields = lines[i].split('\t');
+            start = Math.max(1, start);
+            end = Math.min(this.browser.getChromosomeSize(chr), end);
 
-                        var seqId = fields[0].toLowerCase();
-                        if (
-                                seqId == chr ||
-                                seqId == 'chr' + chr ||
-                                seqId.match('[^1-9]' + chr + '$') ||
-                                seqId.match('^' + chr + '\\b')
-                                ) {
-                            genes.push(fields[8]);
-                            startPos.push(fields[3]);
-                            endPos.push(fields[4]);
-                        }
-                    }
-                    console.log("reading again");
-                };
-
-
-                reader.readAsText(this.indexFile);
+            if (typeof this.data !== 'undefined') {
+                this.receiveDataRsem(typeof this.data.sort === 'function' ? this.data.sort(function (a, b) {
+                    return a.start - b.start;
+                }) : this.data, chr, start, end);
+                return deferred.resolveWith(this);
             }
 
-            return Genoverse.Track.Model.File.prototype.getData.apply(this, arguments);
-        }
+            var model = this;
+            var bins = [];
+            var length = end - start + 1;
 
-        return this.base.apply(this, arguments);
+            if (!this.urlRsem) {
+                return deferred.resolveWith(this);
+            }
+
+                bins.push([start, end]);
+            
+
+            $.when.apply($, $.map(bins, function (bin) {
+                var request = $.ajax({
+                    url: model.parseURLRsem(chr, bin[0], bin[1]),
+                    data: model.urlParamsRsem,
+                    dataType: model.dataType,
+                    context: model,
+                    xhrFields: model.xhrFields,
+                    success: function (data) {
+                        this.receiveDataRsem(data, chr, bin[0], bin[1]);
+                    },
+                    error: function (xhr, statusText) {
+                        this.track.controller.showError(statusText + ' while getting the data, see console for more details', arguments);
+                    },
+                    complete: function (xhr) {
+                        this.dataLoading = $.grep(this.dataLoading, function (t) {
+                            return xhr !== t;
+                        });
+                    }
+                });
+
+                request.coords = [chr, bin[0], bin[1]]; // store actual chr, start and end on the request, in case they are needed
+
+                if (typeof done === 'function') {
+                    request.done(done);
+                }
+
+                model.dataLoading.push(request);
+
+                return request;
+            })).done(function () {
+
+
+
+                if (typeof this.data !== 'undefined') {
+                    this.receiveData(typeof this.data.sort === 'function' ? this.data.sort(function (a, b) {
+                        return a.start - b.start;
+                    }) : this.data, chr, start, end);
+                    return deferred.resolveWith(this);
+                }
+
+                var model = this;
+                var bins = [];
+                var length = end - start + 1;
+
+                if (!this.url) {
+                    return deferred.resolveWith(this);
+                }
+
+                if (this.dataRequestLimit && length > this.dataRequestLimit) {
+                    var i = Math.ceil(length / this.dataRequestLimit);
+
+                    while (i--) {
+                        bins.push([start, i ? start += this.dataRequestLimit - 1 : end]);
+                        start++;
+                    }
+                } else {
+                    bins.push([start, end]);
+                }
+
+                $.when.apply($, $.map(bins, function (bin) {
+                    var request = $.ajax({
+                        url: model.parseURL(chr, bin[0], bin[1]),
+                        data: model.urlParams,
+                        dataType: model
+
+                                .dataType,
+                        context: model,
+                        xhrFields: model.xhrFields,
+                        success: function (data) {
+                            this.receiveData(data, chr, bin[0], bin[1]);
+                        },
+                        error: function (xhr, statusText) {
+                            this.track.controller.showError(statusText + ' while getting the data, see console for more details', arguments);
+                        },
+                        complete: function (xhr) {
+                            this.dataLoading = $.grep(this.dataLoading, function (t) {
+                                return xhr !== t;
+                            });
+                        }
+                    });
+
+                    request.coords = [chr, bin[0], bin[1]]; // store actual chr, start and end on the request, in case they are needed
+
+                    if (typeof done === 'function') {
+                        request.done(done);
+                    }
+
+                    model.dataLoading.push(request);
+
+                    return request;
+                })).done(function () {
+                    deferred.resolveWith(model);
+                });
+            });
+        }
+        return deferred;
 
     },
 
-    parseData: function (text, chr, s, e) {
+    parseURLRsem: function (chr, start, end, url) {
+        start = Math.max(1, start);
+        end = Math.min(this.browser.getChromosomeSize(chr), end);
+        return (url || this.urlRsem).replace(/__ASSEMBLY__/, this.browser.assembly).replace(/__CHR__/, chr).replace(/__START__/, start).replace(/__END__/, end);
+    },
 
-        var track = this;
+    receiveDataRsem: function (data, chr, start, end) {
+        start = Math.max(1, start);
+        end = Math.min(this.browser.getChromosomeSize(chr), end);
+        this.setDataRange(chr, start, end);
+        this.parseDataRsem(data, chr, start, end);
+    },
 
-        setTimeout(function () {
-            console.log('reading rsem file');
+    parseDataRsem: function (text, chr, s, e) {
+        // parses the RSEM file
+        var lines = text.split("\n");
+        for (var i = 1; i < lines.length; i++) {
 
-            var lines2 = text.split('\n');
-            var fields2;
-            var expected_counts;
-            var IDS;
-
-            // console.log("going through parsing");
-            for (var i = 0; i < lines2.length; i++) {
-                if (!lines2[i].length === 0) {
-                    continue;
-                }
-                fields2 = lines2[i].split('\t');
-
-                IDS = fields2[0];
-                expected_counts = fields2[4];
-                // if (expected_counts <= 20) {
-                //continue;
-                //}
-                //console.log(expected_counts);
-
-                for (var j = 0; j < genes.length; j++) {
-                    // console.log("looping through genes id array");
-                    if (IDS !== '' && genes[j].includes(IDS)) {
-                        //console.log(IDS);
-                        track.insertFeature({
-
-                            id: IDS,
-                            chr: chr,
-                            start: parseInt(startPos[j]),
-                            end: parseInt(endPos[j]),
-                            height: parseFloat(expected_counts)
-
-                        });
-
-                        console.log("inserting features");
-
-                    }
-
-                }
-
+            var fields = lines[i].split("\t");
+            if (fields[4] >= this.expCountThreshold) {
+                this.geneIds.push(fields[0]);
+                this.expCounts.push(fields[4]);
             }
-        }, 10000);
+        }
+    },
 
+    parseData: function (text, chr, s, e) {
+        // parses the GFF
+        var geneIds = this.geneIds;
+        var expCounts = this.expCounts;
+        var features = [];
+
+        var lines = text.split("\n");
+
+
+        for (var i = 0; i < lines.length; i++) {
+
+
+            if (!lines[i].length || lines[i].indexOf('#') === 0)
+                continue;
+
+            var fields = lines[i].split("\t");
+
+            if (fields.length < 5)
+                continue;
+
+            if (fields[0] === chr || fields[0].toLowerCase() === 'chr' + chr || fields[0].match('[^1-9]' + chr + '$')) {
+                if (fields[2] === 'gene') {
+                    for (var j = 0; j < geneIds.length; j++) {
+                        if (geneIds[j] !== '' && fields[8].includes(geneIds[j])) {
+
+                            features.push({
+                                id: geneIds[j],
+                                chr: chr,
+                                start: parseInt(fields[3]),
+                                end: parseInt(fields[4]),
+                                height: parseFloat(expCounts[j])
+                            });
+                        }
+                    }
+                }
+            }
+
+        }
+        return this.base.call(this, features, chr, s, e);
     }
 
 });

@@ -34,6 +34,14 @@ new Genoverse({
             trackConfig
 //            [
 //                Genoverse.Track.Scalebar,
+//                Genoverse.Track.GeneExpression.extend({
+//                    model: Genoverse.Track.Model.GeneExpression.extend({
+//                        url: "http://138.250.31.99:2800/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix",
+//                        urlParams: {file: 'ftp://138.250.31.77/Public/GenoVerse_GP_Testing/RSEM/ITAG2.4_gene_models_sorted.gff.gz'},
+//                        urlRsem: "http://138.250.31.99:2800/index/request?chr=__CHR__&start=__START__&end=__END__&type=rsem",
+//                        urlParamsRsem: {file: "ftp://138.250.31.77/Public/GenoVerse_GP_Testing/BrT-Leaf1-a.genes.results"}
+//                    })
+//                })
 //                Genoverse.Track.File.BAM.extend({
 //                    model: Genoverse.Track.Model.File.ftpBAM.extend({
 //                        url: "http://138.250.31.99:4000/index/request?chr=__CHR__&start=__START__&end=__END__&type=bam",

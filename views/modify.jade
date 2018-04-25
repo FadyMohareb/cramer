@@ -487,6 +487,12 @@ html
             .form-group
               label(for='geneExpressionGffUrlInput') GFF Url or File Path*
               input#geneExpressionGffUrlInput.form-control(type='text', placeholder='Enter url or filepath of GFF file')
+            .form-group
+              label(for='geneExpressionExpcountInput') Expected Count Threshold
+              input#geneExpressionExpcountInput.form-control(type='text', placeholder='Enter an expected count threshold for display')
+            .form-group
+              label(for='geneExpressionThresholdInput') Track Threshold
+              input#geneExpressionThresholdInput.form-control(type='text', placeholder='Enter a threshold view for the track')
             .modal-footer
             p  All fields marked with an asterisk(*) are mandatory. 
               button.btn.btn-default.pull-right(type='button', onClick='addGeneExpressionTrack()') Add track

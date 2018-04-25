@@ -251,7 +251,7 @@ function addFastaTrack(modify, object) {
     var info = modify ? object.description : $('#fastaInfoInput').val();
     var valid = true;
     if (!modify)
-        valid = checkTrack('fasta', ['fasta', 'txt', 'fna', 'ffn', 'faa', 'frn']);
+        valid = checkTrack('fasta', ['fasta', 'fa', 'fna', 'ffn', 'faa', 'frn']);
     if (valid === true) {
         var track = {name: name, description: info, data: trackString};
         //Add to track list
@@ -443,12 +443,10 @@ function addSnpDensityTrack(modify, object) {
     var name = modify ? object.name : $('#snpDensityNameInput').val();
     var info = modify ? object.description : $('#snpDensityInfoInput').val();
     var track = {name: name, description: info, type: 'snpDensity', data: trackString};
-    console.log(trackString);
     // Add to list
     var valid = true;
     if (!modify)
         valid = checkTrack('snpDensity', ['vcf']);
-    console.log(valid);
     if (valid === true) {
         //Add to track list
         var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
@@ -462,12 +460,23 @@ function addSnpDensityTrack(modify, object) {
 }
 
 function addGeneExpressionTrack(modify, object) {
-    console.log('gene expression track added');
     var trackString = modify ? object.data : 'Genoverse.Track.GeneExpression.extend({\nname: \''
             + $('#geneExpressionNameInput').val() + '\',\ninfo: \''
-            + $('#geneExpressionInfoInput').val() + '\',\nurl: \''
-            + $('#geneExpressionRsemUrlInput').val() + '\',\nindexUrl: \''
-            + $('#geneExpressionGffUrlInput').val() + '\'\n})';
+            + $('#geneExpressionInfoInput').val() + '\',\n'
+            + 'model: Genoverse.Track.Model.GeneExpression.extend({\n'
+            + 'url: "' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix",\n'
+            + 'urlParams: {file: "' + $('#geneExpressionGffUrlInput').val() + '"},\n'
+            + 'urlRsem: "' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=rsem",\n'
+            + 'urlParamsRsem: {file: "' + $('#geneExpressionRsemUrlInput').val() + '"}';
+    if (!modify & $('#geneExpressionExpcountInput').val() !== '') {
+        trackString += ',\nexpCountThreshold: ' + $('#geneExpressionExpcountInput').val();
+    }
+    trackString = modify ? trackString : trackString + '\n})';
+    if (!modify & $('#geneExpressionThresholdInput').val() !== '') {
+        trackString += ',\nthreshold: ' + $('#geneExpressionThresholdInput').val();
+    }
+    trackString = modify ? trackString : trackString + '\n})';
+    console.log(trackString);
     var name = modify ? object.name : $('#geneExpressionNameInput').val();
     var info = modify ? object.description : $('#geneExpressionInfoInput').val();
     var valid = true;
@@ -479,8 +488,8 @@ function addGeneExpressionTrack(modify, object) {
         var listItem = '<div id= "L' + trackCount + '" ></br><li>' + name + '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' + '</li></div>';
         $('#geneExpressionTracks').append(listItem);
         geneExpression.push(track);
-        console.log('Gene expression track added');
         trackCount++;
+        console.log('gene expression track added');
         $('.modal').modal('hide');
         $('#collapseGeneExpression').collapse('show');
     }
@@ -542,12 +551,12 @@ function validate(modify) {
         check[inputs[i].name](); // Check
         if (!check[inputs[i].name]()) {
             valide = false;
-            if(inputs[i].name !== 'name'){
+            if (inputs[i].name !== 'name') {
                 err.push('- ' + inputs[i].name + ' field is empty');
             } else {
                 err.push('- ' + inputs[i].name + ' field is empty or name is incorrect, acceptable are:\n\t- alphabetic characters, A to Z,\n\t- the 10 Arabic numerals, 0 to 9\n\t- "_", "-" or "space" character between words');
             }
-            
+
         }
     }
 
@@ -560,13 +569,13 @@ function validate(modify) {
         var genomeSelected = {name: findListGenome(), type: "list"};
         if (!check["listGenome"](genomeSelected))
             valide = false;
-            err.push('- genome is not selected');
+        err.push('- genome is not selected');
     } else if (genomeUploadVisible) {
         var file = uploadGenome();
         var genomeSelected = {name: file.name.slice(0, -3), type: "genome"};
         if (!check["uploadGenome"](genomeSelected, file.type.includes("javascript")))
             valide = false;
-            err.push('- genome is not selected');
+        err.push('- genome is not selected');
     } else {
         valide = false;
     }
@@ -802,13 +811,13 @@ check['uploadGenome'] = function (value, fileType) {
 
 
 function checkTrack(track, ext) {
-    
+
     //check extension
     var extCall = checkExtension($('#' + track + 'UrlInput').val(), ext);
-    
+
     //error messages
     var errTrack = [];
-    
+
     var valid = true;
     if ($('#' + track + 'NameInput').val() === '') {
         valid = false;
@@ -824,7 +833,7 @@ function checkTrack(track, ext) {
     } else {
         $('#' + track + 'InfoInput').css({'background-color': "white"});
     }
-    if ($('#' + track + 'UrlInput').val() === '' ) {
+    if ($('#' + track + 'UrlInput').val() === '') {
         valid = false;
         $('#' + track + 'UrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
         errTrack.push('- url/file path is missing');
@@ -855,9 +864,9 @@ function checkTrack(track, ext) {
             $('#' + track + 'MaxqualInput').css({'background-color': "white"});
         }
     }
-    
+
     errMessage(errTrack);
-    
+
     return valid;
 }
 
@@ -875,13 +884,13 @@ function checkExtension(filepath, ext) {
 
 function checkSnpDensityTrack(nameHet, nameHom, infoHet, infoHom, url) {
     var valid = true;
-    
+
     //check extension
-    var extCallSnpDensityTrack = checkExtension(url, 'gz');
-    
+    var extCallSnpDensityTrack = checkExtension(url, ['vcf']);
+
     //error messages
     var errSnpDensityTrack = [];
-    
+
     if (nameHet === '') {
         valid = false;
         $("#hetSnpDensityNameInput").css({'background-color': "rgba(255,0,51,0.6)"});
@@ -923,20 +932,20 @@ function checkSnpDensityTrack(nameHet, nameHom, infoHet, infoHom, url) {
             $("#snpDensityUrlInput").css({'background-color': "white"});
         }
     }
-    
+
     errMessage(errSnpDensityTrack);
     return valid;
 }
 
 function checkGeneExpressionTrack(name, info, rsemUrl, gffUrl) {
     var valid = true;
-    
-    //check extension
-    var extCallGeneExpressionTrack = checkExtension(gffUrl, 'gff');
-    
+
+    //check extensions
+    var extCallGffGeneExpressionTrack = checkExtension(gffUrl, ['gff', 'gff3', 'gtf']);
+    var extCallRsemGeneExpressionTrack = checkExtension(rsemUrl, ['results']);
     //error messages
     var errGeneExpressionTrack = [];
-    
+
     if (name === '') {
         valid = false;
         $("#geneExpressionNameInput").css({'background-color': "rgba(255,0,51,0.6)"});
@@ -956,20 +965,27 @@ function checkGeneExpressionTrack(name, info, rsemUrl, gffUrl) {
         $('#geneExpressionRsemUrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
         errGeneExpressionTrack.push('- RSEM results field is empty');
     } else {
-        $('#geneExpressionRsemUrlInput').css({'background-color': "white"});
+        if (extCallRsemGeneExpressionTrack === false) {
+            valid = false;
+            $('#geneExpressionRsemUrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
+            errGeneExpressionTrack.push('- url/file path is incorrect, acceptable file\nextension: results');
+        } else {
+            $('#geneExpressionRsemUrlInput').css({'background-color': "white"});
+        }
     }
+
     if (gffUrl === '') {
         valid = false;
         $('#geneExpressionGffUrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
         errGeneExpressionTrack.push('- url/file path is missing');
     } else {
-        if (extCallGeneExpressionTrack === false) {
+        if (extCallGffGeneExpressionTrack === false) {
             valid = false;
             $('#geneExpressionGffUrlInput').css({'background-color': "rgba(255,0,51,0.6)"});
-            errGeneExpressionTrack.push('- url/file path is incorrect, acceptable file\nextension: gff');
+            errGeneExpressionTrack.push('- url/file path is incorrect, acceptable file\nextension: gff, gtf or gff3');
         } else {
             $('#geneExpressionGffUrlInput').css({'background-color': "white"});
-        } 
+        }
     }
 
     errMessage(errGeneExpressionTrack);
@@ -978,10 +994,10 @@ function checkGeneExpressionTrack(name, info, rsemUrl, gffUrl) {
 
 function checkCustomTrack(name, info, trackString) {
     var valid = true;
-    
+
     //error messages
     var errCustomTrack = [];
-    
+
     if (name === '') {
         valid = false;
         $("#customNameInput").css({'background-color': "rgba(255,0,51,0.6)"});
@@ -1003,7 +1019,7 @@ function checkCustomTrack(name, info, trackString) {
     } else {
         $("#customText").css({'background-color': "white"});
     }
-    
+
     errMessage(errCustomTrack);
     return valid;
 }

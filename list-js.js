@@ -62,9 +62,8 @@ require(__dirname + '/public/javascript/Track/Model/File/VCF.js');
 require(__dirname + '/public/javascript/Track/Model/File/WIG.js');
 require(__dirname + '/public/javascript/Track/Model/File/ftpBIGWIG.js');
 
-require(__dirname + '/public/javascript/Track/Model/HeteroSNPDensity.js');
-require(__dirname + '/public/javascript/Track/Model/HomoSNPDensity.js');
 require(__dirname + '/public/javascript/Track/Model/SNPDensity.js');
+require(__dirname + '/public/javascript/Track/Model/GeneExpression.js');
 
 require(__dirname + '/public/javascript/Track/library/Chromosome.js');
 require(__dirname + '/public/javascript/Track/library/dbSNP.js');
@@ -77,8 +76,7 @@ require(__dirname + '/public/javascript/Track/library/File/ftpBIGWIG.js');
 require(__dirname + '/public/javascript/Track/library/File/GFF.js');
 require(__dirname + '/public/javascript/Track/library/File/VCF.js');
 require(__dirname + '/public/javascript/Track/library/File/WIG.js');
-require(__dirname + '/public/javascript/Track/library/HeteroSNPDensity.js');
-require(__dirname + '/public/javascript/Track/library/HomoSNPDensity.js');
+require(__dirname + '/public/javascript/Track/library/GeneExpression.js');
 require(__dirname + '/public/javascript/Track/library/SNPDensity.js');
 require(__dirname + '/public/javascript/Track/library/Gene.js');
 require(__dirname + '/public/javascript/Track/library/HighlightRegion.js');
