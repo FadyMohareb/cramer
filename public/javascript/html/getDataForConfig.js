@@ -582,15 +582,16 @@ function validate(modify) {
 
     // Get all the plugins
     var pluginsElement = document.querySelectorAll("#plugins .material-switch input");
+    var pluginsInfo = document.querySelectorAll("#plugins .list-group-item");
     var pluginsLength = pluginsElement.length;
     var plugins = [];
 
     // Go through all the plugins to know if they are checked and push in the array
     for (var i = 0; i < pluginsLength; i++) {
         if (pluginsElement[i].checked) {
-            plugins.push({name: pluginsElement[i].name, checked: true, id: pluginsElement[i].id});
+            plugins.push({name: pluginsElement[i].name, checked: true, id: pluginsElement[i].id, info: pluginsInfo[i].title});
         } else {
-            plugins.push({name: pluginsElement[i].name, checked: false, id: pluginsElement[i].id});
+            plugins.push({name: pluginsElement[i].name, checked: false, id: pluginsElement[i].id, info: pluginsInfo[i].title});
         }
     }
 

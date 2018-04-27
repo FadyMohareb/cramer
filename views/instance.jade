@@ -76,7 +76,7 @@ html
                   // List group
                   ul#plugins.list-group
                       each plugins in listPlugins
-                        li.list-group-item(title=plugins.id)
+                        li.list-group-item(title=plugins.info)
                           | #{plugins.name}
                           .material-switch.pull-right
                             input(id=plugins.id, name=plugins.name, type='checkbox', checked=true)
@@ -90,17 +90,17 @@ html
                            label.label-contrast(label-default='', for='select_all_id')
                   // List group
                   ul#ensembl-tracks.list-group
-                    li.list-group-item
+                    li.list-group-item(title='Fetches from Ensembl and displays the genes that are present in the chosen chromosome positions')
                       | Ensembl Genes    
                       .material-switch.pull-right
                         input#gene_id(name='gene', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='gene_id')
-                    li.list-group-item
+                    li.list-group-item(title='Fetches from Ensembl and displays the nucleotide sequence of the chromosome with different color for each base')
                       | Ensembl Sequence   
                       .material-switch.pull-right
                         input#seq_id(name='seq', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='seq_id')
-                    li.list-group-item
+                    li.list-group-item(title='Fetches from Ensembl and displays the Single Nucleotide Polymorphisms (SNPs)')
                       | SNP database   
                       .material-switch.pull-right
                         input#snp_id(name='snp', type='checkbox', checked=false)
@@ -115,17 +115,17 @@ html
                           label.label-contrast(label-default='', for='select_all_Tracks_id')
                       // List group
                   ul#tracks.list-group
-                    li.list-group-item
+                    li.list-group-item(title='Displays a bar which informs about the current position in the chromosome')
                       | Scalebar 
                       .material-switch.pull-right
                         input#scalebar_id(name='scalebar', type='checkbox', checked=true)
                         label.label-primary(label-default='', for='scalebar_id')
-                    li.list-group-item
+                    li.list-group-item(title='Displays the karyotype of the selected chromosome')
                       | Chromosome 
                       .material-switch.pull-right
                         input#chrom_id(name='chromosome', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='chrom_id')
-                    li.list-group-item
+                    li.list-group-item(title='Displays the chromosome sequence from a FASTA file')
                       .material-switch.pull-right
                         input#fasta_id(name='fasta', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='fasta_id')
@@ -134,7 +134,7 @@ html
                         span.glyphicon.glyphicon-plus
                       #collapseFASTA.panel-collapse.collapse
                         ul.list-group(id='fastaTracks')
-                    li.list-group-item
+                    li.list-group-item(title='Displays the positions and details of annotation from a BED file')
                       .material-switch.pull-right
                         input#bed_id(name='bed', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='bed_id')
@@ -143,7 +143,7 @@ html
                         span.glyphicon.glyphicon-plus
                       #collapseBED.panel-collapse.collapse
                         ul.list-group(id='bedTracks')
-                    li.list-group-item
+                    li.list-group-item(title='Displays the sequences of reads from a genomic BAM')
                       .material-switch.pull-right
                         input#bam_id(name='bam', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='bam_id')
@@ -152,7 +152,7 @@ html
                         span.glyphicon.glyphicon-plus
                       #collapseBAM.panel-collapse.collapse
                         ul.list-group(id='bamTracks')
-                    li.list-group-item
+                    li.list-group-item(title='Displays the contents of a BIGWIG file as a graph')
                       .material-switch.pull-right
                         input#bigwig_id(name='bigwig', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='bigwig_id')
@@ -161,7 +161,7 @@ html
                         span.glyphicon.glyphicon-plus  
                       #collapseBIGWIG.panel-collapse.collapse
                         ul.list-group(id='bigwigTracks')
-                    li.list-group-item
+                    li.list-group-item(title='Displays a GFF file with all the components forming a gene with exons and introns displayed')
                       .material-switch.pull-right
                         input#gff_id(name='gff', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='gff_id')
@@ -170,7 +170,7 @@ html
                         span.glyphicon.glyphicon-plus
                       #collapseGFF.panel-collapse.collapse
                         ul.list-group(id='gffTracks')
-                    li.list-group-item
+                    li.list-group-item(title='Displays the position of each variation and whether they are higher or lower than the quality threshold set')
                       .material-switch.pull-right
                         input#vcf_id(name='vcf', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='vcf_id')
@@ -179,7 +179,7 @@ html
                         span.glyphicon.glyphicon-plus
                       #collapseVCF.panel-collapse.collapse
                         ul.list-group(id='vcfTracks')
-                    li.list-group-item
+                    li.list-group-item(title='Displays the density of SNPs at each position')
                       .material-switch.pull-right
                         input#snpDensity_id(name='snpDensity', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='snpDensity_id')
@@ -188,7 +188,7 @@ html
                         span.glyphicon.glyphicon-plus  
                       #collapseSNPDensity.panel-collapse.collapse
                         ul.list-group(id='snpDensityTracks')
-                    li.list-group-item
+                    li.list-group-item(title='Displays the predicted counts at the position of each gene')
                       .material-switch.pull-right
                         input#geneExpression_id(name='geneExpression', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='geneExpression_id')
@@ -197,7 +197,7 @@ html
                         span.glyphicon.glyphicon-plus  
                       #collapseGeneExpression.panel-collapse.collapse
                         ul.list-group(id='geneExpressionTracks')
-                    li.list-group-item
+                    li.list-group-item(title='Creates new track')
                       .material-switch.pull-right
                         input#custom_id(name='custom', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='custom_id')

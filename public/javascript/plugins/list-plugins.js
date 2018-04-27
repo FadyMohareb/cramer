@@ -1,48 +1,44 @@
 module.exports = {
     Plugins: {
-        "controlPanel": {
-            "name": "Control Panel",
-            "id": "controlPanel",
-            "info": "Description CP"
-        },
         "karyotype": {
             "name": "Karyotype",
             "id": "karyotype",
-            "info": "Description K"
+            "info": "An ideogram of the selected chromosome on the top of the browser"
         },
         "trackControls": {
             "name": "Track Controls",
-            "id": "trackControls"
+            "id": "trackControls",
+            "info": "An additional menu allowing to manage current tracks"
         },
         "resizer": {
             "name": "Resizer",
             "id": "resizer",
-            "info": "Description R"
+            "info": "A handler at the bottom of each track that can be vertically dragged to resize the track."
         },
         "focusRegion": {
             "name": "Focus Region",
             "id": "focusRegion",
-            "info": "Description FR"
+            "info": "A button displaying instance with initial parameters"
         },
         "tooltips": {
             "name": "Tooltips",
             "id": "tooltips",
-            "info": "Description T"
+            "info": "A button displaying a brief description of each element"
         },
         "selectChromosome": {
             "name": "Select Chromosome",
             "id": "selectChromosome",
-            "info": "Description SC"
+            "info": "A button allowing to select from the list of chromosome the one to be displayed"
         },
         "search": {
             "name": "Search",
             "id": "search",
-            "info": "Description S"
+            "info": "A button allowing to search by gene name/position or Ensembl id"
         },
         "fileDrop": {
             "name": "File Drop",
             "id": "fileDrop",
-            "info": "Description FD"
+            "info": "Allows to drag and drop a file directly into the browser and display it"
         }
     }
 };

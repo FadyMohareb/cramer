@@ -15,7 +15,8 @@ var trackSchema = new mongoose.Schema({
 var pluginSchema = new mongoose.Schema({
     "name": {type: String, required: true},
     "checked": Boolean,
-    "id": {type: String, required: true}
+    "id": {type: String, required: true},
+    "info": {type: String, required: true}
 });
 
 var genomeSchema = new mongoose.Schema({
