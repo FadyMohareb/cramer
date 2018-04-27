@@ -74,43 +74,58 @@ router.post('/', function (req, res, next) {
         },
         valideConfig: function (callback) {
             setTimeout(function () {
-                GenoverseInstance.find({name: obj.previous}, function (err, instance) {
-                    if (err) {
-                        console.log(err);
-                        res.send(err);
-                        throw err;
-                    } else if (instance.length) {
-                        console.log('Object loaded');
-                        instance[0].name = obj.name;
-                        instance[0].description = obj.description;
-                        instance[0].genome = obj.genome;
-                        instance[0].chr = obj.chromosome;
-                        instance[0].start = obj.start;
-                        instance[0].end = obj.end;
-                        instance[0].plugins = obj.plugins;
-                        instance[0].tracks = obj.tracks;
-                        instance[0].save(function (err) {
+                GenoverseInstance.find({name: obj.name}, function (err, exist) {
+                            console.log("Check the name already exist" + exist.length);
                             if (err) {
-                                console.log(err);
-                                throw err;
-                                callback(err);
+                                callback(err, null);
+                            } else if (exist.length) {
+                                console.log("Instance Name Already Exist" + exist.length);
+                                callback("Name already exist", null);
+                            } else {
+                                GenoverseInstance.find({name: obj.previous}, function (err, instance) {
+                                    if (err) {
+                                        callback(err, null);
+                                    } else if (instance.length) {
+                                        console.log('Object loaded');
+                                        instance[0].name = obj.name;
+                                        instance[0].description = obj.description;
+                                        instance[0].genome = obj.genome;
+                                        instance[0].chr = obj.chromosome;
+                                        instance[0].start = obj.start;
+                                        instance[0].end = obj.end;
+                                        instance[0].plugins = obj.plugins;
+                                        instance[0].tracks = obj.tracks;
+                                        instance[0].save(function (err) {
+                                            if (err) {
+                                                console.log(err);
+                                                throw err;
+                                                callback(err);
+                                            }
+                                            console.log('Instance modified !');
+                                            callback(null, true);
+                                        });
+                                    }
+                                });
                             }
-                            console.log('Instance modified !');
-                            callback(null, true);
                         });
-                    }
-                });
 
             }, 10);
         }
     },
             function (err, results) {
-                if (results.valideConfig && results.valideGenome) {
-                    console.log('Everything is alright -> Open the index page');
+                if (err) {
+                    console.log(err);
+                    if (err === "Name already exist") {
+                        res.end('name');
+                    } else {
+                        res.end('error');
+                    }
+
+                } else if (results.valideConfig && results.valideGenome) {
+                    console.log('Everything is alright');
                     res.end('done');
                 } else {
-                    console.log(err);
-                    console.log('Something is wrong -> Check the createGenome or writeConfig functions');
+                    console.log('Something is wrong -> Check the validGenome and valideConfig functions');
                     res.end('error');
                 }
             }

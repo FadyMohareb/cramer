@@ -72,8 +72,10 @@ router.post('/', function (req, res, next) {
         valideConfig: function (callback) {
             setTimeout(function () {
                 GenoverseInstance.find({name: obj.name}, function (err, exist) {
-                    if (exist.length) {
-                        console.log("Instance Name Already Exist");
+                    if (err) {
+                        callback(err, null);
+                    } else if (exist.length) {
+                        console.log("Instance Name Already Exist" + exist.length);
                         callback("Name already exist", null);
                     } else {
                         var instance = new GenoverseInstance({

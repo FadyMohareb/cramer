@@ -705,6 +705,7 @@ function errMessage(err) {
         alert('\t\tPlease fill in the form correctly:\n\n' + err);
     }
 }
+
 /* Functions to check if the form is filled properly
  * If not change the background color
  */
