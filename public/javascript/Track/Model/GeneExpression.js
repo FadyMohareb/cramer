@@ -3,7 +3,7 @@ Genoverse.Track.Model.GeneExpression = Genoverse.Track.Model.Graph.Bar.extend({
     geneIds: [],
     expCounts: [],
     largeFile: true,
-    expCountThreshold: 20,
+    expCountThreshold: 500,
 
     getData: function (chr, start, end, done) {
 

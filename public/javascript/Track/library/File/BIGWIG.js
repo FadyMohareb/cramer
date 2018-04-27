@@ -1,6 +1,7 @@
 Genoverse.Track.File.BIGWIG = Genoverse.Track.Graph.Bar.extend({
   name   : 'bigwig',
   height : 100,
+  threshold: 100000,
 
   setDefaults: function () {
     this.bwReader = null; // Not part of model since it needs to be shared between bar and line graphs

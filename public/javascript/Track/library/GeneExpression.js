@@ -2,7 +2,7 @@ Genoverse.Track.GeneExpression= Genoverse.Track.Graph.Bar.extend({
   name          : 'Gene Expression',
   model         : Genoverse.Track.Model.GeneExpression,
   height        : 100,
-  threshold     : 1000000000,
+  threshold     : 100000000,
   
   populateMenu: function (features) {
     if (!features.length) {

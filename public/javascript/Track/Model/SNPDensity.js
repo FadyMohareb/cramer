@@ -39,7 +39,6 @@ Genoverse.Track.Model.SNPDensity = Genoverse.Track.Model.Graph.Bar.extend({
                 
                 
                 var start = parseInt(fields[1], 10);
-                var end = start + binSize;
                 var alleles = fields[4].split(',');
                 
                 alleles.unshift(fields[3]);
@@ -48,8 +47,8 @@ Genoverse.Track.Model.SNPDensity = Genoverse.Track.Model.Graph.Bar.extend({
 
                 features.push({
                     chr: chr,
-                    start: start,
-                    end: end,
+                    start: start - (binSize/2),
+                    end: start + (binSize/2),
                     height: height
                 });
             }

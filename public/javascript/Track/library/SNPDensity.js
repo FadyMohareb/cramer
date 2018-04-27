@@ -5,5 +5,6 @@ Genoverse.Track.SNPDensity = Genoverse.Track.Graph.Bar.extend({
   largeFile : true,
   resizable: false,
   rescalableY: false,
+  threshold: 100000000,
   yrange: [0,0.5]
 });
