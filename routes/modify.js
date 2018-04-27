@@ -78,7 +78,7 @@ router.post('/', function (req, res, next) {
                             console.log("Check the name already exist" + exist.length);
                             if (err) {
                                 callback(err, null);
-                            } else if (exist.length) {
+                            } else if (exist.length & obj.name !== obj.previous) {
                                 console.log("Instance Name Already Exist" + exist.length);
                                 callback("Name already exist", null);
                             } else {
