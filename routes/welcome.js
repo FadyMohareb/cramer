@@ -4,7 +4,7 @@ var GenoverseInstance = require('../models/GenoverseInstance.js');
 var User = require('../models/User.js');
 var utils = require('../routes/utils.js');
 
-/* GET genome page. */
+/* GET welcome page. */
 router.get('/', function (req, res, next) {
 
     GenoverseInstance.find(null, function (err, genoverseInstances) {
@@ -22,12 +22,14 @@ router.get('/', function (req, res, next) {
     });
 });
 
+// Get to logout
 router.get('/logout', function (req, res, next) {
     req.logout();
     console.log('Log out');
     res.redirect('/');
 });
 
+// Get to delete instance
 router.get('/delete/:name', function (req, res, next) {
     GenoverseInstance.remove({name: req.params.name}, function(){
         console.log(req.params.name + 'has been deleted');

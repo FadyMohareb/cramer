@@ -7,20 +7,28 @@ var fs = require('fs');
 var GenoverseInstance = require('../models/GenoverseInstance.js');
 var utils = require('../routes/utils.js');
 
+// Get to open the modify page
 router.get('/', utils.IsAuthenticated, function (req, res, next) {
+    
+    // Perform functions at the same time
     async.parallel({
+        // Find the species from the file list species
         species: function (callback) {
             setTimeout(function () {
                 var output = utils.setList(dir + "/public/javascript/", "list-species.js");
                 callback(output[0], output[1]);
             }, 10);
         },
+        
+        // Find the genome from the folder genomes
         genomes: function (callback) {
             setTimeout(function () {
                 var output = utils.getGenomes();
                 callback(output[0], output[1]);
             }, 10);
         },
+        
+        // Find the instances from the database
         instance: function (callback) {
             GenoverseInstance.find({name: req.query.name}, function (err, instance) {
                 if (err) {
@@ -37,6 +45,7 @@ router.get('/', utils.IsAuthenticated, function (req, res, next) {
                     req.flash('error', 'Error while loading the species or the instance.');
                     res.redirect('/');
                 } else {
+                    // No error open the page
                     res.render('modify', {object: results.instance[0], listGenomes: results.genomes, listSpecies: results.species});
                 }
 
@@ -45,12 +54,16 @@ router.get('/', utils.IsAuthenticated, function (req, res, next) {
 
 });
 
+// Post to save the modified instance
 router.post('/', function (req, res, next) {
-
+    // Get the json object
     console.log('body: ' + JSON.stringify(req.body));
     var obj = req.body;
 
+    // Perform functions at the same time
     async.parallel({
+        
+        // Check if it is upload genome, ensembl genome or genome from folder
         valideGenome: function (callback) {
             setTimeout(function () {
                 if (obj.genome.type === "ensembl") {
@@ -72,6 +85,8 @@ router.post('/', function (req, res, next) {
                 }
             }, 10);
         },
+        
+        // Check if instance name is good and save it
         valideConfig: function (callback) {
             setTimeout(function () {
                 GenoverseInstance.find({name: obj.name}, function (err, exist) {

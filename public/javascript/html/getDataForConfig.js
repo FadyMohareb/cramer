@@ -1,3 +1,4 @@
+// Variables
 var $ = jQuery;
 var global_url = location.protocol + '//' + location.host;
 var object = document.currentScript.getAttribute('data');
@@ -11,6 +12,7 @@ var tracks = [
 ];
 var trackCount = 0;
 
+// Load the track when modify page is opened at the onLoad()
 function loadTracks() {
     var tracksLength = data.tracks.length;
     console.log(data.tracks);
@@ -52,6 +54,7 @@ function loadTracks() {
     }
 }
 
+// Show or Hide
 function setEnsembl() {
     $("#ensembl").show();
     $("#filechoose").hide();
@@ -84,6 +87,7 @@ $("#select_all_id").change(function () {
     selectAll();
 });
 
+// Select/unselect all ensembl tracks
 function selectAll() {
     var selecting = $("#select_all_id").is(":checked");
     var tracks = document.querySelectorAll("#ensembl-only-tracks input");
@@ -107,6 +111,7 @@ $("#select_all_Plugins_id").change(function () {
     selectAllPlugins();
 });
 
+// Unselect/select all plugins
 function selectAllPlugins() {
     var selecting = $("#select_all_Plugins_id").is(":checked");
     var plugins = document.querySelectorAll("#plugins.list-group input");
@@ -130,6 +135,7 @@ $("#select_all_Tracks_id").change(function () {
     selectAllTracks();
 });
 
+// Unselect/Select all the tracks
 function selectAllTracks() {
     var selecting = $("#select_all_Tracks_id").is(":checked");
     //console.log(selecting);
@@ -170,6 +176,7 @@ $(function () {
     });
 });
 
+// Remove tracks
 function removeTrack(item) {
     console.log('track deleted');
     var id = '#L' + $(item).data('id');
@@ -516,17 +523,20 @@ function addCustomTrack(modify, object) {
     }
 }
 
+//Find the species from Ensembl selector
 function findSpecies() {
     // Get the species from Ensembl
     var species = document.querySelector("#genomic-species-select");
     return species[species.selectedIndex].value;
 }
 
+// Get the information of the upload genome
 function uploadGenome() {
     var file = $(':file')[0].files[0];
     return file;
 }
 
+// Find the the genome from the list selector
 function findListGenome() {
     // Get the genome from the list
     var genome = document.querySelector("#genomic-files-select");
@@ -600,11 +610,11 @@ function validate(modify) {
     var tracksLength = tracksElement.length;
     var tracksSelected = [];
 
-
     addDbsnpTrack();
     addGeneTrack();
     addSequenceTrack();
-
+    
+    // Add the tracks and check if they are selected or not
     for (var i = 0; i < tracksLength; i++) {
         if (tracksElement[i].checked) {
             tracksSelected.push({group: nameTracks[i], checked: true, trackChildren: tracks[i]});
@@ -613,8 +623,10 @@ function validate(modify) {
         }
     }
 
+    // If no error in the inputs
     if (valide) {
         var data = {};
+        // Add all the information in the object
         data.plugins = plugins;
         data.genome = genomeSelected;
         data.name = inputs[0].value;
@@ -624,6 +636,7 @@ function validate(modify) {
         data.end = inputs[4].value;
         data.tracks = tracksSelected;
 
+        // If it is modified page
         if (modify) {
             var url = location.href;
             var url_dec = decodeURIComponent(url);
@@ -632,6 +645,7 @@ function validate(modify) {
 //            console.log(previousName);
             data.previous = previousName;
 
+            // If it is an upload file
             if (genomeUploadVisible) {
                 readFile(file, function (content) {
                     data.file = {filename: file.name, content: content};
@@ -642,7 +656,9 @@ function validate(modify) {
                 console.log(data);
                 sendData(data, global_url + '/modify');
             }
+        // If it is instance page
         } else {
+            // If it is an upload file
             if (genomeUploadVisible) {
                 readFile(file, function (content) {
                     data.file = {filename: file.name, content: content};
@@ -660,6 +676,7 @@ function validate(modify) {
 
 }
 
+// Read the uploaded file to get the content
 function readFile(file, cb) { // We pass a callback as parameter
     var content = "";
     var reader = new FileReader();

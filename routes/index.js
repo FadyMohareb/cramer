@@ -7,6 +7,8 @@ var utils = require('../routes/utils.js');
 
 /* GET genome page. */
 router.get('/', function (req, res, next) {
+    
+    // Find the instance from the name in the url and check if the genome file is correct
     GenoverseInstance.find({name: req.query.name}, function (err, instance) {
         if (err) {
             console.log(err);
@@ -32,44 +34,66 @@ router.get('/', function (req, res, next) {
     });
 });
 
+// Get request to extract data for the tracks
 router.get('/request', function (req, res, next) {
 
+    // Variables
     const {spawn} = require('child_process');
     var sync = require('child_process').execSync;
     var requestCorrect = true;
     res.writeHead(200);
+    
+    // Get the inputs from the url
     var file = req.query.file,
             chr = req.query.chr,
             start = req.query.start,
             end = req.query.end;
 
+    // Check if inputs are not empty
     if (file) {
         if (chr && start && end) {
             var command;
+            // Find which command line to execute with the type
             if (req.query.type.match("faidx")) {
+                // Write the command
                 command = "/usr/bin/samtools faidx " + file + ' chr' + chr + ':' + start + '-' + end + ' | tail -n+2';
-            } else if (req.query.type.match("tabix")) {
+            } 
+            else if (req.query.type.match("tabix")) {
+                // Find the header
                 var listSequenceName = sync('tabix -l ' + file, {cwd: dir + "/indexes"}).toString().split('\n');
-                var sequenceName = utils.extractHead(listSequenceName, chr);
+                var sequenceName = utils.extractHead(listSequenceName, chr); // Remove "SN:"
+                // Write the command
                 command = "/usr/bin/tabix " + file + ' ' + sequenceName + ':' + start + '-' + end;
-            } else if (req.query.type.match("bam")) {
+            } 
+            else if (req.query.type.match("bam")) {
+                // Find the header
                 var listSequenceName = sync('samtools view -H ' + file + '| grep \'@SQ\' | awk \'{for (i=1;i<=NF;i++){if ($i ~/^SN:/) {print $i}}}\'', {cwd: dir + "/indexes"}).toString().split('\n');
-                var sequenceName = utils.extractHead(listSequenceName, chr).substring(3);
+                var sequenceName = utils.extractHead(listSequenceName, chr).substring(3); // Remove "SN:"
+                // Write the command
                 command = "/usr/bin/samtools view " + file + ' ' + sequenceName + ':' + start + '-' + end;
-            } else if (req.query.type.match("bigwig")) {
+            } 
+            else if (req.query.type.match("bigwig")) {
+                // Find the header
                 var listSequenceName = sync('/usr/local/bin/kentUtils/bigWigInfo ' + file + ' -chroms | grep SN', {cwd: dir + "/indexes"}).toString().split('\n');
-                var sequenceName = utils.extractHead(listSequenceName, chr).substring(3);
+                var sequenceName = utils.extractHead(listSequenceName, chr).substring(3); // Remove "SN:"
+                // Write the command
                 command = "echo '" + sequenceName + "\t" + start + "\t" + end + "' > position.bed | bwtool extract bed position.bed " + file + " stdout";
-            } else if (req.query.type.match("rsem")) {
+            } 
+            else if (req.query.type.match("rsem")) {
+                // Write the command
                 command = "wget -qO- " + file;
             }
             console.log('Command: ' + command);
 
+            // Execute the command line
             const child = spawn("sh", ["-c", command], {cwd: dir + "/indexes"});
+            
             child.stdout.on('data', function (data) {
 //                console.log('stdout: ' + data);
             });
-            child.stdout.pipe(res);
+            child.stdout.pipe(res); // Send the result if no error
+            
+            // Print the error
             child.stderr.on('data', function (data) {
                 console.log('stderr: ' + data);
                 res.end('stderr: ' + data);
