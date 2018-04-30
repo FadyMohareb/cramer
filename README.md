@@ -18,9 +18,10 @@ These instructions will get you a copy of the project up and running on your loc
 Genoverse-C3PO requires NodeJS  and two commonly used bioinformatics programs.
  - [NodeJS](https://nodejs.org/en/download/) v7.x
  - [Samtools](http://www.htslib.org/download/)
- - [Tabix]()
+ - [Bwtool](https://github.com/CRG-Barcelona/bwtool)
+ - [kentUtils from UCSC](https://github.com/ENCODE-DCC/kentUtils)
  
- Make sure that Samtools and Tabix are installed in /usr/bin/.
+ Make sure that they are installed in /usr/bin/.
 
 ### Installing
 
@@ -62,9 +63,6 @@ Make sure the <port> value is the same than in the output displayed in the promp
 * [Passport](http://www.passportjs.org/docs/) - Authentication
 
 
-## Versioning
-
-?????
 
 ## Authors
 
@@ -76,10 +74,6 @@ Make sure the <port> value is the same than in the output displayed in the promp
 * **Magdalena Scislak** - *Initial work* - [GitHub](https://github.com/rawwwrrish)
 * **Raissa Muvunyi** - *Initial work* - [GitHub](https://github.com/rmuvun95)
 
-
-## License
-
-This project is licensed under the ??????? - see the ???????? file for details
 
 ## Acknowledgments
 
