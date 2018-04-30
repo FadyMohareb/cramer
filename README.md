@@ -1,4 +1,4 @@
-# GENOVERSE-C3PO
+# Cranfield-Genoverse-2.0
 
 Based on [Genoverse](https://github.com/wtsi-web/Genoverse), this is a portable, customizable, back-end independent JavaScript and HTML5 based genome browser which allows the user to explore data interactively.
 
@@ -15,7 +15,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 **Genoverse-C3PO requires to run on Linux.**
-Genoverse-C3PO requires NodeJS  and two commonly used bioinformatics programs.
+Genoverse-C3PO requires NodeJS  and three commonly used bioinformatics programs.
  - [NodeJS](https://nodejs.org/en/download/) v7.x
  - [Samtools](http://www.htslib.org/download/)
  - [Bwtool](https://github.com/CRG-Barcelona/bwtool)
@@ -29,7 +29,7 @@ Genoverse-C3PO has been tested on Linux 16.04.
 
 Clone the Github repository:
 ```
-$ git clone https://github.com/PierBJX/Genoverse-C3PO.git
+$ git clone https://github.com/PierBJX/Cranfield-Genoverse-2.0.git
 ```
 
 To install, run the following commands:
