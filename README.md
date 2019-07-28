@@ -8,9 +8,32 @@ Genoverse works with a variety of formats, such as XML, JSON, BED, VCF, GFF, GFF
 The authorised users can create a browser instance and add it in the database. In this way, on the welcome page any user can choose which one to visualize.
 This browser instance, it is possible to select which plugins to display, the name, the description, the chromosome and the range to display and the tracks. In the tracks several choices are available with different kind of data like from Ensembl or ftp links.
 
-## Getting Started
+## Quickstart/Demo
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+The easiest way to satisfy all dependencies and run Cranfield-Genoverse-2.0 is to build and run
+the Docker image defined in Dockerfile within this repository.
+
+This docker image assumes there is a MongoDB service running on localhost:27017
+
+The easiest way to achieve this is to run: ```$ docker run --name mongo -p 27017:27017 -d mongo:latest```
+
+or ```$ docker start mongo``` if you have already created the *mongo* container.
+
+Clone this repository locally: ```$ git clone https://github.com/FadyMohareb/genoverse.git && cd genoverse```
+
+To build: ```$ docker build . -t genoverse```
+
+To run: ```$ docker run --rm --pid=host --network=host genoverse```
+
+You may now visit [http://localhost:4000](http://localhost:4000) in your web browser.
+
+To stop: Ctrl+C in the terminal window running the genoverse image.
+
+To stop MongoDB: ```$ docker stop mongo```
+
+## For development
+
+The following instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
 
@@ -61,8 +84,6 @@ Make sure the <port> value is the same than in the output displayed in the promp
 * [NodeJS](https://nodejs.org/docs/latest-v7.x/api/) - The web framework used
 * [Mangoose](http://mongoosejs.com/docs/api.html) - Database
 * [Passport](http://www.passportjs.org/docs/) - Authentication
-
-
 
 ## Authors
 
