@@ -74,14 +74,14 @@ Genoverse.Track.dbSNP = Genoverse.Track.extend({
   populateMenu: function (feature) {
     var deferred = $.Deferred();
     var menu     = [{
-      title       : '<a href="http://www.ensembl.org/' + this.species + '/Variation/Summary?v=' + feature.id + '" target="_blank">' + feature.id + '</a>',
+      title       : '<a href="http://www.ensembl.org/' + this.track.species + '/Variation/Summary?v=' + feature.id + '" target="_blank">' + feature.id + '</a>',
       Location    : feature.chr + ':' + feature.start + '-' + feature.end,
       Consequence : feature.consequence_type,
       Alleles     : feature.alleles.join(', ')
     }];
 
     $.ajax({
-      url      : '//rest.ensembl.org/variation/'+ this.species + '/' + feature.id + '?population_genotypes=1;content-type=application/json',
+      url      : '//rest.ensembl.org/variation/'+ this.track.species + '/' + feature.id + '?population_genotypes=1;content-type=application/json',
       dataType : 'json',
       success  : function (data) {
         var populationGenotypes = $.grep(data.population_genotypes, function (pop) { return /1000GENOMES.+ALL/.test(pop.population); }); // Only considering 1000 Genomes: ALL population
