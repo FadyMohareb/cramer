@@ -1,0 +1,1 @@
+Genoverse.Genomes.callithrix_jacchus = {}
