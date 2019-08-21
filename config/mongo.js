@@ -1,10 +1,8 @@
 var mongoose = require('mongoose');
 
-var url = "mongodb://localhost:27017/genoverse";
-
 module.exports = {
     init: function () {
-        mongoose.connect(url);
+        mongoose.connect(process.env.MONGODB_URL);
         var db = mongoose.connection;
         db.on('error', function (err) {
             if (err) {

@@ -9,6 +9,10 @@ var session = require('express-session');
 var passport = require('./config/passport.js');
 var mongo = require('./config/mongo.js');
 var os = require('os');
+var dotenv = require('dotenv');
+
+// Set the env variables
+dotenv.config();
 
 // Require the routes
 var index = require('./routes/index');
