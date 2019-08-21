@@ -42,8 +42,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(os.homedir()));
 app.use(session({
-    secret: 'secret',
-    cookie: { maxAge: 60000, secure: false },
+    secret: process.env.SECRET,
+    cookie: { maxAge: 2700000, secure: false }, // After 45 minutes (2700000 ms) the user is disconnected
     resave: true,
     saveUninitialized: false
 }));
