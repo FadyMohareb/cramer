@@ -1,0 +1,1 @@
+Genoverse.Genomes.colobus_angolensis_palliatus = {}

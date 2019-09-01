@@ -56,14 +56,14 @@ router.get('/request', function (req, res, next) {
             // Find which command line to execute with the type
             if (req.query.type.match("faidx")) {
                 // Write the command
-                command = "/usr/bin/samtools faidx " + file + ' chr' + chr + ':' + start + '-' + end + ' | tail -n+2';
+                command = "/usr/local/bin/samtools faidx " + file + ' chr' + chr + ':' + start + '-' + end + ' | tail -n+2';
             } 
             else if (req.query.type.match("tabix")) {
                 // Find the header
                 var listSequenceName = sync('tabix -l ' + file, {cwd: dir + "/indexes"}).toString().split('\n');
                 var sequenceName = utils.extractHead(listSequenceName, chr); // Remove "SN:"
                 // Write the command
-                command = "/usr/bin/tabix " + file + ' ' + sequenceName + ':' + start + '-' + end;
+                command = "/usr/local/tabix " + file + ' ' + sequenceName + ':' + start + '-' + end;
             } 
             else if (req.query.type.match("bam")) {
                 // Find the header

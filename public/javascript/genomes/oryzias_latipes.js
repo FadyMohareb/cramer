@@ -1,0 +1,1 @@
+Genoverse.Genomes.oryzias_latipes = {}
