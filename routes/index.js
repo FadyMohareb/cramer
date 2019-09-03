@@ -56,7 +56,7 @@ router.get('/request', function (req, res, next) {
             // Find which command line to execute with the type
             if (req.query.type.match("faidx")) {
                 // Write the command
-                command = "/usr/local/bin/samtools faidx " + file + ' chr' + chr + ':' + start + '-' + end + ' | tail -n+2';
+                command = "/usr/local/bin/samtools faidx " + file + ' ' + chr + ':' + start + '-' + end + ' | tail -n+2';
             } 
             else if (req.query.type.match("tabix")) {
                 // Find the header
