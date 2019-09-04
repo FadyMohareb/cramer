@@ -213,8 +213,12 @@ function modifyTrack(item, trackType) {
                 // Add name and description to the input
                 $(`${modalId} #${trackType}NameInput`).val(track.name);
                 $(`${modalId} #${trackType}InfoInput`).val(track.description);
+                console.log(track.data);
                 // TODO
-                // var object = track.data.split("(").pop();
+                // let object = track.data.split("(").pop();
+                // object = object.replace(/(\r\n|\n|\r)/gm, "");
+                // object = object.substring(0, object.length - 3);
+                // object = object.replace(/'/g,'"');
 
                 // Display the popup modal
                 $(modalId).modal('show');
@@ -306,13 +310,15 @@ function addFastaTrack(modify, object) {
 }
 
 function addBedTrack(modify, object) {
-    var trackString = modify ? object.data : 'Genoverse.Track.File.BED.extend({\nname: \''
-        + $('#bedNameInput').val() + '\',\ninfo: \''
-        + $('#bedInfoInput').val() + '\',\n' +
+    var trackString = modify ? object.data : 'Genoverse.Track.File.BED.extend({\n' +
+        'name: \'' + $('#bedNameInput').val() + '\',\n' +
+        'info: \'' + $('#bedInfoInput').val() + '\',\n' +
         'model: Genoverse.Track.Model.File.BED.extend({\n' +
         'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix\',\n' +
         'largeFile: true,\n' +
-        'urlParams: {file: \'' + $('#bedUrlInput').val() + '\'}\n})\n})';
+        'urlParams: {file: \'' + $('#bedUrlInput').val() + '\'}\n' +
+        '})\n' +
+        '})';
     var name = modify ? object.name : $("#bedNameInput").val();
     var info = modify ? object.description : $('#bedInfoInput').val();
     var valid = true;
@@ -335,9 +341,9 @@ function addBedTrack(modify, object) {
 }
 
 function addBamTrack(modify, object) {
-    var trackString = modify ? object.data : 'Genoverse.Track.File.BAM.extend({\nname: \'' +
-        $('#bamNameInput').val().replace(/\s/g, '</br>') + '\',\ninfo: \'' +
-        $('#bamInfoInput').val() + '\',\n' +
+    var trackString = modify ? object.data : 'Genoverse.Track.File.BAM.extend({\n' +
+        'name: \'' + $('#bamNameInput').val().replace(/\s/g, '</br>') + '\',\n' +
+        'info: \'' + $('#bamInfoInput').val() + '\',\n' +
         'model: Genoverse.Track.Model.File.ftpBAM.extend({\n' +
         'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=bam\',\n' +
         'largeFile: true,\n' +
@@ -368,12 +374,14 @@ function addBamTrack(modify, object) {
 }
 
 function addBigwigTrack(modify, object) {
-    var trackString = modify ? object.data : 'Genoverse.Track.File.ftpBIGWIG.extend({\nname: \''
-        + $('#bigwigNameInput').val() + '\',\ninfo: \''
-        + $('#bigwigInfoInput').val() + '\',\n' +
+    var trackString = modify ? object.data : 'Genoverse.Track.File.ftpBIGWIG.extend({\n' +
+        'name: \'' + $('#bigwigNameInput').val() + '\',\n' +
+        'info: \'' + $('#bigwigInfoInput').val() + '\',\n' +
         "model: Genoverse.Track.Model.File.ftpBIGWIG.extend({" +
         'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=bigwig\',\n' +
-        'urlParams: {file: \'' + $('#bigwigUrlInput').val() + '\'}' + '\n})' + '\n})';
+        'urlParams: {file: \'' + $('#bigwigUrlInput').val() + '\'}' +
+        '\n})' +
+        '\n})';
     var name = modify ? object.name : $('#bigwigNameInput').val();
     var info = modify ? object.description : $('#bigwigInfoInput').val();
     var valid = true;
@@ -396,9 +404,9 @@ function addBigwigTrack(modify, object) {
 }
 
 function addGffTrack(modify, object) {
-    var trackString = modify ? object.data : 'Genoverse.Track.File.GFF.extend({\nname: \''
-        + $('#gffNameInput').val() + '\',\ninfo: \''
-        + $('#gffInfoInput').val() + '\',\n' +
+    var trackString = modify ? object.data : 'Genoverse.Track.File.GFF.extend({\n' +
+        'name: \'' + $('#gffNameInput').val() + '\',\n' +
+        'info: \'' + $('#gffInfoInput').val() + '\',\n' +
         'model: Genoverse.Track.Model.File.GFF.extend({\n' +
         'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix\',\n' +
         'largeFile: true,\n' +
@@ -441,9 +449,9 @@ function addGffTrack(modify, object) {
 }
 
 function addVcfTrack(modify, object) {
-    var trackString = modify ? object.data : 'Genoverse.Track.File.VCF.extend({\nname: \''
-        + $('#vcfNameInput').val() + '\',\ninfo: \''
-        + $('#vcfInfoInput').val() + '\',\n' +
+    var trackString = modify ? object.data : 'Genoverse.Track.File.VCF.extend({\n' +
+        'name: \'' + $('#vcfNameInput').val() + '\',\n' +
+        'info: \'' + $('#vcfInfoInput').val() + '\',\n' +
         'model: Genoverse.Track.Model.File.VCF.extend({\n' +
         'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix\',\n' +
         'largeFile: true,\n' +
@@ -482,12 +490,13 @@ function addVcfTrack(modify, object) {
 
 function addSnpDensityTrack(modify, object) {
     // Make heterozygous track
-    var trackString = modify ? object.data : 'Genoverse.Track.SNPDensity.extend({\nname: \'' +
-        $('#snpDensityNameInput').val() + '\',\ninfo: \'' +
-        $('#snpDensityInfoInput').val() + '\',\n' +
+    var trackString = modify ? object.data : 'Genoverse.Track.SNPDensity.extend({\n' +
+        'name: \'' + $('#snpDensityNameInput').val() + '\',\n' +
+        'info: \'' + $('#snpDensityInfoInput').val() + '\',\n' +
         'model: Genoverse.Track.Model.SNPDensity.extend({\n' +
         'url: \'' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix\',\n' +
         'largeFile: true,\n';
+
     if (!modify & $('#snpDensityBinsizeInput').val() !== '') {
         trackString += 'binSize: ' + $('#snpDensityBinsizeInput').val() + ',\n';
     }
@@ -519,14 +528,15 @@ function addSnpDensityTrack(modify, object) {
 }
 
 function addGeneExpressionTrack(modify, object) {
-    var trackString = modify ? object.data : 'Genoverse.Track.GeneExpression.extend({\nname: \''
-        + $('#geneExpressionNameInput').val() + '\',\ninfo: \''
-        + $('#geneExpressionInfoInput').val() + '\',\n'
+    var trackString = modify ? object.data : 'Genoverse.Track.GeneExpression.extend({\n' +
+        'name: \'' + $('#geneExpressionNameInput').val() + '\',\n' +
+        'info: \'' + $('#geneExpressionInfoInput').val() + '\',\n'
         + 'model: Genoverse.Track.Model.GeneExpression.extend({\n'
         + 'url: "' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=tabix",\n'
         + 'urlParams: {file: "' + $('#geneExpressionGffUrlInput').val() + '"},\n'
         + 'urlRsem: "' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=rsem",\n'
         + 'urlParamsRsem: {file: "' + $('#geneExpressionRsemUrlInput').val() + '"}';
+        
     if (!modify & $('#geneExpressionExpcountInput').val() !== '') {
         trackString += ',\nexpCountThreshold: ' + $('#geneExpressionExpcountInput').val();
     }
