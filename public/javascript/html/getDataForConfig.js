@@ -196,29 +196,91 @@ function removeTrack(item) {
 // Modify tracks
 function modifyTrack(item, trackType) {
     // Get the id name from the DOM
-    var id = '#L' + $(item).data('id');
-    var name = $(id).text();
+    const id = '#L' + $(item).data('id');
+    const name = $(id).text();
     console.log(`Modifying ${name} ${trackType} track ...`);
+
+    const modalId = `#${trackType}Modal`;
+
+    // Clean the inputs modal popup
+    $(`${modalId} :input`).val('');
 
     // Delete from the DOM
     // TODO Check if we can update instead of delete and recreate
-    $(id).remove();
+    // $(id).remove();
 
     // Find the track in the object
     for (var i = 0; i < tracks.length; i++) {
         for (var j = 0; j < tracks[i].length; j++) {
             if (tracks[i][j].name === name) {
                 const track = tracks[i][j];
-                const modalId = `#${trackType}Modal`;
                 // Add name and description to the input
                 $(`${modalId} #${trackType}NameInput`).val(track.name);
                 $(`${modalId} #${trackType}InfoInput`).val(track.description);
+                // Add file url
+                if (trackType === 'geneExpression') {
+                    const urlParamsFile = track.data.match(/urlParams: {file:(.*)}/m);
+                    $(`${modalId} #geneExpressionRsemUrlInput`).val(urlParamsFile[1].replace(/("| |')/g, ''));
+                    const urlParamsRsemFile = track.data.match(/urlParamsRsem: {file:(.*)}/m);
+                    $(`${modalId} #geneExpressionGffUrlInput`).val(urlParamsRsemFile[1].replace(/("| |')/g, ''));
+                } else if (trackType !== 'customTrack') {
+                    const urlParamsFile = track.data.match(/{file:(.*)}/m);
+                    $(`${modalId} #${trackType}UrlInput`).val(urlParamsFile[1].replace(/("| |')/g, ''));
+                }
+
+                let match;
+
+                switch (trackType) {
+                    case 'gff':
+                        match = track.data.match(/typeMap: {\n((.|\s)*)}\n}/m);
+                        if (match !== null && match[1] !== '') {
+                            $(`${modalId} #gffTypeMapText`).val(match[1].replace(/("| |')/g, ''));
+                        }
+                        match = track.data.match(/threshold:(.*)\n/m);
+                        if (match !== null && match[1] !== '') {
+                            $(`${modalId} #gffThresholdInput`).val(match[1].replace(/("| |'|,)/g, ''));
+                        }
+                        match = track.data.match(/intronStyle: (.*)}/m);
+                        if (match !== null && match[1] !== '') {
+                            $(`${modalId} #gffIntronSelect`).val(match[1].replace(/("| |')/g, ''));
+                        }
+                        break;
+                    case 'vcf':
+                        match = track.data.match(/threshold:(.*)\n/m);
+                        if (match !== null && match[1] !== '') {
+                            $(`${modalId} #vcfThresholdInput`).val(match[1].replace(/("| |'|,)/g, ''));
+                        }
+                        match = track.data.match(/maxQual:(.*)\n/m);
+                        if (match !== null && match[1] !== '') {
+                            $(`${modalId} #vcfMaxqualInput`).val(match[1].replace(/("| |')/g, ''));
+                        }
+                        break;
+                    case 'snpDensity':
+                        match = track.data.match(/binSize:(.*),\n/m);
+                        if (match !== null && match[1] !== '') {
+                            $(`${modalId} #snpDensityBinsizeInput`).val(match[1].replace(/("| |')/g, ''));
+                        }
+                        match = track.data.match(/threshold:(.*)\n/m);
+                        if (match !== null && match[1] !== '') {
+                            $(`${modalId} #snpDensityThresholdInput`).val(match[1].replace(/("| |')/g, ''));
+                        }
+                        break;
+                    case 'geneExpression':
+                        match = track.data.match(/expCountThreshold:(.*)\n/m);
+                        if (match !== null && match[1] !== '') {
+                            $(`${modalId} #geneExpressionExpcountInput`).val(match[1].replace(/("| |')/g, ''));
+                        }
+                        match = track.data.match(/threshold:(.*)\n/m);
+                        if (match !== null && match[1] !== '') {
+                            $(`${modalId} #geneExpressionThresholdInput`).val(match[1].replace(/("| |')/g, ''));
+                        }
+                        break;
+                    case 'customTrack':
+                        $(`${modalId} #customText`).val(track.data);
+                        break;
+                }
+
                 console.log(track.data);
-                // TODO
-                // let object = track.data.split("(").pop();
-                // object = object.replace(/(\r\n|\n|\r)/gm, "");
-                // object = object.substring(0, object.length - 3);
-                // object = object.replace(/'/g,'"');
 
                 // Display the popup modal
                 $(modalId).modal('show');
@@ -536,7 +598,7 @@ function addGeneExpressionTrack(modify, object) {
         + 'urlParams: {file: "' + $('#geneExpressionGffUrlInput').val() + '"},\n'
         + 'urlRsem: "' + global_url + '/index/request?chr=__CHR__&start=__START__&end=__END__&type=rsem",\n'
         + 'urlParamsRsem: {file: "' + $('#geneExpressionRsemUrlInput').val() + '"}';
-        
+
     if (!modify & $('#geneExpressionExpcountInput').val() !== '') {
         trackString += ',\nexpCountThreshold: ' + $('#geneExpressionExpcountInput').val();
     }
