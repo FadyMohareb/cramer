@@ -176,6 +176,15 @@ $(function () {
     });
 });
 
+// Function to clean inputs and display the popup modal
+function openModal(modalId) {
+    // Clean the inputs modal popup
+    $(`${modalId} :input`).val('');
+    $(`${modalId} :input`).css({ 'background-color': "white" });
+    // Display the popup modal
+    $(modalId).modal('show');
+}
+
 // Remove tracks
 function removeTrack(item) {
     console.log('track deleted');
@@ -198,12 +207,11 @@ function modifyTrack(item, trackType) {
     // Get the id name from the DOM
     const id = '#L' + $(item).data('id');
     const name = $(id).text();
-    console.log(`Modifying ${name} ${trackType} track ...`);
-
     const modalId = `#${trackType}Modal`;
 
-    // Clean the inputs modal popup
-    $(`${modalId} :input`).val('');
+    console.log(`Modifying ${name} ${trackType} track ...`);
+
+    openModal(modalId);
 
     // Delete from the DOM
     // TODO Check if we can update instead of delete and recreate
@@ -281,9 +289,6 @@ function modifyTrack(item, trackType) {
                 }
 
                 console.log(track.data);
-
-                // Display the popup modal
-                $(modalId).modal('show');
                 // tracks[i].splice(j, 1);
             }
         }
@@ -678,7 +683,8 @@ function findListGenome() {
 /////////////////////////////////////
 
 // Check the form when click on the button submit
-function validate(modify) {
+function validate(boolean) {
+    modify = boolean === 'true' ? true : false;
     var ensemblVisible = $("#ensembl").is(':visible');
     var genomeListVisible = $("#filechoose").is(':visible');
     var genomeUploadVisible = $("#upload").is(':visible');
@@ -967,11 +973,25 @@ function checkTrack(track, ext) {
     var errTrack = [];
 
     var valid = true;
-    if ($('#' + track + 'NameInput').val() === '') {
+
+    loop1:
+    for (var i = 0; i < tracks.length; i++) {
+        for (var j = 0; j < tracks[i].length; j++) {
+            if (tracks[i][j].name === $('#' + track + 'NameInput').val()) {
+                valid = false;
+                $('#' + track + 'NameInput').css({ 'background-color': "rgba(255,0,51,0.6)" });
+                errTrack.push('- name already exists. It must be unique.');
+                break loop1;
+            } else {
+                $('#' + track + 'NameInput').css({ 'background-color': "white" });
+            }
+        }
+    }
+    if ($('#' + track + 'NameInput').val() === '' && valid) {
         valid = false;
         $('#' + track + 'NameInput').css({ 'background-color': "rgba(255,0,51,0.6)" });
         errTrack.push('- name field is empty');
-    } else {
+    } else if (valid) {
         $('#' + track + 'NameInput').css({ 'background-color': "white" });
     }
     if ($('#' + track + 'InfoInput').val() === '') {
