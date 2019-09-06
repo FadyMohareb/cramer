@@ -213,18 +213,16 @@ function modifyTrack(item, trackType) {
 
     openModal(modalId);
 
-    // Delete from the DOM
-    // TODO Check if we can update instead of delete and recreate
-    // $(id).remove();
-
     // Find the track in the object
     for (var i = 0; i < tracks.length; i++) {
         for (var j = 0; j < tracks[i].length; j++) {
             if (tracks[i][j].name === name) {
                 const track = tracks[i][j];
+
                 // Add name and description to the input
                 $(`${modalId} #${trackType}NameInput`).val(track.name);
                 $(`${modalId} #${trackType}InfoInput`).val(track.description);
+
                 // Add file url
                 if (trackType === 'geneExpression') {
                     const urlParamsFile = track.data.match(/urlParams: {file:(.*)}/m);
@@ -236,62 +234,46 @@ function modifyTrack(item, trackType) {
                     $(`${modalId} #${trackType}UrlInput`).val(urlParamsFile[1].replace(/("| |')/g, ''));
                 }
 
-                let match;
-
+                // Add specific value to the input according to the track type
                 switch (trackType) {
                     case 'gff':
-                        match = track.data.match(/typeMap: {\n((.|\s)*)}\n}/m);
-                        if (match !== null && match[1] !== '') {
-                            $(`${modalId} #gffTypeMapText`).val(match[1].replace(/("| |')/g, ''));
-                        }
-                        match = track.data.match(/threshold:(.*)\n/m);
-                        if (match !== null && match[1] !== '') {
-                            $(`${modalId} #gffThresholdInput`).val(match[1].replace(/("| |'|,)/g, ''));
-                        }
-                        match = track.data.match(/intronStyle: (.*)}/m);
-                        if (match !== null && match[1] !== '') {
-                            $(`${modalId} #gffIntronSelect`).val(match[1].replace(/("| |')/g, ''));
-                        }
+                        matchAndUpdateModal(track.data, new RegExp('typeMap: {\n((.|\\s)*)}\n', 'm'), modalId, '#gffTypeMapText');
+                        matchAndUpdateModal(track.data, new RegExp('threshold:(.*)\n', 'm'), modalId, '#gffThresholdInput', new RegExp('("| |\'|,)', 'g'));
+                        matchAndUpdateModal(track.data, new RegExp('intronStyle: (.*)}', 'm'), modalId, '#gffIntronSelect');
                         break;
                     case 'vcf':
-                        match = track.data.match(/threshold:(.*)\n/m);
-                        if (match !== null && match[1] !== '') {
-                            $(`${modalId} #vcfThresholdInput`).val(match[1].replace(/("| |'|,)/g, ''));
-                        }
-                        match = track.data.match(/maxQual:(.*)\n/m);
-                        if (match !== null && match[1] !== '') {
-                            $(`${modalId} #vcfMaxqualInput`).val(match[1].replace(/("| |')/g, ''));
-                        }
+                        matchAndUpdateModal(track.data, new RegExp('threshold:(.*)\n', 'm'), modalId, '#vcfThresholdInput', new RegExp('("| |\'|,)', 'g'));
+                        matchAndUpdateModal(track.data, new RegExp('maxQual:(.*)\n', 'm'), modalId, '#vcfMaxqualInput', new RegExp('("| |\'|,)', 'g'));
                         break;
                     case 'snpDensity':
-                        match = track.data.match(/binSize:(.*),\n/m);
-                        if (match !== null && match[1] !== '') {
-                            $(`${modalId} #snpDensityBinsizeInput`).val(match[1].replace(/("| |')/g, ''));
-                        }
-                        match = track.data.match(/threshold:(.*)\n/m);
-                        if (match !== null && match[1] !== '') {
-                            $(`${modalId} #snpDensityThresholdInput`).val(match[1].replace(/("| |')/g, ''));
-                        }
+                        matchAndUpdateModal(track.data, new RegExp('binSize:(.*),\n', 'm'), modalId, '#snpDensityBinsizeInput');
+                        matchAndUpdateModal(track.data, new RegExp('threshold:(.*)\n', 'm'), modalId, '#snpDensityThresholdInput');
                         break;
                     case 'geneExpression':
-                        match = track.data.match(/expCountThreshold:(.*)\n/m);
-                        if (match !== null && match[1] !== '') {
-                            $(`${modalId} #geneExpressionExpcountInput`).val(match[1].replace(/("| |')/g, ''));
-                        }
-                        match = track.data.match(/threshold:(.*)\n/m);
-                        if (match !== null && match[1] !== '') {
-                            $(`${modalId} #geneExpressionThresholdInput`).val(match[1].replace(/("| |')/g, ''));
-                        }
+                        matchAndUpdateModal(track.data, new RegExp('expCountThreshold:(.*)\n', 'm'), modalId, '#geneExpressionExpcountInput');
+                        matchAndUpdateModal(track.data, new RegExp('threshold:(.*)\n', 'm'), modalId, '#geneExpressionThresholdInput');
                         break;
                     case 'customTrack':
                         $(`${modalId} #customText`).val(track.data);
                         break;
                 }
-
-                console.log(track.data);
-                // tracks[i].splice(j, 1);
             }
         }
+    }
+}
+
+/**
+ * Function to find the value in the object with regex and display in the modal popup
+ * @param {*} str String where to find the value
+ * @param {*} regex Regex pattern to match
+ * @param {*} modalId ModalId which will be displayed
+ * @param {*} inputId InputId in the modal popup where to add the value found in the regex match
+ * @param {*} replaceRegex Optional Regex pattern to replace the match (default is use to remove double quotes, single quote and white space")
+ */
+function matchAndUpdateModal(str, regex, modalId, inputId, replaceRegex = new RegExp(`("| |')`, 'g')) {
+    const match = str.match(regex);
+    if (match !== null && match[1] !== '') {
+        $(`${modalId} ${inputId}`).val(match[1].replace(replaceRegex, ''));
     }
 }
 
