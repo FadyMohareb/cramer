@@ -340,7 +340,7 @@ function addFastaTrack(modify, object) {
     const info = modify ? object.description : $('#fastaInfoInput').val();
     let valid = true;
     if (!modify) {
-        valid = checkTrack('fasta', ['fasta', 'fa', 'fna', 'ffn', 'faa', 'frn'], isUpdate);
+        valid = checkTrack('fasta', ['fasta', 'fa', 'fna', 'ffn', 'faa', 'frn']);
     }
     if (valid === true) {
         const track = { name: name, description: info, data: trackString };
@@ -378,7 +378,7 @@ function addBedTrack(modify, object) {
     const info = modify ? object.description : $('#bedInfoInput').val();
     let valid = true;
     if (!modify) {
-        valid = checkTrack('bed', ['bed'], isUpdate);
+        valid = checkTrack('bed', ['bed']);
     }
     if (valid === true) {
         const track = { name: name, description: info, data: trackString };
@@ -417,7 +417,7 @@ function addBamTrack(modify, object) {
     const info = modify ? object.description : $('#bamInfoInput').val();
     let valid = true;
     if (!modify) {
-        valid = checkTrack('bam', ['bam'], isUpdate);
+        valid = checkTrack('bam', ['bam']);
     }
     if (valid === true) {
         const track = { name: name, description: info, data: trackString };
@@ -454,7 +454,7 @@ function addBigwigTrack(modify, object) {
     const info = modify ? object.description : $('#bigwigInfoInput').val();
     let valid = true;
     if (!modify) {
-        valid = checkTrack('bigwig', ['bw'], isUpdate);
+        valid = checkTrack('bigwig', ['bw']);
     }
 
     if (valid === true) {
@@ -506,7 +506,7 @@ function addGffTrack(modify, object) {
     const info = modify ? object.description : $('#gffInfoInput').val();
     let valid = true;
     if (!modify) {
-        valid = checkTrack('gff', ['gff', 'gff3', 'gtf'], isUpdate);
+        valid = checkTrack('gff', ['gff', 'gff3', 'gtf']);
     }
 
     if (valid === true) {
@@ -553,7 +553,7 @@ function addVcfTrack(modify, object) {
     const info = modify ? object.description : $('#vcfInfoInput').val();
     let valid = true;
     if (!modify) {
-        valid = checkTrack('vcf', ['vcf'], isUpdate);
+        valid = checkTrack('vcf', ['vcf']);
     }
     if (valid === true) {
         const track = { name: name, description: info, data: trackString };
@@ -600,7 +600,7 @@ function addSnpDensityTrack(modify, object) {
 
     let valid = true;
     if (!modify) {
-        valid = checkTrack('snpDensity', ['vcf'], isUpdate);
+        valid = checkTrack('snpDensity', ['vcf']);
     }
     if (valid === true) {
         const track = { name: name, description: info, type: 'snpDensity', data: trackString };
@@ -647,7 +647,7 @@ function addGeneExpressionTrack(modify, object) {
     const info = modify ? object.description : $('#geneExpressionInfoInput').val();
     let valid = true;
     if (!modify) {
-        valid = checkGeneExpressionTrack(name, info, isUpdate);
+        valid = checkGeneExpressionTrack(name, info);
     }
     if (valid === true) {
         const track = { name: name, description: info, data: trackString };
@@ -677,7 +677,7 @@ function addCustomTrack(modify, object) {
     const trackString = modify ? object.data : $('#customText').val();
     let valid = true;
     if (!modify) {
-        valid = checkCustomTrack(name, info, trackString, isUpdate);
+        valid = checkCustomTrack(name, info, trackString);
     }
 
     if (valid === true) {
@@ -707,7 +707,7 @@ function addCustomTrack(modify, object) {
 function addDOMTrack(name, trackType, id) {
     // If not add to the DOM and the track list
     const listItem =
-        '<div id= "L' + trackCount + '" ></br>' +
+        '<div track id= "L' + trackCount + '" ></br>' +
         '<li>' +
         '<label class="normal">' + name + '</label>' +
         '<button type="button"' + 'data-id=\'' + trackCount + '\' onClick="removeTrack(this)" class="btn btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span></button>' +
@@ -1038,79 +1038,81 @@ check['uploadGenome'] = function (value, fileType) {
 
 /**
  * Check if inputs are filled, properly prompted and have good extension
- * @param {*} track Track object
+ * @param {*} trackType Track type
  * @param {*} ext List of extensions to check
- * @param {*} isUpdate Boolean to know if the object already exists and it is an update
  */
-function checkTrack(track, ext, isUpdate) {
+function checkTrack(trackType, ext) {
 
     //check extension
-    const extCall = checkExtension($('#' + track + 'UrlInput').val(), ext);
+    const extCall = checkExtension($('#' + trackType + 'UrlInput').val(), ext);
 
     //error messages
     const errTrack = [];
 
     let valid = true;
 
-    // If it is an update no need to check if the name already exists
-    if (!isUpdate) {
-        loop1:
-        for (let i = 0; i < tracks.length; i++) {
-            for (let j = 0; j < tracks[i].length; j++) {
-                if (tracks[i][j].name === $('#' + track + 'NameInput').val()) {
-                    valid = false;
-                    $('#' + track + 'NameInput').css({ 'background-color': "rgba(255,0,51,0.6)" });
-                    errTrack.push('- name already exists. It must be unique.');
-                    break loop1;
-                } else {
-                    $('#' + track + 'NameInput').css({ 'background-color': "white" });
-                }
-            }
+    // Get all the track added in the DOM
+    const tracksList = $('div[track]');
+
+    // Check if name already exists
+    // Compare each id added into the modal to the current track to check if we update the same
+    // If we do not update the track then check if the name already exists
+    // If it is true throw an error to the user
+    tracksList.each(function () {
+        if (`#${$(this).attr('id')}` !== $(`#${trackType}Modal`).attr('trackId') &&
+            $('label', this).text() === $('#' + trackType + 'NameInput').val()) {
+            valid = false;
+            $('#' + trackType + 'NameInput').css({ 'background-color': "rgba(255,0,51,0.6)" });
+            errTrack.push('- name already exists. It must be unique.');
+            return false;
+        } else {
+            $('#' + trackType + 'NameInput').css({ 'background-color': "white" });
         }
-    }
-    if ($('#' + track + 'NameInput').val() === '') {
+    });
+
+    if ($('#' + trackType + 'NameInput').val() === '') {
         valid = false;
-        $('#' + track + 'NameInput').css({ 'background-color': "rgba(255,0,51,0.6)" });
+        $('#' + trackType + 'NameInput').css({ 'background-color': "rgba(255,0,51,0.6)" });
         errTrack.push('- name field is empty');
     } else if (valid) {
-        $('#' + track + 'NameInput').css({ 'background-color': "white" });
+        $('#' + trackType + 'NameInput').css({ 'background-color': "white" });
     }
-    if ($('#' + track + 'InfoInput').val() === '') {
+    if ($('#' + trackType + 'InfoInput').val() === '') {
         valid = false;
-        $('#' + track + 'InfoInput').css({ 'background-color': "rgba(255,0,51,0.6)" });
+        $('#' + trackType + 'InfoInput').css({ 'background-color': "rgba(255,0,51,0.6)" });
         errTrack.push('- info field is empty');
     } else {
-        $('#' + track + 'InfoInput').css({ 'background-color': "white" });
+        $('#' + trackType + 'InfoInput').css({ 'background-color': "white" });
     }
-    if ($('#' + track + 'UrlInput').val() === '') {
+    if ($('#' + trackType + 'UrlInput').val() === '') {
         valid = false;
-        $('#' + track + 'UrlInput').css({ 'background-color': "rgba(255,0,51,0.6)" });
+        $('#' + trackType + 'UrlInput').css({ 'background-color': "rgba(255,0,51,0.6)" });
         errTrack.push('- url/file path is missing');
     } else {
         if (extCall === false) {
             valid = false;
-            $('#' + track + 'UrlInput').css({ 'background-color': "rgba(255,0,51,0.6)" });
+            $('#' + trackType + 'UrlInput').css({ 'background-color': "rgba(255,0,51,0.6)" });
             errTrack.push('- url/file path is incorrect, acceptable file\nextension(s): ' + ext);
         } else {
-            $('#' + track + 'UrlInput').css({ 'background-color': "white" });
+            $('#' + trackType + 'UrlInput').css({ 'background-color': "white" });
         }
     }
-    if ($('#' + track + 'ThresholdInput')) {
-        if (Number($('#' + track + 'ThresholdInput').val()) > 100000000) {
+    if ($('#' + trackType + 'ThresholdInput')) {
+        if (Number($('#' + trackType + 'ThresholdInput').val()) > 100000000) {
             valid = false;
-            $('#' + track + 'ThresholdInput').css({ 'background-color': "rgba(255,0,51,0.6)" });
+            $('#' + trackType + 'ThresholdInput').css({ 'background-color': "rgba(255,0,51,0.6)" });
             errTrack.push('threshold value is incorrect');
         } else {
-            $('#' + track + 'ThresholdInput').css({ 'background-color': "white" });
+            $('#' + trackType + 'ThresholdInput').css({ 'background-color': "white" });
         }
     }
-    if ($('#' + track + 'MaxqualInput')) {
-        if (Number($('#' + track + 'MaxqualInput').val()) > 10000) {
+    if ($('#' + trackType + 'MaxqualInput')) {
+        if (Number($('#' + trackType + 'MaxqualInput').val()) > 10000) {
             valid = false;
-            $('#' + track + 'MaxqualInput').css({ 'background-color': "rgba(255,0,51,0.6)" });
+            $('#' + trackType + 'MaxqualInput').css({ 'background-color': "rgba(255,0,51,0.6)" });
             errTrack.push('max quality value is incorrect');
         } else {
-            $('#' + track + 'MaxqualInput').css({ 'background-color': "white" });
+            $('#' + trackType + 'MaxqualInput').css({ 'background-color': "white" });
         }
     }
 
@@ -1142,22 +1144,25 @@ function checkGeneExpressionTrack(name, info, isUpdate) {
     //error messages
     const errGeneExpressionTrack = [];
 
-    // If it is an update no need to check if the name already exists
-    if (!isUpdate) {
-        loop1:
-        for (let i = 0; i < tracks.length; i++) {
-            for (let j = 0; j < tracks[i].length; j++) {
-                if (tracks[i][j].name === $("#geneExpressionNameInput").val()) {
-                    valid = false;
-                    $("#geneExpressionNameInput").css({ 'background-color': "rgba(255,0,51,0.6)" });
-                    errTrack.push('- name already exists. It must be unique.');
-                    break loop1;
-                } else {
-                    $("#geneExpressionNameInput").css({ 'background-color': "white" });
-                }
-            }
+    // Get all the track added in the DOM
+    const tracksList = $('div[track]');
+
+    // Check if name already exists
+    // Compare each id added into the modal to the current track to check if we update the same
+    // If we do not update the track then check if the name already exists
+    // If it is true throw an error to the user
+    tracksList.each(function () {
+        if (`#${$(this).attr('id')}` !== $('#geneExpressionModal').attr('trackId') &&
+            $('label', this).text() === $('#geneExpressionNameInput').val()) {
+            valid = false;
+            $("#geneExpressionNameInput").css({ 'background-color': "rgba(255,0,51,0.6)" });
+            errGeneExpressionTrack.push('- name already exists. It must be unique.');
+            return false;
+        } else {
+            $("#geneExpressionNameInput").css({ 'background-color': "white" });
         }
-    }
+    });
+
     if (name === '') {
         valid = false;
         $("#geneExpressionNameInput").css({ 'background-color': "rgba(255,0,51,0.6)" });
@@ -1209,6 +1214,25 @@ function checkCustomTrack(name, info, trackString) {
 
     //error messages
     const errCustomTrack = [];
+
+    // Get all the track added in the DOM
+    const tracksList = $('div[track]');
+
+    // Check if name already exists
+    // Compare each id added into the modal to the current track to check if we update the same
+    // If we do not update the track then check if the name already exists
+    // If it is true throw an error to the user
+    tracksList.each(function () {
+        if (`#${$(this).attr('id')}` !== $('#customModal').attr('trackId') &&
+            $('label', this).text() === $('#customNameInput').val()) {
+            valid = false;
+            $("#customNameInput").css({ 'background-color': "rgba(255,0,51,0.6)" });
+            errCustomTrack.push('- name already exists. It must be unique.');
+            return false;
+        } else {
+            $("#customNameInput").css({ 'background-color': "white" });
+        }
+    });
 
     if (name === '') {
         valid = false;
