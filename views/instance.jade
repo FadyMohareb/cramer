@@ -130,7 +130,7 @@ html
                         input#fasta_id(name='fasta', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='fasta_id')
                       a(data-toggle='collapse', href='#collapseFASTA') FASTA sequence 
-                      button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#fastaModal')
+                      button.btn.btn-info.btn-xs(type='button', onclick='openModal(\'#fastaModal\')')
                         span.glyphicon.glyphicon-plus
                       #collapseFASTA.panel-collapse.collapse
                         ul.list-group(id='fastaTracks')
@@ -139,7 +139,7 @@ html
                         input#bed_id(name='bed', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='bed_id')
                       a(data-toggle='collapse', href='#collapseBED') BED Annotation 
-                      button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#bedModal')
+                      button.btn.btn-info.btn-xs(type='button', onclick='openModal(\'#bedModal\')')
                         span.glyphicon.glyphicon-plus
                       #collapseBED.panel-collapse.collapse
                         ul.list-group(id='bedTracks')
@@ -148,7 +148,7 @@ html
                         input#bam_id(name='bam', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='bam_id')
                       a(data-toggle='collapse', href='#collapseBAM') Genomic BAM Transcripts 
-                      button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#bamModal')
+                      button.btn.btn-info.btn-xs(type='button', onclick='openModal(\'#bamModal\')')
                         span.glyphicon.glyphicon-plus
                       #collapseBAM.panel-collapse.collapse
                         ul.list-group(id='bamTracks')
@@ -157,7 +157,7 @@ html
                         input#bigwig_id(name='bigwig', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='bigwig_id')
                       a(data-toggle='collapse', href='#collapseBIGWIG') BIGWIG Graph 
-                      button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#bigwigModal')
+                      button.btn.btn-info.btn-xs(type='button', onclick='openModal(\'#bigwigModal\')')
                         span.glyphicon.glyphicon-plus  
                       #collapseBIGWIG.panel-collapse.collapse
                         ul.list-group(id='bigwigTracks')
@@ -166,7 +166,7 @@ html
                         input#gff_id(name='gff', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='gff_id')
                       a(data-toggle='collapse', href='#collapseGFF') GFF Genes  
-                      button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#gffModal')
+                      button.btn.btn-info.btn-xs(type='button', onclick='openModal(\'#gffModal\')')
                         span.glyphicon.glyphicon-plus
                       #collapseGFF.panel-collapse.collapse
                         ul.list-group(id='gffTracks')
@@ -175,7 +175,7 @@ html
                         input#vcf_id(name='vcf', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='vcf_id')
                       a(data-toggle='collapse', href='#collapseVCF') VCF Variants 
-                      button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#vcfModal')
+                      button.btn.btn-info.btn-xs(type='button', onclick='openModal(\'#vcfModal\')')
                         span.glyphicon.glyphicon-plus
                       #collapseVCF.panel-collapse.collapse
                         ul.list-group(id='vcfTracks')
@@ -184,7 +184,7 @@ html
                         input#snpDensity_id(name='snpDensity', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='snpDensity_id')
                       a(data-toggle='collapse', href='#collapseSNPDensity') SNP Density Graph 
-                      button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#snpDensityModal')
+                      button.btn.btn-info.btn-xs(type='button', onclick='openModal(\'#snpDensityModal\')')
                         span.glyphicon.glyphicon-plus  
                       #collapseSNPDensity.panel-collapse.collapse
                         ul.list-group(id='snpDensityTracks')
@@ -193,7 +193,7 @@ html
                         input#geneExpression_id(name='geneExpression', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='geneExpression_id')
                       a(data-toggle='collapse', href='#collapseGeneExpression') Gene Expression Graph 
-                      button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#geneExpressionModal')
+                      button.btn.btn-info.btn-xs(type='button', onclick='openModal(\'#geneExpressionModal\')')
                         span.glyphicon.glyphicon-plus  
                       #collapseGeneExpression.panel-collapse.collapse
                         ul.list-group(id='geneExpressionTracks')
@@ -202,7 +202,7 @@ html
                         input#custom_id(name='custom', type='checkbox', checked=false)
                         label.label-primary(label-default='', for='custom_id')
                       a(data-toggle='collapse', href='#collapseCUSTOM') Custom Track 
-                      button.btn.btn-info.btn-xs(type='button', data-toggle='modal', data-target='#customTrackModal')
+                      button.btn.btn-info.btn-xs(type='button', onclick='openModal(\'#customModal\')')
                         span.glyphicon.glyphicon-plus  
                       #collapseCUSTOM.panel-collapse.collapse
                         ul.list-group(id='customTracks')
@@ -449,7 +449,7 @@ html
               button.btn.btn-default.pull-right(type='button', onClick='addGeneExpressionTrack()') Add track
     // END OF geneExpressionModal
     // STARTS Add custom track button modal
-    #customTrackModal.modal.fade(role='dialog')
+    #customModal.modal.fade(role='dialog')
       .modal-dialog
         // Modal content
         .modal-content
@@ -467,14 +467,6 @@ html
               small#infoHelp.form-text.text-muted The info should match the info property of the track
           .modal-body
                 textarea#customText.form-control(rows='12')
-                  | Genoverse.Track.extend ({
-                  | id:
-                  | name:
-                  | model:
-                  | info:
-                  | url:
-                  | labels: false
-                  | }),
           .modal-footer
             button.btn.btn-default.pull-right(type='button', onClick='addCustomTrack()') Add track
     // END of Add custom track button modal

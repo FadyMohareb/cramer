@@ -200,3 +200,7 @@ body {
     vertical-align: middle;
     display: table-cell;
 }
+
+.normal {
+    font-weight: normal;
+}
