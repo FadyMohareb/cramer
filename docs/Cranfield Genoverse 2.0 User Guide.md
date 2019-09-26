@@ -75,15 +75,15 @@ file or through Ensembl database.
 
 ![C:\\Users\\Sergio\\Desktop\\forsergio.png](media/image001.png)
 
-Fig.1. Diagram of the relation between the multiple webpages that form
-Cranfield Genoverse 2.0.
+*Fig.1. Diagram of the relation between the multiple webpages that form*
+*Cranfield Genoverse 2.0.*
 
 ![](media/image004.jpg)
 
-Fig.2. Diagram of how the genome browser works. Initially, the browser
-makes data requests for the current view position in addition to left
-and right buffers. This means the data is already loaded and the user
-can scroll through it and perform zoom in/out operations.
+*Fig.2. Diagram of how the genome browser works. Initially, the browser*
+*makes data requests for the current view position in addition to left*
+*and right buffers. This means the data is already loaded and the user*
+*can scroll through it and perform zoom in/out operations.*
 
 The welcome webpage allows registered users to create new instances or
 view and modify already existing instances. Non-registered users are
@@ -136,7 +136,7 @@ for compatibility for each file type are the following:
     BAM file and generate a BIGWIG file for FTP loading, which can be
     loaded into the program.
     
-    The script can be executed by typing ./processingBAM.sh input.bam in
+    The script can be executed by typing `./processingBAM.sh input.bam` in
     a Linux terminal, and following the instructions that will be
     prompted on the screen.
     
@@ -144,7 +144,7 @@ for compatibility for each file type are the following:
     correctly the chromosome IDs must be at the end of the chromosome
     name (for example SL2.50ch01) as indicated for previous files. The
     script requires the following tools to be fully executed: samtools,
-    bam2wig, and ucsc-wigtobigwig (installed through bioconda) \[3\].
+    bam2wig, and ucsc-wigtobigwig (installed through `bioconda`) \[3\].
     Any BIGWIG that follows this format can be used.
 
 In addition to this, local files can be dragged and dropped in the
@@ -307,9 +307,9 @@ Table 1. Plugins included in Genoverse 2.
 
 ![C:\\UNIVERSIDAD\\Applied Bioinformatics\\Group Project\\STARTING
 DEF\\User
-Guide\\Screenshots\\Screenshot\_Welcome\_page.png](media/image3.png)
+Guide\\Screenshots\\Screenshot\_Welcome\_page.png](media/image005.png)
 
-Fig.3. Welcome page of the program for a logged-in user.
+*Fig.3. Welcome page of the program for a logged-in user.*
 
 The welcome page is where users can access existing instances.
 Registered users can also log-in which provides them with the option to
@@ -347,10 +347,10 @@ logged-in there will be two additional buttons:
   - 
 **Instance page**
 
-![](media/image4.png)
+![](media/image007.png)
 
-Fig.4. (A) Instance page with examples of how to fill each field. (B)
-Pop-up window to create a new sub-track in the GFF Gene parent track.
+*Fig.4. (A) Instance page with examples of how to fill each field. (B)*
+*Pop-up window to create a new sub-track in the GFF Gene parent track*.
 
 The instance page is accessed through the “Create new instance” or
 “Modify” button on the welcome page (**Fig. 4A**). This page is only
@@ -406,11 +406,11 @@ filled, a red alert will inform the user about the cause of the error.
 
 ## Genome browser page
 
-![](media/image5.png)
+![](media/image010.png)
 
-Fig.5. **Genome browser page.** In the browse is displayed the karyotype
-of the chromosome 5 of Mus musculus and the genes found in Ensembl for
-the current view position.
+*Fig.5. Genome browser page. In the browse is displayed the karyotype*
+*of the chromosome 5 of Mus musculus and the genes found in Ensembl for*
+*the current view position.*
 
 The genome browser page (**Fig. 5**) is where all the data of the
 instances is visually represented. The interface consists of a set of
@@ -502,41 +502,41 @@ bioinformatics programs: Samtools, and Bwtool.
 
 1.  Clone the Github repository with the following command:
 
-$ git clone https://github.com/PierBJX/Cranfield-Genoverse-2.0.git
+$ git clone https://github.com/FadyMohareb/genoverse
 
 2.  To install, run the following commands:
 
-$ cd \<Genoverse/Directory\>
+`$ cd \<Genoverse/Directory\>`
 
-$ npm install
+`$ npm install`
 
-$ node bin/www
+`$ node bin/www`
 
 3.  The output should be:
 
-Running at port: \<port\>
+`Running at port: \<port\>`
 
-MongoDB connection open
+`MongoDB connection open`
 
 4.  Then, it could be accessible from any browser on any operating
     systems. Open your browser and write this in the URL address. Make
     sure the port value is the same than in the output displayed in the
     prompt command:
 
-localhost:\<port\>
+`localhost:\<port\>`
 
 OR
 
-IPaddress:\<port\>
+`IPaddress:\<port\>`
 
 Once installed, the multiple files that form the program can be altered
 to change the functionalities of the program as the developer team
 wants, and then saved to apply these changes. However, modified files
-which are contained in list-js.js would require building the program
+which are contained in *list-js.js* would require building the program
 before running it to apply the changes. This can be done with the
 following command:
 
-$ npm run-script build
+`$ npm run-script build`
 
 # Hands-on Example 
 
@@ -554,8 +554,8 @@ download the following files:
 “CHBJPT.low\_coverage.2010\_09.xchr.sites.vcf.gz.” and
 “CHBJPT.low\_coverage.2010\_09.xchr.sites.vcf.gz.tbi” type:
 
-$ wget
-ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/pilot\_data/paper\_data\_sets/a\_map\_of\_human\_variation/low\_coverage/snps/CHBJPT.low\_coverage.2010\_09.xchr.sites.vcf.gz\*
+`$ wget`
+`ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/pilot\_data/paper\_data\_sets/a\_map\_of\_human\_variation/low\_coverage/snps/CHBJPT.low\_coverage.2010\_09.xchr.sites.vcf.gz\*`
 \_
 
 As already mentioned in the “File requisites” section, VCF files must be
@@ -565,7 +565,7 @@ Genoverse 2.
 N.B. In the case where a tabix file is not available, it can be
 generated by running the following command on a compressed vcf file:
 
-$ tabix vcf\_file.vcf.gz
+`$ tabix vcf\_file.vcf.gz`
 
 The generated tabix file must be uploaded together with its
 corresponding vcf file on Genoverse 2.
@@ -594,9 +594,9 @@ function has been described in the [Tracks](#tracks) section. You can
 either activate all the Ensembl tracks at once or select individual
 tracks to be displayed.
 
-![](media/image6.tiff)
+![](media/image012.png)
 
-Fig. 6 Form for new visualization instance on Genoverse
+*Fig. 6 Form for new visualization instance on Genoverse*
 
 ### Add local files
 
@@ -638,10 +638,10 @@ the user performs an action, such as zoom in/out or change chromosome
 Chromosome X, so if you pick a different chromosome, the visualization
 instance would work fine, however, the vcf track will contain no SNPs).
 You can replicate the same view of the genome by copying and pasting the
-URL link in a new tab on the web browser. ![](media/image7.tiff)
+URL link in a new tab on the web browser. ![](media/image013.png)
 
-Fig. 7 Screenshot of the Human Genome visualisation instance showing
-tracks for: Chromosome X and **35938492-35987711**
+*Fig. 7 Screenshot of the Human Genome visualisation instance showing*
+*tracks for: Chromosome X and **35938492-35987711***
 
 ### Drag and drop 
 
@@ -669,12 +669,11 @@ do on the genome browser page to explore the data as described in the
 <span class="underline">For instance, you can search for a specific gene
 on a chromosome, e.g. PLAC1 on chromosome X, by first selecting the
 correct chromosome from the drop down menu and then clicking on the
-“Search” button and typing “PLAC1” in the name field</span> (**Fig.
-8**).
+“Search” button and typing “PLAC1” in the name field</span> (**Fig.8**).
 
-![](media/image8.tiff)
+![](media/image016.png)
 
-Fig. 8 Genoverse gene search form.
+*Fig. 8 Genoverse gene search form.*
 
 Then tick the fields “Ensembl gene IDs” and “Ensembl gene names” since
 the genome is fetched from Ensembl. After clicking on the arrow next to
@@ -687,7 +686,7 @@ window will appear with additional information (**Fig. 9**). If you
 click on the gene name on the pop-up window, you will be redirected to
 the Ensembl webpage for this gene, which will open in a new tab.
 
-![](media/image9.png)
+![](media/image017.png)
 
 *Fig. 9 Genoverse gene search result for PLAC1*
 
@@ -710,14 +709,14 @@ A complex chromosome name such as
   - An incorrect URL/Filepath
 
 **<span class="underline">When uploading a VCF file, the following error
-may appear: “ERROR: Gzipped VCF files must be accompanied by a .tbi
-index file”</span>**
+may appear: *“ERROR: Gzipped VCF files must be accompanied by a .tbi
+index file”</span>***
 
 This error means that the VCF file is not properly compressed.
 
 **<span class="underline">In the genome browser page a warning may
-appear after you perform the drag and drop operation: “Data for this
-track is not displayed in regions greater than 100.00 kb”.</span>**
+appear after you perform the drag and drop operation: *“Data for this
+track is not displayed in regions greater than 100.00 kb”.</span>***
 
 To remove this warning press the "zoom in" button repeatedly.
 
@@ -736,33 +735,33 @@ respect some requirements:
 
 Below, there is an example of the genome file for the tomato:
 
-Genoverse.Genomes.tomato = {
+*Genoverse.Genomes.tomato = {*
 
-"1": {
+*"1": {*
 
-"size": 98543444,
+*"size": 98543444,*
 
-"bands": \[\]
+*"bands": \[\]*
 
-},
+*},*
 
-"2": {
+*"2": {*
 
-"size": 55340444,
+*"size": 55340444,*
 
-"bands": \[\]
+*"bands": \[\]*
 
-},
+*},*
 
-"3": {
+*"3": {*
 
-"size": 70787664,
+*"size": 70787664,*
 
-"bands": \[\]
+*"bands": \[\]*
 
-}
+*}*
 
-};
+*};*
 
 # References
 
