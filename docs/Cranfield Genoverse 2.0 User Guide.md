@@ -73,12 +73,12 @@ implement, and a selection of the tracks to visualize; that will be
 displayed in the browser. The genome data could be obtained from a local
 file or through Ensembl database.
 
-![C:\\Users\\Sergio\\Desktop\\forsergio.png](media/image1.png)
+![C:\\Users\\Sergio\\Desktop\\forsergio.png](media/image001.png)
 
 Fig.1. Diagram of the relation between the multiple webpages that form
 Cranfield Genoverse 2.0.
 
-![](media/image002.png)
+![](media/image004.jpg)
 
 Fig.2. Diagram of how the genome browser works. Initially, the browser
 makes data requests for the current view position in addition to left
