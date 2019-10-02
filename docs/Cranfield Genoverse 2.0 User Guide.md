@@ -162,6 +162,8 @@ the administrator can manually register new users in the database which
 to gives them full access to the logged-in privileges. The users’
 passwords are stored in the database in encrypted form.
 
+## How to create a new user account
+
 ## Tracks
 
 Currently, Genoverse 2 has sixteen different tracks available that can
