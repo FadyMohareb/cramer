@@ -1,48 +1,48 @@
 # Table of Contents
 
-[Genoverse 2 Overview 1](#genoverse-2-overview)
+[Genoverse 2 Overview](#genoverse-2-overview)
 
-[Introduction 1](#introduction)
+[Introduction](#introduction)
 
-[Structure 1](#structure)
+[Structure](#structure)
 
-[File requisites 2](#file-requisites)
+[File requisites](#file-requisites)
 
-[Sign in 3](#sign-in)
+[How to create a new user account](#how-to-create-a-new-user-account)
 
-[Tracks 3](#tracks)
+[Sign in](#sign-in)
 
-[Plugins 4](#plugins)
+[Tracks](#tracks)
 
-[How to navigate Genoverse 2 5](#how-to-navigate-genoverse-2)
+[Plugins](#plugins)
 
-[Welcome page 5](#welcome-page)
+[How to navigate Genoverse 2](#how-to-navigate-genoverse-2)
 
-[Genome browser page 7](#genome-browser-page)
+[Welcome page](#welcome-page)
 
-[Pre-requisites 9](#pre-requisites)
+[Genome browser page](#genome-browser-page)
 
-[Installation Process 9](#installation-process)
+[Pre-requisites](#pre-requisites)
 
-[Hands-on Example 10](#hands-on-example)
+[Installation Process](#installation-process)
 
-[1. Download vcf files from the IGSR repository
-10](#download-vcf-files-from-the-igsr-repository)
+[Hands-on Example](#hands-on-example)
 
-[2. Create a new instance on Genoverse 2 from Ensembl
-10](#create-a-new-instance-on-genoverse-2-from-ensembl)
+[1. Download vcf files from the IGSR repository](#download-vcf-files-from-the-igsr-repository)
 
-[Add local files 11](#add-local-files)
+[2. Create a new instance on Genoverse 2 from Ensembl](#create-a-new-instance-on-genoverse-2-from-ensembl)
 
-[Drag and drop 13](#drag-and-drop)
+[Add local files](#add-local-files)
 
-[Explore Data 13](#explore-data)
+[Drag and drop](#drag-and-drop)
 
-[Common errors 15](#common-errors)
+[Explore Data](#explore-data)
 
-[Appendix 16](#appendix)
+[Common errors](#common-errors)
 
-[References 17](#references)
+[Appendix](#appendix)
+
+[References](#references)
 
 # Genoverse 2 Overview
 
@@ -155,14 +155,29 @@ WIG, BIGWIG** and **BAM** files can all be dragged and dropped into the
 user interface but their format is restricted to chromosome numbers
 formatted as chr\[num\] or \[num\] (for example chr**01** or **1**).
 
+## How to create a new user account
+
+There is no way to create a user account via the application.
+
+Therefore if you want to create user account, use postman or something similar.
+
+Example using postman:
+
+Select 'POST'
+
+Set the URL to: http://localhost:4000/register
+
+Add the Body (raw)
+
+`{  "name": "TEST", "email": "test@test.fr", "password": "test" }`
+
+Click 'Send'
+
 ## Sign in
 
-Genoverse 2 does not provide users the option to create an account. Only
-the administrator can manually register new users in the database which
-to gives them full access to the logged-in privileges. The users’
-passwords are stored in the database in encrypted form.
+Registered users can sign in by clicking on the sign in link on the home page and entering their login credentials on the login page.
 
-## How to create a new user account
+![](/home/maria/genoverse/docs/media/login.png)
 
 ## Tracks
 
