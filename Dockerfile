@@ -1,6 +1,6 @@
 FROM alpine:3.10
 MAINTAINER m.anastasiadi@cranfield.ac.uk
-RUN apk update && apk add nodejs npm build-base git curl curl-dev zlib-dev bzip2-dev xz-dev ncurses-dev
+RUN apk update && apk add nodejs npm build-base git curl curl-dev zlib-dev bzip2-dev xz-dev ncurses-dev python
 RUN wget https://github.com/samtools/htslib/releases/download/1.9/htslib-1.9.tar.bz2 && \
     tar xvjf htslib-1.9.tar.bz2 && cd htslib-1.9/ && \
     ./configure --prefix=/usr && make && make install && \
