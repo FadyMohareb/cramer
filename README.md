@@ -9,13 +9,7 @@ Genoverse Github repository: <https://github.com/FadyMohareb/genoverse>.
 
 # Table of Contents
 
-[Genoverse 2.0](#genoverse-2.0)
-
-[Introduction](#introduction)
-
-[Genoverse 2.0 workflow](#genoverse-2.0-workflow)
-
-[Installation Process](#installation-process)
+[How to install Genoverse 2.0](#how-to-install-genoverse-2.0)
 
 [Dependencies](#dependencies)
 
@@ -24,6 +18,8 @@ Genoverse Github repository: <https://github.com/FadyMohareb/genoverse>.
 [Docker-based installation (MacOS)](#docker-based-installation-(MacOS))
 
 [Manual installation](#manual-installation)
+
+[Genoverse 2.0 workflow](#genoverse-2.0-workflow)
 
 [How to create a new user account](#how-to-create-a-new-user-account)
 
@@ -60,6 +56,88 @@ Genoverse Github repository: <https://github.com/FadyMohareb/genoverse>.
 [List of Ensemble Genomes not currently available to display](#list-of-ensembl-genomes-not-currently-available-to-display)
 
 [References](#references)
+
+## How to install Genoverse 2.0
+
+This section provides detailed instructions on how to install and
+execute the program, so it can to be accessed from any browser.
+
+### **Dependencies**
+
+Genoverse 2.0 requires running on Linux or MacOS.  The programme requires NodeJS  and three commonly used bioinformatics programs.
+
+- [NodeJS](https://nodejs.org/en/download/) v7.x
+- [Samtools](http://www.htslib.org/download/)
+- [Bwtool](https://github.com/CRG-Barcelona/bwtool)
+- [kentUtils from UCSC](https://github.com/ENCODE-DCC/kentUtils)
+
+ Make sure that they are installed in /usr/bin/.
+
+###  **Docker-based installation (Linux)**
+
+The easiest way to satisfy all dependencies and run Genoverse 2.0 is to build and run
+
+the Docker image defined in Dockerfile within this repository.
+
+This docker image assumes there is a MongoDB service running on localhost:27017
+
+The easiest way to achieve this is to run: ```$ docker run --name mongo -p 27017:27017 -d mongo:latest```
+
+or ```$ docker start mongo``` if you have already created the *mongo* container.
+
+Clone this repository locally: ```$ git clone https://github.com/FadyMohareb/genoverse.git && cd genoverse```
+
+To build: ```$ docker build . -t genoverse```
+
+To run: ```$ docker run --rm --pid=host --network=host genoverse```
+
+You may now visit [http://localhost:4000](http://localhost:4000) in your web browser.
+
+To stop: Ctrl+C in the terminal window running the genoverse image.
+
+To stop MongoDB: ```$ docker stop mongo```
+
+### Docker-based installation (MacOS)
+
+### **Manual installation** 
+
+1. Clone the Github repository with the following command:
+
+`$ git clone https://github.com/FadyMohareb/genoverse`
+
+2. To install, run the following commands:
+
+`$ cd \<Genoverse/Directory\>`
+
+`$ npm install`
+
+`$ node bin/www`
+
+3. The output should be:
+
+`Running at port: \<port\>`
+
+`MongoDB connection open`
+
+4. Then, it could be accessible from any browser on any operating
+   systems. Open your browser and write this in the URL address. Make
+   sure the port value is the same than in the output displayed in the
+   prompt command:
+
+`localhost:\<port\>`
+
+OR
+
+`IPaddress:\<port\>`
+
+Once installed, the multiple files that form the program can be altered
+to change the functionalities of the program as the developer team
+wants, and then saved to apply these changes. However, modified files
+which are contained in *list-js.js* would require building the program
+before running it to apply the changes. This can be done with the
+following command:
+
+`$ npm run-script build`
 
 ## Genoverse 2.0 workflow
 
@@ -158,87 +236,7 @@ WIG, BIGWIG** and **BAM** files can all be dragged and dropped into the
 user interface but their format is restricted to chromosome numbers
 formatted as chr\[num\] or \[num\] (for example chr**01** or **1**).
 
-## Installation Process
 
-This section provides detailed instructions on how to install and
-execute the program, so it can to be accessed from any browser.
-
-### **Dependencies**
-
-Genoverse 2.0 requires running on Linux or MacOS.  The programme requires NodeJS  and three commonly used bioinformatics programs.
-
-- [NodeJS](https://nodejs.org/en/download/) v7.x
-- [Samtools](http://www.htslib.org/download/)
-- [Bwtool](https://github.com/CRG-Barcelona/bwtool)
-- [kentUtils from UCSC](https://github.com/ENCODE-DCC/kentUtils)
-
- Make sure that they are installed in /usr/bin/.
-
-###  **Docker-based installation (Linux)**
-
-The easiest way to satisfy all dependencies and run Genoverse 2.0 is to build and run
-
-the Docker image defined in Dockerfile within this repository.
-
-This docker image assumes there is a MongoDB service running on localhost:27017
-
-The easiest way to achieve this is to run: ```$ docker run --name mongo -p 27017:27017 -d mongo:latest```
-
-or ```$ docker start mongo``` if you have already created the *mongo* container.
-
-Clone this repository locally: ```$ git clone https://github.com/FadyMohareb/genoverse.git && cd genoverse```
-
-To build: ```$ docker build . -t genoverse```
-
-To run: ```$ docker run --rm --pid=host --network=host genoverse```
-
-You may now visit [http://localhost:4000](http://localhost:4000) in your web browser.
-
-To stop: Ctrl+C in the terminal window running the genoverse image.
-
-To stop MongoDB: ```$ docker stop mongo```
-
-### Docker-based installation (MacOS)
-
-### **Manual installation** 
-
-1. Clone the Github repository with the following command:
-
-`$ git clone https://github.com/FadyMohareb/genoverse`
-
-2. To install, run the following commands:
-
-`$ cd \<Genoverse/Directory\>`
-
-`$ npm install`
-
-`$ node bin/www`
-
-3. The output should be:
-
-`Running at port: \<port\>`
-
-`MongoDB connection open`
-
-4. Then, it could be accessible from any browser on any operating
-   systems. Open your browser and write this in the URL address. Make
-   sure the port value is the same than in the output displayed in the
-   prompt command:
-
-`localhost:\<port\>`
-
-OR
-
-`IPaddress:\<port\>`
-
-Once installed, the multiple files that form the program can be altered
-to change the functionalities of the program as the developer team
-wants, and then saved to apply these changes. However, modified files
-which are contained in *list-js.js* would require building the program
-before running it to apply the changes. This can be done with the
-following command:
-
-`$ npm run-script build`
 
 ## How to create a new user account
 
