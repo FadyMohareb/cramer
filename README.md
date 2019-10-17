@@ -250,7 +250,7 @@ The required inputs are the user's email address, the password and a user name.
 
 Registered users can sign in by clicking on the sign in link on the home page and entering their login credentials on the login page (**Fig. 2**).
 
-![](/home/maria/genoverse/docs/media/login.png)
+![](media/login.png)
 
 *Fig.2. Login page for registered users.*
 
