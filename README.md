@@ -71,7 +71,7 @@ Genoverse 2.0 requires running on Linux or MacOS.  The programme requires NodeJS
 - [Bwtool](https://github.com/CRG-Barcelona/bwtool)
 - [kentUtils from UCSC](https://github.com/ENCODE-DCC/kentUtils)
 
- Make sure that they are installed in /usr/bin/.
+ Make sure that they are installed in /usr/local/.
 
 ### How to install Genoverse 2.0 on Linux:
 ### Option 1: **Docker-based installation**
@@ -82,22 +82,28 @@ The easiest way to satisfy all dependencies and run Genoverse 2.0 is to build an
 ```docker run --name mongo -p 27017:27017 -d mongo:latest```
 
 Alternatively, if you have already created the *mongo* container, run:
+
 ```docker start mongo``` 
 
 2. Clone this repository locally: 
+
 ```git clone https://github.com/FadyMohareb/genoverse.git && cd genoverse```
 
 3. Build the application:
+
 ```docker build . -t genoverse```
 
 4. Run Genoverse:
+
 ```docker run --rm --pid=host --network=host genoverse```
 
 You may now visit [http://localhost:4000](http://localhost:4000) in your web browser.
 
 To stop: Ctrl+C in the terminal window running the genoverse image.
 
-To stop MongoDB: ```$ docker stop mongo```
+To stop MongoDB: 
+
+```$ docker stop mongo```
 
 
 ### Docker-based installation (MacOS)
