@@ -9,7 +9,7 @@ Genoverse Github repository: <https://github.com/FadyMohareb/genoverse>.
 
 # Table of Contents
 
-[How to install Genoverse 2.0](#how-to-install-genoverse-2.0)
+[How to install Genoverse 2.0](#how-to-install-genoverse-20)
 
 [Dependencies](#dependencies)
 
