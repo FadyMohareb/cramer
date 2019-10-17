@@ -55,6 +55,8 @@ Genoverse Github repository: <https://github.com/FadyMohareb/genoverse>.
 
 [Appendix](#appendix)
 
+[Requirements for the correct display of imported files](#requirements-for-the-correct-display-of-imported-files)
+
 [List of Ensemble Genomes not currently available to display](#list-of-ensembl-genomes-not-currently-available-to-display)
 
 [References](#references)
@@ -807,7 +809,7 @@ Below, there is an example of the genome file for the tomato:
 
 
 
-#### List of Ensemble Genomes not currently available to display
+### List of Ensemble Genomes not currently available to display
 
 ##### Genome files not available
 
