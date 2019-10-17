@@ -1,16 +1,12 @@
-# Cranfield-Genoverse-2.0
+# Genoverse-2.0
 
-Based on [Genoverse](https://github.com/wtsi-web/Genoverse), this is a portable, customizable, back-end independent JavaScript and HTML5 based genome browser which allows the user to explore data interactively.
+Genoverse 2.0 is a portable, customizable, back-end independent JavaScript and HTML5 based genome browser which allows the user to explore data interactively. Data is visualized in the browser, meaning Genoverse can be deployed as a web-application or having the visualisation component integrated within any website and show data from a wide range of online, ftp links or local sources.
 
-Data is visualized in the browser, meaning Genoverse can be installed on any website and show data from a wide range of online, ftp links or local sources.
-Genoverse works with a variety of formats, such as XML, JSON, BED, VCF, GFF, GFF3, BAM or delimited text files, and can be customized to parse and display any data source as required.
-
-The authorised users can create a browser instance and add it in the database. In this way, on the welcome page any user can choose which one to visualize.
-This browser instance, it is possible to select which plugins to display, the name, the description, the chromosome and the range to display and the tracks. In the tracks several choices are available with different kind of data like from Ensembl or ftp links.
+Genoverse works with a variety of formats, such as XML, JSON, BED, VCF, GFF, GFF3, BAM or delimited text files, and can be customized to parse and display any data source as required. Authorised users (i.e. application administrators) can create and save visualisation instances and make them available for others. In this way, on the welcome page any user can choose which one to visualize. This browser instance is customisable, meaning that it is possible to select which plugins to display, the name, the description, the chromosome and the range to display and the tracks. To add a track to a visualisation instances, track files can be added locally to the server, made available through a local or remote FTP link, or imported directly from Ensembl.
 
 ## Quickstart/Demo
 
-The easiest way to satisfy all dependencies and run Cranfield-Genoverse-2.0 is to build and run
+The easiest way to satisfy all dependencies and run Genoverse-2.0 is to build and run
 the Docker image defined in Dockerfile within this repository.
 
 This docker image assumes there is a MongoDB service running on localhost:27017
