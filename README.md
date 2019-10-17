@@ -73,29 +73,32 @@ Genoverse 2.0 requires running on Linux or MacOS.  The programme requires NodeJS
 
  Make sure that they are installed in /usr/bin/.
 
-###  **Docker-based installation (Linux)**
+### How to install Genoverse 2.0 on Linux:
+### Option 1: **Docker-based installation**
+The easiest way to satisfy all dependencies and run Genoverse 2.0 is to build and run the Docker image defined in Dockerfile within this repository. This docker image assumes there is a MongoDB service running on localhost:27017
 
-The easiest way to satisfy all dependencies and run Genoverse 2.0 is to build and run
+1. Make sure monogo is up and running on Docker: 
 
-the Docker image defined in Dockerfile within this repository.
+```docker run --name mongo -p 27017:27017 -d mongo:latest```
 
-This docker image assumes there is a MongoDB service running on localhost:27017
+Alternatively, if you have already created the *mongo* container, run:
+```docker start mongo``` 
 
-The easiest way to achieve this is to run: ```$ docker run --name mongo -p 27017:27017 -d mongo:latest```
+2. Clone this repository locally: 
+```git clone https://github.com/FadyMohareb/genoverse.git && cd genoverse```
 
-or ```$ docker start mongo``` if you have already created the *mongo* container.
+3. Build the application:
+```docker build . -t genoverse```
 
-Clone this repository locally: ```$ git clone https://github.com/FadyMohareb/genoverse.git && cd genoverse```
-
-To build: ```$ docker build . -t genoverse```
-
-To run: ```$ docker run --rm --pid=host --network=host genoverse```
+4. Run Genoverse:
+```docker run --rm --pid=host --network=host genoverse```
 
 You may now visit [http://localhost:4000](http://localhost:4000) in your web browser.
 
 To stop: Ctrl+C in the terminal window running the genoverse image.
 
 To stop MongoDB: ```$ docker stop mongo```
+
 
 ### Docker-based installation (MacOS)
 
