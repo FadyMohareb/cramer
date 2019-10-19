@@ -13,9 +13,6 @@
     "type": "git",
     "url": ""
   },
-  "bugs": {
-    "url": ""
-  },
   "dependencies": {
     "async": "^2.6.0",
     "bcrypt": "^3.0.6",
@@ -23,7 +20,7 @@
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.3",
     "debug": "~3.1.0",
-    "dotenv": "^8.1.0",
+    "dotenv": "^8.2.0",
     "express": "~4.16.3",
     "express-session": "^1.11.1",
     "formidable": "^1.2.1",
@@ -41,5 +38,15 @@
   },
   "resolutions": {
     "**/**/node-gyp": "5.0.0"
-  }
+  },
+  "description": "## Introduction",
+  "main": "bin/www",
+  "bin": {
+    "genoverse-c3po": "newUser.js"
+  },
+  "keywords": [
+    "genome",
+    "browser"
+  ],
+  "license": "MIT"
 }
