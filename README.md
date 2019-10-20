@@ -13,12 +13,6 @@ Genoverse Github repository: <https://github.com/FadyMohareb/genoverse>.
 
 [Dependencies](#dependencies)
 
-[Docker-based installation (Linux)](option-1-docker-based-installation)
-
-[Docker-based installation (MacOS)](#docker-based-installation-(MacOS))
-
-[Manual installation](#manual-installation)
-
 [Genoverse 2.0 workflow](#genoverse-2.0-workflow)
 
 [How to create a new user account](#how-to-create-a-new-user-account)
