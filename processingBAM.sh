@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 
-echo "Cranfield Genoverse 2.0 BAM and BIGWIG pre-processing script." 
+echo "Genoverse 2.0 BAM and BIGWIG pre-processing script." 
 echo ""
 echo "Caution: This script is to be executed in the folder you wish to have your output files. The input file is not required to be in this folder, but must be added as an argument. The script works with any genomic BAM however for successful display the chromosome numbers and names must be at the end of each header (for example SL2.50ch01 is compatible but ch01SL2.50 is not)."
 echo ""
@@ -36,7 +36,7 @@ echo "Finished sorting, creating BAI"
 echo ""
 samtools index $answerName.bam
 
-echo "BAI created, you can now view the BAM file in Cranfield Genoverse 2.0"
+echo "BAI created, you can now view the BAM file in  Genoverse 2.0"
 echo ""
 if [ $answerBIGWIG == "Yes" ];then
   echo "Beginning BIGWIG generation by making a WIG"
