@@ -33,8 +33,6 @@ Genoverse Github repository: <https://github.com/FadyMohareb/genoverse>.
 
 [Common errors](#common-errors)
 
-[Appendix](#appendix)
-
 [Requirements for the correct display of imported files](#requirements-for-the-correct-display-of-imported-files)
 
 [List of Ensemble Genomes not currently available to display](#list-of-ensembl-genomes-not-currently-available-to-display)
