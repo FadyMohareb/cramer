@@ -141,11 +141,11 @@ To stop MongoDB:
 ```$ docker stop mongo```
 
 
-### Docker-based installation (MacOS)
+##### Docker-based installation (MacOS)
 Although it is possible to get the docker image to work on Mac, the process can be tricky and not very stable. This is mainly due to the fact that the host networking driver currently only works on Linux hosts (See more information here: https://docs.docker.com/network/network-tutorial-host/). It's possible to use a different port for the application, however access to the "helper" tools such as tabix and samtools can be tricky. Therefore, we do recommend the manual installation on Mac, and this is quite straight forward as shown below:
 
 
-### **Manual installation** 
+### Option 2: **Manual installation** 
 First of all, make sure you have all the [Dependencies](#dependencies) installed.  Make sure that they are available on the $PATH. (Typically installed under /usr/local/bin). To check whether this is the case, type
  
  ```echo $PATH```
