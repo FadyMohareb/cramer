@@ -66,12 +66,16 @@ execute the program, so it can to be accessed from any browser.
 
 Genoverse 2.0 requires running on Linux or MacOS.  The programme requires NodeJS  and three commonly used bioinformatics programs.
 
-- [NodeJS](https://nodejs.org/en/download/) v7.x
+- [NodeJS](https://nodejs.org/en/download/) LTS (The application was also tested on the latest current version 12.12.0)
 - [Samtools](http://www.htslib.org/download/)
 - [Bwtool](https://github.com/CRG-Barcelona/bwtool)
 - [kentUtils from UCSC](https://github.com/ENCODE-DCC/kentUtils)
 
- Make sure that they are installed in /usr/local/.
+ Make sure that they are available on the $PATH. (Typically installed under /usr/local/bin). To check whether this is the case, type
+ 
+ ```echo $PATH```
+ 
+ This should include (among other paths) `usr/local/bin`
 
 ### How to install Genoverse 2.0 on Linux:
 ### Option 1: **Docker-based installation**
@@ -105,9 +109,32 @@ Alternatively, if you have already created the *mongo* container, run:
 
 ```sudo docker run --rm --pid=host --network=host genoverse```
 
-You may now visit [http://localhost:4000](http://localhost:4000) in your web browser.
+You may now visit [http://localhost:4000](http://localhost:4000) in your web browser. If everything works fine, you should now see the Genoverse 2.0 landing page as shown in the screenshot below
 
-To stop: Ctrl+C in the terminal window running the genoverse image.
+![Genovese_Screenshot](media/image001.png)
+
+In order to start adding instances to your running application, you need to add a new admin user to the application back-end as follows:
+
+1. Stop the application using Ctrl+C in the terminal window running the genoverse image.
+
+2. Install the npm dependencies by running:
+
+`npm install`
+
+3. Add a new admin user using the following command:
+
+`npm run newUser <user@example.com> <password> <John>`
+
+For example: ```npm run newUser admin@admin.com adminadmin admin```
+
+4. Build the application:
+
+```sudo docker build . -t genoverse```
+
+5. Run Genoverse:
+
+```sudo docker run --rm --pid=host --network=host genoverse```
+
 
 To stop MongoDB: 
 
@@ -115,20 +142,27 @@ To stop MongoDB:
 
 
 ### Docker-based installation (MacOS)
+Although it is possible to get the docker image to work on Mac, the process can be tricky and not very stable. This is mainly due to the fact that the host networking driver currently only works on Linux hosts (See more information here: https://docs.docker.com/network/network-tutorial-host/). It's possible to use a different port for the application, however access to the "helper" tools such as tabix and samtools can be tricky. Therefore, we do recommend the manual installation on Mac, and this is quite straight forward as shown below:
+
 
 ### **Manual installation** 
+First of all, make sure you have all the [Dependencies](#dependencies) installed.  Make sure that they are available on the $PATH. (Typically installed under /usr/local/bin). To check whether this is the case, type
+ 
+ ```echo $PATH```
+ 
+ This should include (among other paths) `usr/local/bin`.
 
 1. Clone the Github repository with the following command:
 
-`$ git clone https://github.com/FadyMohareb/genoverse`
+`git clone https://github.com/FadyMohareb/genoverse`
 
 2. To install, run the following commands:
 
-`$ cd \<Genoverse/Directory\>`
+`cd \<Genoverse/Directory\>`
 
-`$ npm install`
+`npm install`
 
-`$ node bin/www`
+`node bin/www`
 
 3. The output should be:
 
@@ -146,6 +180,13 @@ To stop MongoDB:
 OR
 
 `IPaddress:\<port\>`
+
+To begin adding visualisation instances, you need to add a new admin user using the following command:
+
+`npm run newUser <user@example.com> <password> <John>`
+
+For example: ```npm run newUser admin@admin.com adminadmin admin```
+
 
 Once installed, the multiple files that form the program can be altered
 to change the functionalities of the program as the developer team
