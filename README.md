@@ -828,7 +828,7 @@ respect some requirements:
 
 Below, there is an example of the genome file for the tomato:
 
-```*Genoverse.Genomes.tomato = {*
+*Genoverse.Genomes.tomato = {*
 
 *"1": {*
 
@@ -855,7 +855,7 @@ Below, there is an example of the genome file for the tomato:
 *}*
 
 *};*
-```
+
 
 
 ### List of Ensemble Genomes not currently available to display (As of 20.10.2019):
