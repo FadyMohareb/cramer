@@ -31,16 +31,6 @@ Genoverse Github repository: <https://github.com/FadyMohareb/genoverse>.
 
 [Hands-on Example](#hands-on-example)
 
-[1. Download vcf files from the IGSR repository](#download-vcf-files-from-the-igsr-repository)
-
-[2. Create a new instance on Genoverse 2 from Ensembl](#create-a-new-instance-on-genoverse-2-from-ensembl)
-
-[Add local files](#add-local-files)
-
-[Drag and drop](#drag-and-drop)
-
-[Explore Data](#explore-data)
-
 [Common errors](#common-errors)
 
 [Appendix](#appendix)
@@ -49,7 +39,6 @@ Genoverse Github repository: <https://github.com/FadyMohareb/genoverse>.
 
 [List of Ensemble Genomes not currently available to display](#list-of-ensembl-genomes-not-currently-available-to-display)
 
-[References](#references)
 
 ## How to install Genoverse 2.0
 
