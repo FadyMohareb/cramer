@@ -111,7 +111,7 @@ Alternatively, if you have already created the *mongo* container, run:
 
 You may now visit [http://localhost:4000](http://localhost:4000) in your web browser. 
 
-In order to start adding instances to your running application, you need to add a new admin user to the application back-end as follows:
+**In order to start adding instances to your running application, you need to add a new admin user to the application back-end as follows:
 
 1. Stop the application using Ctrl+C in the terminal window running the genoverse image.
 
@@ -828,7 +828,7 @@ respect some requirements:
 
 Below, there is an example of the genome file for the tomato:
 
-*Genoverse.Genomes.tomato = {*
+```*Genoverse.Genomes.tomato = {*
 
 *"1": {*
 
@@ -855,10 +855,10 @@ Below, there is an example of the genome file for the tomato:
 *}*
 
 *};*
+```
 
 
-
-### List of Ensemble Genomes not currently available to display
+### List of Ensemble Genomes not currently available to display (As of 20.10.2019):
 
 ##### Genome files not available
 
