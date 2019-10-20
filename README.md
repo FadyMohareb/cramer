@@ -109,9 +109,7 @@ Alternatively, if you have already created the *mongo* container, run:
 
 ```sudo docker run --rm --pid=host --network=host genoverse```
 
-You may now visit [http://localhost:4000](http://localhost:4000) in your web browser. If everything works fine, you should now see the Genoverse 2.0 landing page as shown in the screenshot below
-
-![Genovese_Screenshot](media/image001.png)
+You may now visit [http://localhost:4000](http://localhost:4000) in your web browser. 
 
 In order to start adding instances to your running application, you need to add a new admin user to the application back-end as follows:
 
@@ -134,11 +132,6 @@ For example: ```npm run newUser admin@admin.com adminadmin admin```
 5. Run Genoverse:
 
 ```sudo docker run --rm --pid=host --network=host genoverse```
-
-
-To stop MongoDB: 
-
-```$ docker stop mongo```
 
 
 ##### Docker-based installation (MacOS)
