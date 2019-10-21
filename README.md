@@ -17,11 +17,7 @@ Genoverse Github repository: <https://github.com/FadyMohareb/genoverse>.
 
 [How to create a new user account](#how-to-create-a-new-user-account)
 
-[Sign in](#sign-in)
-
 [Tracks](#tracks)
-
-[Plugins](#plugins)
 
 [How to navigate Genoverse 2](#how-to-navigate-genoverse-2)
 
@@ -358,7 +354,7 @@ tracks, called **Custom** track. A **Custom** track must be written as a
 JavaScript object, which will be implemented into the program. There is
 no limit to the number of **Custom** tracks a user can create.
 
-## Plugins
+### Plugins
 
 Table 1. provides a summary and short description of the plugins
 available in Genoverse 2.
