@@ -37,7 +37,10 @@ Genoverse Github repository: <https://github.com/FadyMohareb/genoverse>.
 ## How to install Genoverse 2.0
 
 This section provides detailed instructions on how to install and
-execute the program, so it can to be accessed from any browser.
+execute the program, so it can to be accessed from any browser. This can be done using:
+1. Pre-built Docker image download
+2. Built a new Docker image using the latest version available on Git
+3. Manual installation
 
 ### **Dependencies**
 
@@ -55,7 +58,34 @@ Genoverse 2.0 requires running on Linux or MacOS.  The programme requires NodeJS
  This should include (among other paths) `usr/local/bin`
 
 ### How to install Genoverse 2.0 on Linux:
+
 ### Option 1: **Docker-based installation**
+#### a. Run Genoverse using pre-built docker image
+For this, you need to have Docker service available on your machine. To check if that is the case, you can run:
+
+```sudo service docker start``` 
+
+Verify Docker:
+
+```sudo docker run hello-world```
+
+ This docker image assumes there is a MongoDB service running on localhost:27017
+
+1. Make sure monogo is up and running on Docker: 
+
+```sudo docker run --name mongo -p 27017:27017 -d mongo:latest```
+
+Alternatively, if you have already created the *mongo* container, run:
+
+```sudo docker start mongo``` 
+
+2. Run genoverse via the docker image:
+
+```sudo docker run --rm --name=genoverse2 --pid=host --network=host digimeow/genoverse2```
+
+You may now visit [http://localhost:4000](http://localhost:4000) in your web browser. 
+
+#### b. Build a new docker image based on the latest git version
 The easiest way to satisfy all dependencies and run Genoverse 2.0 is to build and run the Docker image defined in Dockerfile within this repository. For this, you need to have Docker service available on your machine. To check if that is the case, you can run:
 
 ```sudo service docker start``` 
