@@ -13,6 +13,10 @@ Genoverse Github repository: <https://github.com/FadyMohareb/genoverse>.
 
 [Dependencies](#dependencies)
 
+[Install on Linux] (#how-to-install-genoverse-20-on-linux)
+
+[Install on MacOS] (#how-to-install-genoverse-20-on-macos)
+
 [Genoverse 2.0 workflow](#genoverse-2.0-workflow)
 
 [How to create a new user account](#how-to-create-a-new-user-account)
