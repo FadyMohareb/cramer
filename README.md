@@ -13,11 +13,11 @@ Genoverse Github repository: <https://github.com/FadyMohareb/genoverse>.
 
 [Dependencies](#dependencies)
 
-[Install on Linux using Docker](#how-to-install-genoverse-20-on-linux)
+[Install on Linux using Docker](#install-on-linux-using-docker)
 
-[Install on MacOS](#how-to-install-genoverse-20-on-macos)
+[Install on MacOS](#install-on-macos)
 
-[Manual Installation](#option-2-manual-installation)
+[Manual Installation](#manual-installation)
 
 [Genoverse 2.0 workflow](#genoverse-2.0-workflow)
 
@@ -77,7 +77,7 @@ Verify Docker:
 
  This docker image assumes there is a MongoDB service running on localhost:27017
 
-1. Make sure monogo is up and running on Docker: 
+1. Make sure mongo is up and running on Docker: 
 
 ```sudo docker run --name mongo -p 27017:27017 -d mongo:latest```
 
@@ -102,7 +102,7 @@ Verify Docker:
 
  This docker image assumes there is a MongoDB service running on localhost:27017
 
-1. Make sure monogo is up and running on Docker: 
+1. Make sure mongo is up and running on Docker: 
 
 ```sudo docker run --name mongo -p 27017:27017 -d mongo:latest```
 
