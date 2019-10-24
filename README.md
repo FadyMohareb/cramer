@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Genoverse 2.0 is a customisable, back-end independent JavaScript and Jade based genome browser for interactive exploration of genomic data. Data is visualized in the browser, meaning Genoverse 2.0 can be installed on any website and show data from a wide range of online, ftp links or local sources. Genoverse 2.0 works with a variety of formats, such as XML, JSON, BED, VCF, GFF, GFF3, BAM or delimited text files, and can be customised to parse and display any data source as required.
+Genoverse 2.0 is a customisable, JavaScript and Jade based genome browser for interactive exploration of genomic data. Data is visualized in the browser, meaning Genoverse 2.0 can be installed on any website and show data from a wide range of online, ftp links or local sources. Genoverse 2.0 works with a variety of formats, such as XML, JSON, BED, VCF, GFF, GFF3, BAM or delimited text files, and can be customised to parse and display any data source as required.
 
 The application and source code is freely available to download from the
 Genoverse Github repository: <https://github.com/FadyMohareb/genoverse>.
