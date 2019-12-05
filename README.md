@@ -1,15 +1,15 @@
-# Genoverse 2.0
+# The Cranfield Genome Browser - CRAMER
 
 ## Introduction
 
-Genoverse 2.0 is a customisable, JavaScript and Jade based genome browser for interactive exploration of genomic data. Data is visualized in the browser, meaning Genoverse 2.0 can be installed on any website and show data from a wide range of online, ftp links or local sources. Genoverse 2.0 works with a variety of formats, such as XML, JSON, BED, VCF, GFF, GFF3, BAM or delimited text files, and can be customised to parse and display any data source as required.
+CRAMER is a customisable, JavaScript and Jade based genome browser for interactive exploration of genomic data. Data is visualized in the browser, meaning CRAMER can be installed on any website and show data from a wide range of online, ftp links or local sources. CRAMER works with a variety of formats, such as XML, JSON, BED, VCF, GFF, GFF3, BAM or delimited text files, and can be customised to parse and display any data source as required.
 
 The application and source code is freely available to download from the
-Genoverse Github repository: <https://github.com/FadyMohareb/genoverse>.
+CRAMER Github repository: <https://github.com/FadyMohareb/cramer>.
 
 # Table of Contents
 
-[How to install Genoverse 2.0](#how-to-install-genoverse-20)
+[How to install CRAMER](#how-to-install-cramer-20)
 
 [Dependencies](#dependencies)
 
@@ -19,13 +19,13 @@ Genoverse Github repository: <https://github.com/FadyMohareb/genoverse>.
 
 [Manual Installation](#manual-installation)
 
-[Genoverse 2.0 workflow](#genoverse-2.0-workflow)
+[CRAMER 2.0 workflow](#cramer-workflow)
 
 [How to create a new user account](#how-to-create-a-new-user-account)
 
 [Tracks](#tracks)
 
-[How to navigate Genoverse 2](#how-to-navigate-genoverse-2)
+[How to navigate CRAMER 2](#how-to-navigate-cramer)
 
 [Welcome page](#welcome-page)
 
@@ -40,7 +40,7 @@ Genoverse Github repository: <https://github.com/FadyMohareb/genoverse>.
 [List of Ensemble Genomes not currently available to display](#list-of-ensembl-genomes-not-currently-available-to-display)
 
 
-## How to install Genoverse 2.0
+## How to install CRAMER
 
 This section provides detailed instructions on how to install and
 execute the program, so it can to be accessed from any browser. This can be done using:
@@ -50,7 +50,7 @@ execute the program, so it can to be accessed from any browser. This can be done
 
 ### **Dependencies**
 
-Genoverse 2.0 requires running on Linux or MacOS.  The programme requires NodeJS  and three commonly used bioinformatics programs.
+CRAMER requires running on Linux or MacOS.  The programme requires NodeJS  and three commonly used bioinformatics programs.
 
 - [NodeJS](https://nodejs.org/en/download/) LTS (The application was also tested on the latest current version 12.12.0)
 - [Samtools](http://www.htslib.org/download/)
@@ -63,10 +63,10 @@ Genoverse 2.0 requires running on Linux or MacOS.  The programme requires NodeJS
  
  This should include (among other paths) `usr/local/bin`
 
-### How to install Genoverse 2.0 on Linux:
+### How to install CRAMER on Linux:
 
 ### Option 1: **Docker-based installation**
-#### a. Run Genoverse using pre-built docker image
+#### a. Run CRAMER using pre-built docker image
 For this, you need to have Docker service available on your machine. To check if that is the case, you can run:
 
 ```sudo service docker start``` 
@@ -85,14 +85,14 @@ Alternatively, if you have already created the *mongo* container, run:
 
 ```sudo docker start mongo``` 
 
-2. Run genoverse via the docker image:
+2. Run CRAMER via the docker image:
 
-```sudo docker run --rm --name=genoverse2 --pid=host --network=host digimeow/genoverse2```
+```sudo docker run --rm --name=cramer --pid=host --network=host digimeow/genoverse2```
 
 You may now visit [http://localhost:4000](http://localhost:4000) in your web browser. 
 
 #### b. Build a new docker image based on the latest git version
-The easiest way to satisfy all dependencies and run Genoverse 2.0 is to build and run the Docker image defined in Dockerfile within this repository. For this, you need to have Docker service available on your machine. To check if that is the case, you can run:
+The easiest way to satisfy all dependencies and run CRAMER is to build and run the Docker image defined in Dockerfile within this repository. For this, you need to have Docker service available on your machine. To check if that is the case, you can run:
 
 ```sudo service docker start``` 
 
@@ -112,21 +112,21 @@ Alternatively, if you have already created the *mongo* container, run:
 
 2. Clone this repository locally: 
 
-```git clone https://github.com/FadyMohareb/genoverse.git && cd genoverse```
+```git clone https://github.com/FadyMohareb/cramer.git && cd cramer```
 
 3. Build the application:
 
-```sudo docker build . -t genoverse```
+```sudo docker build . -t cramer```
 
-4. Run Genoverse:
+4. Run CRAMER:
 
-```sudo docker run --rm --pid=host --network=host genoverse```
+```sudo docker run --rm --pid=host --network=host cramer```
 
 You may now visit [http://localhost:4000](http://localhost:4000) in your web browser. 
 
 **In order to start adding instances to your running application, you need to add a new admin user to the application back-end as follows:
 
-1. Stop the application using Ctrl+C in the terminal window running the genoverse image.
+1. Stop the application using Ctrl+C in the terminal window running the CRAMER image.
 
 2. Install the npm dependencies by running:
 
@@ -140,11 +140,11 @@ For example: ```npm run newUser admin@admin.com adminadmin admin```
 
 4. Build the application:
 
-```sudo docker build . -t genoverse```
+```sudo docker build . -t cramer```
 
-5. Run Genoverse:
+5. Run CRAMER:
 
-```sudo docker run --rm --pid=host --network=host genoverse```
+```sudo docker run --rm --pid=host --network=host cramer```
 
 
 ##### Docker-based installation (MacOS)
@@ -160,11 +160,11 @@ First of all, make sure you have all the [Dependencies](#dependencies) installed
 
 1. Clone the Github repository with the following command:
 
-`git clone https://github.com/FadyMohareb/genoverse`
+`git clone https://github.com/FadyMohareb/cramer`
 
 2. To install, run the following commands:
 
-`cd \<Genoverse/Directory\>`
+`cd \<cramer/Directory\>`
 
 `npm install`
 
@@ -203,9 +203,9 @@ following command:
 
 `$ npm run-script build`
 
-## Genoverse 2.0 workflow
+## CRAMER workflow
 
-Genoverse 2.0 consists of multiple web pages backed by a node server, and
+CRAMER consists of multiple web pages backed by a node server, and
 a mongo database. It provides a number of web pages to assist with
 setting up and visualising genomic tracks (**Fig. 1**), with the actual
 genome browser page as the main gateway for the program. It is made up
@@ -215,7 +215,7 @@ end position. These features can either be fetched from Ensembl or
 extracted from a local or FTP file. Currently, the browser
 supports the following types of data files: FASTA, BED, BIGBED, BAM,
 WIG, BIGWIG, GFF, GFF3, GTF, VCF and RSEM genes.results. In addition,
-Genoverse has a series of plugins which add extra functionalities.
+CRAMER has a series of plugins which add extra functionalities.
 
 The plugins and tracks can be configured on the instance webpage. An
 instance is a combination of a chosen genome, a choice of the plugins to
@@ -226,7 +226,7 @@ file or through Ensembl database.
 ![C:\\Users\\Sergio\\Desktop\\forsergio.png](media/image001.png)
 
 *Fig.1. Diagram of the relation between the multiple webpages that form*
-*Genoverse 2.0.*
+*CRAMER*
 
 
 
@@ -276,7 +276,7 @@ for compatibility for each file type are the following:
     using the "processingBAM.sh" script.
 
   - **read coverage BIGWIG:** These files can be made compatible with
-    Genoverse 2 by using the "processingBAM.sh" script that is included
+    CRAMER by using the "processingBAM.sh" script that is included
     with the program. This script automates the steps to configure the
     BAM file and generate a BIGWIG file for FTP loading, which can be
     loaded into the program.
@@ -320,7 +320,7 @@ Registered users can sign in by clicking on the sign in link on the home page an
 
 ## Tracks
 
-Currently, Genoverse 2.0 has sixteen different tracks available that can
+Currently, CRAMER has sixteen different tracks available that can
 be divided into three groups: **Standard** tracks, **Ensembl** tracks,
 and **File** tracks.
 
@@ -393,9 +393,9 @@ no limit to the number of **Custom** tracks a user can create.
 ### Plugins
 
 Table 1. provides a summary and short description of the plugins
-available in Genoverse 2.
+available in CRAMER.
 
-**Table 1. Plugins included in Genoverse 2.**
+**Table 1. Plugins included in CRAMER.**
 
 <table>
 <thead>
@@ -451,13 +451,13 @@ available in Genoverse 2.
 <tr class="even">
 <td>File Drop</td>
 <td><ul>
-<li><p>Allows users to drag and drop a file -in a format supported by Genoverse 2- directly into the browser and display it.</p></li>
+<li><p>Allows users to drag and drop a file -in a format supported by CRAMER - directly into the browser and display it.</p></li>
 </ul></td>
 </tr>
 </tbody>
 </table>
 
-# How to navigate Genoverse 2.0
+# How to navigate CRAMER
 
 ## Welcome page
 
@@ -652,7 +652,7 @@ Resource (IGSR) and the 1000 Genomes Project repository.
 VCF files from IGSR can be downloaded from the FTP site hosted at the
 EBI ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/.) Both the VCF files and
 their corresponding indexed files (.tbi) are available to download
-eliminating the need to index the VCF files for use on Genoverse. To
+eliminating the need to index the VCF files for use on CRAMER. To
 download the following files:
 “CHBJPT.low\_coverage.2010\_09.xchr.sites.vcf.gz.” and
 “CHBJPT.low\_coverage.2010\_09.xchr.sites.vcf.gz.tbi” type:
@@ -663,7 +663,7 @@ download the following files:
 
 As already mentioned in the “File requisites” section, VCF files must be
 compressed and properly indexed with tabix in order to be visualised on
-Genoverse 2.
+CRAMER.
 
 N.B. In the case where a tabix file is not available, it can be
 generated by running the following command on a compressed vcf file:
@@ -671,11 +671,11 @@ generated by running the following command on a compressed vcf file:
 `$ tabix vcf\_file.vcf.gz`
 
 The generated tabix file must be uploaded together with its
-corresponding vcf file on Genoverse 2.
+corresponding vcf file on CRAMER.
 
-## 2\. Create a new instance on Genoverse 2.0 from Ensembl
+## 2\. Create a new instance on CRAMER from Ensembl
 
-Application administrator can log into Genoverse and create new
+Application administrator can log into CRAMER and create new
 instances or modify existing ones. To create a new instance, go to the
 welcome page and click the “Sign in” button. This will prompt you to add
 your credentials. Type your email address and password and press “sign
@@ -690,7 +690,7 @@ tabs to see the description of what each does. Click on the first button
 (*e\!*), to activate it. This option enables you to fetch genomes from
 Ensembl. Then go to the scroll down menu underneath and select “Human”.
 
-Please note that not all the species genomes on this list can be fetched from Ensembl. The reason for this is that they are are either not available in the database, or that they content is not correctly formatted. A list of Ensembl genomes not currently displayed on Genoverse 2.0 is avellable in the [Appendix](). 
+Please note that not all the species genomes on this list can be fetched from Ensembl. The reason for this is that they are are either not available in the database, or that they content is not correctly formatted. A list of Ensembl genomes not currently displayed on CRAMER is avellable in the [Appendix](). 
 
 Next you need to activate the “Ensembl Tracks” to display more
 information about the human genome. The available Ensembl tracks are
@@ -701,7 +701,7 @@ tracks to be displayed.
 
 ![](media/image012.png)
 
-*Fig. 6 Form for new visualization instance on Genoverse*
+*Fig. 6 Form for new visualization instance on CRAMER*
 
 ### Add local files
 
@@ -749,7 +749,7 @@ URL link in a new tab on the web browser. ![](media/image013.png)
 
 ### Drag and drop 
 
-An alternative way of uploading files on Genoverse 2.0 is by using the
+An alternative way of uploading files on CRAMER is by using the
 “drag and drop” functionality which permits users to display data on
 the genome browser page for as long as the instance is displayed. The
 drag and drop functionality is a convenient way of displaying data
@@ -777,7 +777,7 @@ correct chromosome from the drop down menu and then clicking on the
 
 ![](media/image016.png)
 
-*Fig. 8 Genoverse 2.0 gene search form.*
+*Fig. 8 CRAMER gene search form.*
 
 Then tick the fields “Ensembl gene IDs” and “Ensembl gene names” since
 the genome is fetched from Ensembl. After clicking on the arrow next to
@@ -792,7 +792,7 @@ the Ensembl webpage for this gene, which will open in a new tab.
 
 ![](media/image017.png)
 
-*Fig. 9 Genoverse gene search result for PLAC1*
+*Fig. 9 CRAMER gene search result for PLAC1*
 
 ## Common errors
 
