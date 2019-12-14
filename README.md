@@ -9,7 +9,7 @@ CRAMER Github repository: <https://github.com/FadyMohareb/cramer>.
 
 # Table of Contents
 
-[How to install CRAMER](#how-to-install-cramer-20)
+[How to install CRAMER](#how-to-install-cramer)
 
 [Dependencies](#dependencies)
 
