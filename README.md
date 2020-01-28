@@ -15,7 +15,7 @@ CRAMER Github repository: <https://github.com/FadyMohareb/cramer>.
 
 [Install Cramer on Linux](#install-cramer-on-linux)
 
-[Option 1: Docker-based installation](#option-1:-docker-based-installation)
+[Option 1: Docker-based installation](#option-1-docker-based-installation)
 
 [a. Run CRAMER using pre-built docker image](#a.-run-cramer-using-pre-built-docker-image)
 
