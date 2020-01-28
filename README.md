@@ -13,19 +13,27 @@ CRAMER Github repository: <https://github.com/FadyMohareb/cramer>.
 
 [Dependencies](#dependencies)
 
-[Install on Linux using Docker](#install-on-linux-using-docker)
+[Install Cramer on Linux](#install-cramer-on-linux)
 
-[Install on MacOS](#install-on-macos)
+[Option 1: Docker-based installation](#option-1:-docker-based-installation)
 
-[Manual Installation](#manual-installation)
+[a. Run CRAMER using pre-built docker image](#a.-run-cramer-using-pre-built-docker-image)
 
-[CRAMER 2.0 workflow](#cramer-workflow)
+[b. Build a new docker image based on the latest git version](#b.-build-a-new-docker-image-based-on-the-latest-git-version)
+
+[Docker-based installation (MacOS)](#docker-based-installation-(macos))
+
+[Option 2: Manual installation](#option-2-manual-installation)
+
+[CRAMER workflow](#cramer-workflow)
 
 [How to create a new user account](#how-to-create-a-new-user-account)
 
 [Tracks](#tracks)
 
-[How to navigate CRAMER 2](#how-to-navigate-cramer)
+[Plugins](#plugins)
+
+[How to navigate CRAMER](#how-to-navigate-cramer)
 
 [Welcome page](#welcome-page)
 
@@ -35,15 +43,20 @@ CRAMER Github repository: <https://github.com/FadyMohareb/cramer>.
 
 [Common errors](#common-errors)
 
+[Appendix](#appendix)
+
 [Requirements for the correct display of imported files](#requirements-for-the-correct-display-of-imported-files)
 
-[List of Ensemble Genomes not currently available to display](#list-of-ensembl-genomes-not-currently-available-to-display)
+[List of Ensembl Genomes not currently available to display](#list-of-ensembl-genomes-not-currently-available-to-display)
+
+[References](#references)
 
 
 ## How to install CRAMER
 
 This section provides detailed instructions on how to install and
 execute the program, so it can to be accessed from any browser. This can be done using:
+
 1. Pre-built Docker image download
 2. Built a new Docker image using the latest version available on Git
 3. Manual installation
@@ -58,12 +71,12 @@ CRAMER requires running on Linux or MacOS.  The programme requires NodeJS  and t
 - [kentUtils from UCSC](https://github.com/ENCODE-DCC/kentUtils)
 
  Make sure that they are available on the $PATH. (Typically installed under /usr/local/bin). To check whether this is the case, type
- 
+
  ```echo $PATH```
- 
+
  This should include (among other paths) `usr/local/bin`
 
-### How to install CRAMER on Linux:
+### Install CRAMER on Linux
 
 ### Option 1: **Docker-based installation**
 #### a. Run CRAMER using pre-built docker image
@@ -153,9 +166,9 @@ Although it is possible to get the docker image to work on Mac, the process can 
 
 ### Option 2: **Manual installation** 
 First of all, make sure you have all the [Dependencies](#dependencies) installed.  Make sure that they are available on the $PATH. (Typically installed under /usr/local/bin). To check whether this is the case, type
- 
+
  ```echo $PATH```
- 
+
  This should include (among other paths) `usr/local/bin`.
 
 1. Clone the Github repository with the following command:
@@ -871,7 +884,9 @@ Below, there is an example of the genome file for the tomato:
 
 
 
-### List of Ensemble Genomes not currently available to display (As of 20.10.2019):
+### List of Ensembl Genomes not currently available to display
+
+(As of 20.10.2019)
 
 ##### Genome files not available
 
